@@ -4,7 +4,8 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --exit --require @babel/register --timeout 60000 ./server/test/**/*.spec.js"
+    "test": "nyc mocha --exit --require @babel/register --timeout 60000 ./server/test/**/*.spec.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
@@ -41,6 +42,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "mocha": "^6.0.2",
-    "nyc": "^13.3.0"
+    "nyc": "^13.3.0",
+    "coveralls": "^3.0.3"
   }
 }
