@@ -36,3 +36,6 @@ node_modules
 
 # Nyc test output
 .nyc_output
+
+# environment variables
+.env

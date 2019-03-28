@@ -1,0 +1,7 @@
+/mochawesome-report/**
+/node_modules/**
+/.env/**
+/coverage/**
+.eslintrc
+/server/migrations
+/server/models
