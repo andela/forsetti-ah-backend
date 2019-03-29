@@ -1,0 +1,10 @@
+swagger: '2.0'
+info:
+    version: '1.0'
+    title: Author's Haven.
+    description: 'A Social platform for the creative at heart.'
+
+schemes:
+  - https
+host: forsetti-ah-backend-staging.herokuapp.com
+basePath: '/api/v1'
