@@ -1,9 +1,9 @@
-const router = require("express").Router();
+import express from 'express';
 
-router.use("/api", require("./api"));
+const router = express.Router();
 
 router.use('*', (req, res) => {
   res.status(200).json({ message: 'Welcome to forsetti-ah-backend API' });
 });
 
-module.exports = router;
+export default router;
