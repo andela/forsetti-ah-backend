@@ -38,3 +38,11 @@ node_modules
 .nyc_output
 
 .env
+# Environment variables
+.env
+
+# Build
+/build
+
+# VsCode
+.vscode/
