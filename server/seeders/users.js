@@ -6,21 +6,21 @@ module.exports = {
       firstname: 'Gildard',
       lastname: 'Dickson',
       email: 'gildard@dickson.com',
-      password: 'dickson',
+      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeKdickson',
     },
     {
       id: 'b2b67e1e-d40c-47ef-8abf-62e1a330d4ef',
       firstname: 'Melanie',
       lastname: 'Dara',
       email: 'melanie@dara.com',
-      password: 'dara',
+      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
     },
     {
       id: '7139d3af-b8b4-44f6-a49f-9305791700f4',
       firstname: 'Mofe',
       lastname: 'Okoro',
       email: 'mofe@okoro.com',
-      password: 'okoro',
+      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
     }], {}),
 
 

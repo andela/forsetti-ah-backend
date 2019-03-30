@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
@@ -33,5 +35,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   User.associate = (models) => {};
+
+  User.prototype.isPasswordValid = function (password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+
   return User;
 };

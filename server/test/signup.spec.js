@@ -10,7 +10,6 @@ describe('Signup routes', () => {
       const res = await chai.request(app)
         .post('/api/v1/auth/signup')
         .send(userMockData.validUserObject);
-
       expect(res).to.have.status(201);
       expect(res.body.data[0]).to.have.property('token');
       expect(res.body.data[0].user).to.have.property('firstname').eql(userMockData.validUserObject.firstname);
