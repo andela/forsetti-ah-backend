@@ -6,8 +6,9 @@
   "scripts": {
     "test": "nyc mocha --exit --require @babel/register --timeout 60000 ./server/test/**/*.spec.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "npm run build && node build/index.js",
-    "build": "babel index.js --out-dir build",
+    "start": "node build/index.js",
+    "build": "npm run remove:build && babel index.js -d build && babel server -d build/server",
+    "remove:build": "rm -rf ./build",
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node index.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
