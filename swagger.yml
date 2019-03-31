@@ -53,3 +53,31 @@ definitions:
         type: "string"
     xml:
       name: "User"
+
+tags:
+  - name: 'Authentication'
+
+paths:
+  /auth/facebook:
+    description: 'This endpoint enables a user sign in with facebook'
+    tags:
+      - Authentication
+    responses:
+      200:
+        description: 'Auto generated using Swagger Inspector'
+
+  /auth/twitter:
+    description: 'This endpoint enables a user sign in with twitter'
+    tags:
+      - Authentication
+    responses:
+      200:
+        description: 'Auto generated using Swagger Inspector'
+
+  /auth/google:
+    description: 'This endpoint enables a user sign in with google'
+    tags:
+      - Authentication
+    responses:
+      200:
+        description: 'Auto generated using Swagger Inspector'
