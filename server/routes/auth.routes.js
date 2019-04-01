@@ -5,11 +5,13 @@ import utils from '../utils';
 
 const { UserController } = controllers;
 const { socialRedirect } = UserController;
-const { tryCatch } = utils;
+const {
+  tryCatch, userSignup, userEmpty, userExist,
+} = utils;
 
 const router = new Router();
 
-router.post('/signup', tryCatch(UserController.create));
+router.post('/signup', [userEmpty, userExist, userSignup], tryCatch(UserController.create));
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/facebook/callback', passport.authenticate('facebook', { session: false }), socialRedirect);
 
@@ -18,6 +20,5 @@ router.get('/twitter/callback', passport.authenticate('twitter', { session: fals
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/google/callback', passport.authenticate('google', { session: false }), socialRedirect);
-
 
 export default router;
