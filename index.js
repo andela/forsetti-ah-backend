@@ -4,6 +4,7 @@ import path from 'path';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import logger from './server/utils/logger.util';
 
 import routes from './server/routes';
 
@@ -25,8 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(process.env.PORT || 5000, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Listening on port ${port}`);
+  logger.log('info', `Listening on port ${port}`);
 });
 
 export default app;
