@@ -11,7 +11,8 @@
     "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node index.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
-    "migrate:undo": "node_modules/.bin/sequelize db:migrate:undo:all"
+    "migrate:undo": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "mail": "babel-node ./server/utils/emailer.helper.js"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
@@ -22,8 +23,10 @@
     "editorconfig": "^0.15.3",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^8.3.0",
     "morgan": "^1.9.0",
+    "nodemailer": "^6.0.0",
     "passport": "^0.4.0",
     "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
