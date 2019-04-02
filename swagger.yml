@@ -8,3 +8,48 @@ schemes:
   - https
 host: forsetti-ah-backend-staging.herokuapp.com
 basePath: '/api/v1'
+paths:
+  /auth/signup:
+    post:
+      tags:
+      - "Users"
+      summary: "Register a new user on the application"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New user that needs to be created on the application"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "User registered successfully"
+          example:
+            status: 201
+            message: "User registered successfully"
+            data:
+              - token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmY4Y2Y4LWIwNzQtNDE1ZC04MDYxLWVjZDBkMzgzZjQ0NiIsImlhdCI6MTU1NDEwODc4MSwiZXhwIjoxNTU2NzAwNzgxfQ.e6K_0U36u3b16JFsAwcO1fJA0onVSKa1KRGQVFEhm3g"
+                user:
+                  firstname: "Zokky 2"
+                  lastname: "Umeilechukwu"
+                  email: "o.yes@gmail.com"
+        503:
+          description: "Some error occurred"
+definitions:
+  User:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "User"
