@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    social: {
+      type: DataTypes.ENUM('facebook', 'twitter', 'google', null),
+      allowNull: true
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {});
   User.associate = (models) => {};
   return User;

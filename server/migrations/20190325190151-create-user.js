@@ -24,6 +24,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      social: {
+        type: Sequelize.ENUM('facebook', 'twitter', 'google', null),
+        allowNull: true,
+      },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
