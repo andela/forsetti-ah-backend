@@ -84,6 +84,17 @@ class userValidation {
       lastname
     }, res, next);
   }
+
+  /**
+   * User sign in object empty check
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static isSigninFieldEmpty(req, res, next) {
+    return isEmpty(req.body, res, next);
+  }
 }
 
 export default userValidation;

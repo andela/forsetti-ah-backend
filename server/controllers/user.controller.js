@@ -2,12 +2,10 @@ import dotenv from 'dotenv';
 import db from '../models';
 import utils from '../utils';
 import sendMail from '../utils/mail.util';
-import Response from '../utils/response.util';
 
 const { User } = db;
-const { passwordHash, generateToken } = utils;
+const { passwordHash, generateToken, Response } = utils;
 dotenv.config();
-
 /**
  * User Controller
  * @package User
@@ -105,6 +103,46 @@ class UserController {
     const { id, email } = req.user;
     const token = await generateToken({ id, email });
     return res.redirect(`${process.env.FRONTEND_URL}/auth/social?${token}`);
+  }
+
+
+  /**
+   * @description Sign in User
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} res
+   */
+
+  static async signinUser(req, res) {
+    const { email, password } = req.body;
+    const successMessage = 'Signed in successfully';
+    const errorMessage = 'Invalid Credentials';
+
+    const userResponse = await User.findOne({
+      where: { email },
+    });
+    if (userResponse && userResponse.isPasswordValid(password)) {
+      const { id, firstname, lastname } = userResponse;
+      const token = await generateToken({ id });
+      const data = {
+        token,
+        user: {
+          id,
+          firstname,
+          lastname,
+          email: userResponse.email,
+        }
+      };
+      const mailOption = {
+        email,
+        subject: `Hi ${firstname}`,
+        message: '<h1>Forsetti Backend</h1><h5>Someone has just accessed your account at Author\'s Haven. If you are the one, please ignore this mail.</h5>'
+      };
+      sendMail(mailOption);
+      Response(res, 200, successMessage, data);
+    } else {
+      Response(res, 400, errorMessage);
+    }
   }
 }
 

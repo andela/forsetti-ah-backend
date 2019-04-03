@@ -6,12 +6,15 @@ import utils from '../utils';
 const { UserController } = controllers;
 const { socialRedirect } = UserController;
 const {
-  tryCatch, userSignup, userEmpty, userExist,
+  tryCatch, userSignup, userEmpty, userExist, isEmpty, isSigninFieldEmpty
 } = utils;
 
 const router = new Router();
 
 router.post('/signup', [userEmpty, userExist, userSignup], tryCatch(UserController.create));
+
+router.post('/login', isSigninFieldEmpty, tryCatch(UserController.signinUser));
+
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/facebook/callback', passport.authenticate('facebook', { session: false }), socialRedirect);
 

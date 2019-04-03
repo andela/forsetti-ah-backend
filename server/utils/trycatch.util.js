@@ -10,7 +10,7 @@ const tryCatch = controller => async (req, res) => {
   try {
     await controller(req, res);
   } catch (error) {
-    return res.status(503).json({ status: 503, message: 'Some error occurred. Please try again' });
+    return res.status(503).json({ status: 503, message: error.message });
   }
   return true;
 };

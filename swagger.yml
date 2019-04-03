@@ -39,6 +39,44 @@ paths:
                   email: "o.yes@gmail.com"
         503:
           description: "Some error occurred"
+  /auth/signin:
+    post:
+      tags:
+      - "Users"
+      summary: "Sign in an existing user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "An existing user that returns to be signed in"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "Signed in successfully"
+          example:
+            status: 201
+            message: "Signed in successfully"
+            data:
+              - user:
+                  email: "o.yes@gmail.com"
+                  password: "password"
+        400:
+          description: "Sign in with invalid credentials"
+          example:
+            status: 400
+            message: "Invalid Credentials"
+            data:
+              - token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmY4Y2Y4LWIwNzQtNDE1ZC04MDYxLWVjZDBkMzgzZjQ0NiIsImlhdCI6MTU1NDEwODc4MSwiZXhwIjoxNTU2NzAwNzgxfQ.e6K_0U36u3b16JFsAwcO1fJA0onVSKa1KRGQVFEhm3g"
+                user:
+                  email: "o.yes@gmail.com"
+                  password: "password"
+        503:
+          description: "Some error occurred. Please try again"
 definitions:
   User:
     type: "object"
