@@ -8,11 +8,20 @@ schemes:
   - https
 host: forsetti-ah-backend-staging.herokuapp.com
 basePath: '/api/v1'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+tags:
+  - name: 'Authentication'
+  - name: 'Users'
+
 paths:
   /auth/signup:
     post:
       tags:
-      - "Users"
+      - Users
       summary: "Register a new user on the application"
       consumes:
       - "application/json"
@@ -77,6 +86,83 @@ paths:
                   password: "password"
         503:
           description: "Some error occurred. Please try again"
+
+  /auth/facebook:
+    get:
+      description: 'This endpoint enables a user sign in with facebook'
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: 'Auto generated using Swagger Inspector'
+
+  /auth/twitter:
+    get:
+      description: 'This endpoint enables a user sign in with twitter'
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: 'Auto generated using Swagger Inspector'
+
+  /auth/google:
+    get:
+      description: 'This endpoint enables a user sign in with google'
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: 'Auto generated using Swagger Inspector'
+
+  /users/role:
+    patch:
+      summary: Handles updating the role of a user
+      description: This endpoint enables superadmins to pass admin rights to certain users
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: uuid
+          description: Id of question.
+      responses:
+        200:
+          description: User role has been updated successfully
+          example:
+            status: 200
+            message: 'The user role has been changed to admin'
+            data:
+              id: b2b67e1e-d40c-47ef-8abf-62e1a330d4ef,
+              firstname: Melanie,
+              lastname: Dara,
+              role: admin,
+              updatedAt: 2019-04-03T13:16:56.044Z
+        404:
+          description: The user was not found in the database
+          example:
+            status: 404
+            message: This user was not found.
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Superadmins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
 definitions:
   User:
     type: "object"
@@ -91,31 +177,3 @@ definitions:
         type: "string"
     xml:
       name: "User"
-
-tags:
-  - name: 'Authentication'
-
-paths:
-  /auth/facebook:
-    description: 'This endpoint enables a user sign in with facebook'
-    tags:
-      - Authentication
-    responses:
-      200:
-        description: 'Auto generated using Swagger Inspector'
-
-  /auth/twitter:
-    description: 'This endpoint enables a user sign in with twitter'
-    tags:
-      - Authentication
-    responses:
-      200:
-        description: 'Auto generated using Swagger Inspector'
-
-  /auth/google:
-    description: 'This endpoint enables a user sign in with google'
-    tags:
-      - Authentication
-    responses:
-      200:
-        description: 'Auto generated using Swagger Inspector'

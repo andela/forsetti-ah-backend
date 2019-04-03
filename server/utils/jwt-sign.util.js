@@ -15,4 +15,14 @@ const generateToken = async (data) => {
   return token;
 };
 
-export default generateToken;
+/**
+ * Verifies a JWT token
+ * @param {string} token
+ * @returns {string} decoded token
+ */
+const verifyToken = async (token) => {
+  const decoded = await jwt.verify(token, JWT_SECRET);
+  return decoded;
+};
+
+export { generateToken, verifyToken };

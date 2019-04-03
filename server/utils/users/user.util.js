@@ -95,6 +95,14 @@ class userValidation {
   static isSigninFieldEmpty(req, res, next) {
     return isEmpty(req.body, res, next);
   }
+
+  static validateRole(req, res, next) {
+    const { newrole } = req.body;
+    if (!validator.isIn(newrole.toLowerCase(), ['user', 'admin', 'superadmin'])) {
+      return Response(res, 400, 'Please insert a valid role.');
+    }
+    next();
+  }
 }
 
 export default userValidation;

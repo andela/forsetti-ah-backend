@@ -1,10 +1,13 @@
 import dotenv from 'dotenv';
 import db from '../models';
-import utils from '../utils';
-import sendMail from '../utils/mail.util';
+import {
+  passwordHash,
+  generateToken,
+  Response,
+  sendMail,
+} from '../utils';
 
-const { User } = db;
-const { passwordHash, generateToken, Response } = utils;
+const { User, Role } = db;
 dotenv.config();
 /**
  * User Controller
@@ -105,7 +108,6 @@ class UserController {
     return res.redirect(`${process.env.FRONTEND_URL}/auth/social?${token}`);
   }
 
-
   /**
    * @description Sign in User
    * @param {object} req
@@ -122,8 +124,10 @@ class UserController {
       where: { email },
     });
     if (userResponse && userResponse.isPasswordValid(password)) {
-      const { id, firstname, lastname } = userResponse;
-      const token = await generateToken({ id });
+      const {
+        id, firstname, lastname, roleId
+      } = userResponse;
+      const token = await generateToken({ id, roleId });
       const data = {
         token,
         user: {
@@ -143,6 +147,44 @@ class UserController {
     } else {
       Response(res, 400, errorMessage);
     }
+  }
+
+  /**
+     * @description updates the role of a user
+     * @param {object} req
+     * @param {object} res
+     * @returns {object} User Profile Object
+     */
+  static async updateUserRole(req, res) {
+    const userId = req.params.id;
+    const { newrole } = req.body;
+    const foundUser = await User.findByPk(userId);
+
+    if (!foundUser) return Response(res, 404, 'This user was not found.');
+
+    const newRoleId = await Role.findOne({ where: { type: newrole } });
+    const updatedUser = await User.update({ roleId: newRoleId.dataValues.id }, {
+      returning: true,
+      where: { id: userId },
+    });
+
+    const {
+      dataValues: {
+        id,
+        firstname,
+        lastname,
+        updatedAt,
+      }
+    } = updatedUser[1][0];
+    const result = {
+      id,
+      firstname,
+      lastname,
+      role: newrole,
+      updatedAt
+    };
+
+    return Response(res, 200, `The user role has been changed to ${newrole}.`, [result]);
   }
 }
 
