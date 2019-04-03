@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import db from '../models';
 import utils from '../utils';
 import sendMail from '../utils/mail.util';
+import Response from '../utils/response.util';
 
 const { User } = db;
 const { passwordHash, generateToken } = utils;
@@ -49,7 +50,7 @@ class UserController {
       Warm regards.`,
     };
     sendMail(mailOption);
-    return res.status(201).json({ status: 201, message: 'User registered successfully', data: [userInfo] });
+    return Response(res, 201, 'User registered successfully', [userInfo]);
   }
   /**
      * @description returns tokens and profile from social service

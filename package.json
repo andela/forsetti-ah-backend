@@ -4,7 +4,7 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
-    "pretest": "cross-env NODE_ENV=test && cross-env NODE_ENV=test npm run migrate:undo && cross-env NODE_ENV=test npm run migrate && npm run seed",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:undo && cross-env NODE_ENV=test npm run migrate && npm run seed",
     "test": "nyc mocha --exit --require @babel/register --timeout 60000 ./server/test/**/*.spec.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "node build/index.js",
@@ -42,7 +42,8 @@
     "swagger-ui-express": "^4.0.2",
     "underscore": "^1.9.1",
     "winston": "^3.2.1",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

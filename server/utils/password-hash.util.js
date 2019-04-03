@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
  * @param {string} password
  * @returns {string} token
  */
+/* istanbul ignore next */
 const passwordHash = async password => bcrypt.hash(password, 10);
 
 
