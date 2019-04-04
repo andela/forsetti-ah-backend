@@ -5,6 +5,24 @@ export default {
     email: 'd.ogundimy@andela.com',
     password: 'h-forsetti-2019'
   },
+  resetPasswordObject: {
+    firstname: 'Moe',
+    lastname: 'Donny',
+    email: 'moe.donny@andela.com',
+    password: 'donny4535e5e'
+  },
+  invalidDataForgotPassword: {
+    firstname: 'Moe',
+    lastname: 'Donny',
+    email: 'moe.donnyandela.com',
+    password: 'don555'
+  },
+  invalidDataResetPassword: {
+    firstname: 'Moe',
+    lastname: 'Donny',
+    email: 'moe.donnyandela.com',
+    password: 'donnyboydame'
+  },
   invalidData: [{
     firstname: '',
     lastname: 'Ogundimu',

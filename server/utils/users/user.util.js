@@ -103,6 +103,67 @@ class userValidation {
     }
     next();
   }
+
+  /**
+   * user not exist middleware
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async userNotExist(req, res, next) {
+    const { email } = req.body;
+    const errObj = {};
+    const checkemail = validator.isEmail(email);
+    if (!checkemail) errObj.email = `Email value ${email} is invalid!`;
+    const trimEmail = validator.trim(email);
+    const emptyEmail = validator.isEmpty(trimEmail);
+    if (emptyEmail) errObj.email = 'Email is required';
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
+    }
+    const checkuser = await User.findOne({
+      where: {
+        email
+      }
+    });
+    if (!checkuser) {
+      const message = `User with email ${email} does not exist`;
+      return Response(res, 404, message);
+    }
+    const {
+      id,
+      firstname,
+    } = checkuser;
+    req.user = {
+      id,
+      firstname,
+    };
+    return next();
+  }
+
+  /**
+   *  check password
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async checkPassword(req, res, next) {
+    const { password } = req.body;
+    const errObj = {};
+    const checkpassword = await validator.isLength(password, {
+      min: 8,
+    });
+    if (!checkpassword) errObj.passwordLength = 'Password should be a minimum of 8 characters';
+    const condition = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
+    const alphanumericpassword = await condition.test(password);
+    if (!alphanumericpassword) errObj.passwordType = 'Password should be alphanumeric';
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
+    }
+    return next();
+  }
 }
 
 export default userValidation;

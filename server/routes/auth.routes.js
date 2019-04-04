@@ -7,6 +7,8 @@ import {
   userEmpty,
   userExist,
   isSigninFieldEmpty,
+  checkPassword,
+  userNotExist
 } from '../utils';
 
 const { UserController } = controllers;
@@ -17,6 +19,9 @@ const router = new Router();
 router.post('/signup', [userEmpty, userExist, userSignup], tryCatch(UserController.create));
 
 router.post('/login', isSigninFieldEmpty, tryCatch(UserController.signinUser));
+router.post('/forgotpassword', userNotExist, tryCatch(UserController.forgotPassword));
+
+router.put('/resetpassword', checkPassword, tryCatch(UserController.resetPassword));
 
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/facebook/callback', passport.authenticate('facebook', { session: false }), socialRedirect);

@@ -3,7 +3,6 @@ info:
     version: '1.0'
     title: Author's Haven.
     description: 'A Social platform for the creative at heart.'
-
 schemes:
   - https
 host: forsetti-ah-backend-staging.herokuapp.com
@@ -21,7 +20,7 @@ paths:
   /auth/signup:
     post:
       tags:
-      - Users
+      - Authentication
       summary: "Register a new user on the application"
       consumes:
       - "application/json"
@@ -51,7 +50,7 @@ paths:
   /auth/signin:
     post:
       tags:
-      - "Users"
+      - Authentication
       summary: "Sign in an existing user"
       consumes:
       - "application/json"
@@ -63,7 +62,7 @@ paths:
         description: "An existing user that returns to be signed in"
         required: true
         schema:
-          $ref: "#/definitions/User"
+          $ref: "#/definitions/UserSignin"
       responses:
         201:
           description: "Signed in successfully"
@@ -87,6 +86,64 @@ paths:
         503:
           description: "Some error occurred. Please try again"
 
+  /auth/forgotpassword:
+    post:
+      tags:
+      - Authentication
+      summary: "Send reset password email to user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Send email to user"
+        required: true
+        schema:
+          $ref: "#/definitions/UserReset"
+      responses:
+        200:
+          description: "Mail successfully sent"
+          example:
+            status: 200
+            message: "Mail successfully sent"
+        422:
+          description: "Invalid email type"
+          example:
+            status: 422
+            message: "Email value is invalid"
+        503:
+          description: "Some error occurred. Please try again"
+  /auth/resetpassword:
+    put:
+      tags:
+      - Authentication
+      summary: "Reset user password"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A user that wants to reset password"
+        required: true
+        schema:
+          $ref: "#/definitions/Password"
+      responses:
+        200:
+          description: "Password successfully reset"
+          example:
+            status: 200
+            message: "Password changed successfully"
+        422:
+          description: "Invalid email type"
+          example:
+            status: 422
+            message: "Password value is invalid"
+        503:
+          description: "Some error occurred. Please try again"
   /auth/facebook:
     get:
       description: 'This endpoint enables a user sign in with facebook'
@@ -175,5 +232,29 @@ definitions:
         type: "string"
       password:
         type: "string"
+    xml:
+      name: "User"
+  UserSignin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "User"
+  UserReset:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+    xml:
+      name: "User"
+  Password:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+        example: 'password123'
     xml:
       name: "User"
