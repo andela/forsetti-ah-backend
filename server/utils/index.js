@@ -7,11 +7,13 @@ import sendMail from './mail.util';
 import Response from './response.util';
 import idValidator from './idvalidator.util';
 import mailTemplate from './mail-template/mail-template.util';
+import articleValidation from './articles/article.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, userNotExist, checkPassword, validateRole
 } = userValidation;
 
+const { createArticle, articleEmpty } = articleValidation;
 export {
   tryCatch,
   generateToken,
@@ -29,4 +31,6 @@ export {
   userNotExist,
   checkPassword,
   mailTemplate,
+  createArticle,
+  articleEmpty
 };

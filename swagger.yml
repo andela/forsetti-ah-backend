@@ -15,6 +15,7 @@ securityDefinitions:
 tags:
   - name: 'Authentication'
   - name: 'Users'
+  - name: 'Articles'
 
 paths:
   /auth/signup:
@@ -219,7 +220,43 @@ paths:
           example:
             status: 500
             error: Internal server error
-
+  /article:
+    post:
+      tags:
+      - Articles
+      summary: "User can create an article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A new article to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Articles"
+      responses:
+        201:
+          description: "Article successfully created"
+          example:
+            status: 201
+            message: "Article successfully created"
+            data:
+              - article:
+                  title: 'What is love'
+                  body: 'God is love'
+                  tags: ['art', 'love']
+                  description: 'It is real'
+                  published: true
+                  slug: 'what-is-love'
+        400:
+          description: "Article was not created successfully"
+          example:
+            status: 400
+            message: "Article was not created successfully"
+        503:
+          description: "Some error occurred. Please try again"
 definitions:
   User:
     type: "object"
@@ -258,3 +295,22 @@ definitions:
         example: 'password123'
     xml:
       name: "User"
+  Article:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      body:
+        type: "string"
+      description:
+        type: "string"
+      published:
+        type: "boolean"
+      tags:
+        type: "array"
+      slug:
+        type: "string"
+      userId:
+        type: "string"
+    xml:
+      name: "Article"
