@@ -24,8 +24,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      roleId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        defaultValue: 'd002d107-bb04-4846-9313-01a45f26306a'
+      },
       social: {
-        type: Sequelize.ENUM('facebook', 'twitter', 'google', null),
+        type: Sequelize.STRING,
         allowNull: true,
       },
       image: {
@@ -41,7 +46,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
-      },
+      }
     });
   },
   down: (queryInterface, Sequelize) => {

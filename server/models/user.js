@@ -25,8 +25,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    roleId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      defaultValue: 'd002d107-bb04-4846-9313-01a45f26306a'
+    },
     social: {
-      type: DataTypes.ENUM('facebook', 'twitter', 'google', null),
+      type: DataTypes.STRING,
       allowNull: true
     },
     image: {
