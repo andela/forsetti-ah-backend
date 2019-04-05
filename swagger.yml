@@ -188,7 +188,7 @@ paths:
           name: id
           required: true
           type: uuid
-          description: Id of question.
+          description: Id of user.
       responses:
         200:
           description: User role has been updated successfully
@@ -221,6 +221,110 @@ paths:
           example:
             status: 500
             error: Internal server error
+
+  /users/profile:
+    patch:
+      summary: 'Handles updating users profile.'
+      description: 'This endpoint enables a user to edit his profile details and add a display image.'
+      tags:
+        - Users
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: formData
+          name: body
+          required: false
+          description: 'This is the request body containing the profile details.'
+          schema:
+            $ref: '#/definitions/UpdateProfile'
+        - in: formData
+          name: file
+          type: file
+          required: false
+          description: 'This contains the image to be uploaded'
+          schema:
+            $ref: '#/definitions/UpdateProfile'
+      responses:
+        200:
+          description: Profile has been updated successfully
+          example:
+            status: 200
+            message: Profile updated successfully.
+            data:
+              id: b2b67e1e-d40c-47ef-8abf-62e1a330d4ef,
+              firstname: Melanie,
+              lastname: Dara,
+              username: melanie,
+              email: melanie@dara.com,
+              roleId: a11f440b-eae3-4d28-990d-700c7b965709,
+              social: null,
+              image: https://res.cloudinary.com/bukkyooo/image/upload/v1554716315/forsetti/xaj1zajnhvzvyvyvhg4g.jpg,
+              bio: null,
+              createdAt: 2019-04-08T09:12:32.126Z,
+              updatedAt": 2019-04-08T09:29:45.522Z
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /users/profile/:id:
+    get:
+      summary: Handles getting a users profile
+      description: Gets the profile details of a user from the database
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: uuid
+          description: Id of user.
+      responses:
+        200:
+          description: User profile has been retrieved successfully
+          example:
+            status: 200
+            message: User profile found.
+            data:
+              firstname: Melanie
+              lastname: Dara
+              username: melanie
+              bio: I am an Author
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/forsetti/tbucxtfvdrexspiw0mby.jpg
+              following: 2
+              followers: 0
+              Articles: 1
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        404:
+          description: User with the given id was not found in the database
+          example:
+            status: 404
+            error: No profile found for this user.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /article:
   /:slug/comment:
     post:
       tags:
@@ -348,6 +452,7 @@ definitions:
         example: 'password123'
     xml:
       name: "User"
+
   Article:
     type: "object"
     properties:
@@ -367,6 +472,28 @@ definitions:
         type: "string"
     xml:
       name: "Article"
+  UpdateProfile:
+    title: 'Update user profile.'
+    type: object
+    properties:
+      firstname:
+        description: 'The users firstname.'
+        type: string
+      lastname:
+        description: 'The users lastname.'
+        type: string
+      username:
+        description: 'The users username.'
+        type: string
+      bio:
+        description: 'The users bio.'
+        type: string
+      image:
+        description: 'The users display image.'
+        type: file
+    example:
+      username: melanie002
+      bio: This is my bio
   Comment:
     type: "object"
     properties:

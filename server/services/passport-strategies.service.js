@@ -2,9 +2,8 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
-import controllers from '../controllers';
+import { UserController } from '../controllers';
 
-const { UserController } = controllers;
 const { socialCallback } = UserController;
 
 dotenv.config();

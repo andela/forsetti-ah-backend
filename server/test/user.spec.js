@@ -1,12 +1,13 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
+import dummyText from './stubs/mock-data.profile';
 
 chai.use(chaiHttp);
 let superAdminToken;
 let userToken;
 
-describe('Users', () => {
+describe('Users Routes', () => {
   before(async () => {
     const response = await chai
       .request(app)
@@ -99,6 +100,58 @@ describe('Users', () => {
       expect(res).to.have.status(200);
       expect(res).to.be.a('object');
       expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('Profile', () => {
+    it('should return 404 if user does not exist', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/profile/d002d107-bb04-4846-9313-01a45f263068')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(404);
+      expect(res).to.be.a('object');
+      expect(res.body.message).to.equal('No profile found for this user.');
+    });
+
+    it('should return a users profile', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/profile/fcc7773a-cff8-4ee2-9f8e-1d506b4e27c8')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res).to.be.a('object');
+      expect(res.body.data[0]).to.have.property('articles');
+      expect(res.body.message).to.equal('User profile found.');
+    });
+
+    it('should update the users profile successfully', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/users/profile')
+        .set({ Authorization: `Bearer ${userToken}` })
+        .send({
+          username: 'mofe002',
+          bio: 'This is my bio $$.'
+        });
+
+      expect(res).to.have.status(200);
+      expect(res).to.be.a('object');
+      expect(res.body).to.have.property('data');
+      expect(res.body.data[0].username).to.equal('mofe002');
+    });
+
+    it('should return 400 if the input details are invalid', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/users/profile')
+        .set({ Authorization: `Bearer ${userToken}` })
+        .send({
+          firstname: '1',
+          lastname: '1',
+          bio: dummyText,
+        });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.a('object');
     });
   });
 });

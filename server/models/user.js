@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     lastname: {
       type: DataTypes.STRING,
       allowNull: false
@@ -38,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     istokenreset: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -45,7 +53,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   User.associate = (models) => {
-    User.hasMany(models.comments)
+    User.hasMany(models.comments);
+    User.hasMany(models.Article, {
+      foreignKey: 'userId',
+      as: 'articles',
+      onDelete: 'CASCADE',
+    });
   };
 
   User.prototype.isPasswordValid = function (password) {

@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import passport from 'passport';
-import controllers from '../controllers';
+import { UserController } from '../controllers';
 import {
   tryCatch,
   userSignup,
@@ -11,7 +11,6 @@ import {
   userNotExist
 } from '../utils';
 
-const { UserController } = controllers;
 const { socialRedirect } = UserController;
 
 const router = new Router();
