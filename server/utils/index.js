@@ -8,10 +8,12 @@ import Response from './response.util';
 import idValidator from './idvalidator.util';
 import mailTemplate from './mail-template/mail-template.util';
 import articleValidation from './articles/article.util';
+import commentValidator from './comments/comments.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, userNotExist, checkPassword, validateRole
 } = userValidation;
+const { checkComments } = commentValidator;
 
 const { createArticle, articleEmpty } = articleValidation;
 export {
@@ -32,5 +34,6 @@ export {
   checkPassword,
   mailTemplate,
   createArticle,
-  articleEmpty
+  articleEmpty,
+  checkComments
 };

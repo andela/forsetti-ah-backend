@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import db from '../models';
 import {
   passwordHash,
@@ -10,7 +9,6 @@ import {
 } from '../utils';
 
 const { User, Role } = db;
-dotenv.config();
 /**
  * User Controller
  * @package User
