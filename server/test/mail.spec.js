@@ -28,7 +28,7 @@ describe('Test for Email Notification', () => {
 
   it('should pass if the message subject is not specified', async () => {
     const res = await sendMail({
-      email: 'samabos007@gmail.com',
+      email: fakeEmail,
       message: '<h1>Forsetti Backend</h1><h5>Welcome to Authors Haven </h5>'
     });
     expect(res.status).to.eql('success');
