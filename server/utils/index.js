@@ -10,6 +10,9 @@ import mailTemplate from './mail-template/mail-template.util';
 import imageUpload from './image-upload.util';
 import articleValidation from './articles/article.util';
 import commentValidator from './comments/comments.util';
+import newArticleMail from './notifications/article-mail.util';
+import newFollowerMail from './notifications/follows-mail.util';
+import newCommentMail from './notifications/comment-mail.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -39,5 +42,8 @@ export {
   imageUpload,
   createArticle,
   articleEmpty,
-  checkComments
+  checkComments,
+  newArticleMail,
+  newFollowerMail,
+  newCommentMail,
 };

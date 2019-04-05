@@ -50,6 +50,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    subscribed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
     }
   }, {});
   User.associate = (models) => {
@@ -58,6 +63,21 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'articles',
       onDelete: 'CASCADE',
+    });
+    // Followers table
+    User.belongsToMany(models.User, {
+      foreignKey: 'followee',
+      otherKey: 'follower',
+      through: 'Followers',
+      as: 'followers',
+      timestamps: false,
+    });
+    User.belongsToMany(models.User, {
+      foreignKey: 'follower',
+      otherKey: 'followee',
+      through: 'Followers',
+      as: 'following',
+      timestamps: false,
     });
   };
 
