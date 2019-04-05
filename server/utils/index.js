@@ -6,9 +6,10 @@ import logger from './logger.util';
 import sendMail from './mail.util';
 import Response from './response.util';
 import idValidator from './idvalidator.util';
+import mailTemplate from './mail-template/mail-template.util';
 
 const {
-  userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole
+  userSignup, userEmpty, userExist, isSigninFieldEmpty, userNotExist, checkPassword, validateRole
 } = userValidation;
 
 export {
@@ -24,5 +25,8 @@ export {
   Response,
   isSigninFieldEmpty,
   idValidator,
-  validateRole
+  validateRole,
+  userNotExist,
+  checkPassword,
+  mailTemplate,
 };
