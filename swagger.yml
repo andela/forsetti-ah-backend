@@ -16,6 +16,7 @@ tags:
   - name: 'Authentication'
   - name: 'Users'
   - name: 'Articles'
+  - name: 'Comments'
 
 paths:
   /auth/signup:
@@ -220,11 +221,11 @@ paths:
           example:
             status: 500
             error: Internal server error
-  /article:
+  /:slug/comment:
     post:
       tags:
-      - Articles
-      summary: "User can create an article"
+      - "Comments"
+      summary: "User can make a comment"
       consumes:
       - "application/json"
       produces:
@@ -232,6 +233,57 @@ paths:
       parameters:
       - in: "body"
         name: "body"
+        description: "comment made on an article"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201:
+          description: "user comment has been made successfully"
+          example:
+            status: 201
+            message: "comment made successfully"
+        422:
+          description: "comment not sent"
+          example:
+            status: 422
+            message: "comment is required"
+        503:
+          description: "Some error occurred. Please try again"
+  /:slug/comment/:commentid/thread:
+    post:
+      tags:
+      - "Comments"
+      summary: "User can make a threaded comment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "comment made in a comment thread"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201:
+          description: "thread comment added"
+          example:
+            status: 201
+            message: "thread comment added"
+        422:
+          description: "comment not sent"
+          example:
+            status: 422
+            message: "comment is required"
+        503:
+          description: "Some error occurred. Please try again"
+  /article:
+    post:
+      tags:
+      - Articles
+        summary: "User can create an article"
         description: "A new article to be created"
         required: true
         schema:
@@ -257,6 +309,7 @@ paths:
             message: "Article was not created successfully"
         503:
           description: "Some error occurred. Please try again"
+
 definitions:
   User:
     type: "object"
@@ -314,3 +367,8 @@ definitions:
         type: "string"
     xml:
       name: "Article"
+  Comment:
+    type: "object"
+    properties:
+      comment:
+        type: "string"
