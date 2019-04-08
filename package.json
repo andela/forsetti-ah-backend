@@ -57,6 +57,7 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
     "@babel/runtime": "^7.4.2",
+    "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",

@@ -8,7 +8,6 @@ import passport from 'passport';
 import session from 'express-session';
 import dotenv from 'dotenv';
 import logger from './server/utils/logger.util';
-
 import router from './server/routes';
 import { facebookStrategy, twitterStrategy, googleStrategy } from './server/services/passport-strategies.service';
 
@@ -20,7 +19,6 @@ const swaggerDocument = YAML.load(path.join(process.cwd(), './swagger.yml'));
 app.use(cors());
 app.use(require('morgan')('dev'));
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

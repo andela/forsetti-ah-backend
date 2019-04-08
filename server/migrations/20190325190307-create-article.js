@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       tags: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []

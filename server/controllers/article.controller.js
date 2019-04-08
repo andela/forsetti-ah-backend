@@ -18,8 +18,9 @@ class ArticleController {
      * @returns {object}
      * @memberof createArticle
     */
+    if (req.file) req.body.image = req.file.secure_url;
     const {
-      title, body, tags, description, published
+      title, body, tags, description, image, published
     } = req.body;
     const { id } = req.user;
     const successMessage = 'Article successfully created';
@@ -29,6 +30,7 @@ class ArticleController {
       body,
       tags,
       description,
+      image,
       published,
       slug: slug(`${title} ${Date.now()}`),
       userId: id
