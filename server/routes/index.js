@@ -2,6 +2,7 @@ import express from 'express';
 import authRoutes from './auth.routes';
 import userRoutes from './users.routes';
 import articleRoutes from './article.routes';
+import commentRoutes from './comment.route';
 
 const router = express.Router();
 
