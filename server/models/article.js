@@ -7,28 +7,39 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false
     },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    body: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    tag: {
-      type: DataTypes.STRING,
+    description: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    published: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: []
+    },
     userId: {
-      type: DataTypes.UUID,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'Users',
-        key: 'id',
-        as: 'userId',
-      },
+      type: DataTypes.UUID
     },
   }, {});
-  Article.associate = (models) => {};
+  Article.associate = (models) => {
+    Article.belongsTo(models.User, {
+      foreignkey: 'userId',
+      onDelete: 'CASCADE'
+    });
+  };
   return Article;
 };

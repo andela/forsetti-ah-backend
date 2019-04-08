@@ -7,35 +7,43 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         unique: true,
         allowNull: false
+      }, 
+      slug: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       title: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      body: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      tag: {
+      description: {
         type: Sequelize.STRING,
         allowNull: true
       },
+      body: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      published: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      tags: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: []
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      },
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
+    },
       userId: {
         type: Sequelize.UUID,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Users',
-          key: 'id',
-          as: 'userId',
-        },
       },
     });
   },
