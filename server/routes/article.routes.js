@@ -15,5 +15,6 @@ router.post('/:slug/comment', [checkComments, signInAuth], tryCatch(createCommen
 router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
 
 router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap));
+router.get('/', tryCatch(ArticleController.getAllArticles));
 
 export default router;

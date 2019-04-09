@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     published: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
@@ -42,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'user',
+      as: 'author',
       onDelete: 'CASCADE'
     });
     Article.hasMany(models.Comment, {

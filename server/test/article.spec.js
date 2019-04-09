@@ -169,5 +169,14 @@ describe('Articles routes', () => {
       expect(res).to.have.status(422);
       expect(message).to.be.equal('title, body, description, tags and published fields are required');
     });
+    it('it should get all articles', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article')
+        .set({ Authorization: `Bearer ${userToken}` });
+      const { message } = res.body;
+      expect(res).to.have.status(200);
+      expect(message).to.be.equal('Articles successfully retrieved');
+      expect(res.body.data).to.have.property('articles');
+    });
   });
 });
