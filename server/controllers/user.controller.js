@@ -217,7 +217,7 @@ class UserController {
       id,
       email
     }, '15m');
-    const resetToken = await User.update({
+    const resetToken = User.update({
       istokenreset: false,
     }, {
       where: {
@@ -225,11 +225,11 @@ class UserController {
       }
     });
     const mailmessage = ` <p>Hello ${firstname} </p>
-                  <p> 
+                  <p>
                       You are recieving this mail because of you requested a password reset, if not you please ignore
                   </p>
                   <p>
-                    follow this link to reset your password 
+                    follow this link to reset your password
                         <a href='${process.env.BACKEND_URL}api/v1/auth/resetpassword?token=${token}'>reset password</a>
                 </p>
                   <p>
@@ -280,7 +280,7 @@ class UserController {
       return Response(res, 409, message);
     }
     const hashedPassword = await passwordHash(password);
-    const updatepassword = User.update({
+    const updatepassword = await User.update({
       password: hashedPassword,
       istokenreset: true,
     }, {

@@ -7,6 +7,7 @@ module.exports = {
       lastname: 'Dickson',
       email: 'gildard@dickson.com',
       password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeKdickson',
+      username: 'gildard',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {

@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false
@@ -35,6 +39,10 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING,
+        allowNull: true
+      },
+      bio: {
+        type: Sequelize.TEXT,
         allowNull: true
       },
       istokenreset: {

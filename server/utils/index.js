@@ -7,11 +7,13 @@ import sendMail from './mail.util';
 import Response from './response.util';
 import idValidator from './idvalidator.util';
 import mailTemplate from './mail-template/mail-template.util';
+import imageUpload from './image-upload.util';
 import articleValidation from './articles/article.util';
 import commentValidator from './comments/comments.util';
 
 const {
-  userSignup, userEmpty, userExist, isSigninFieldEmpty, userNotExist, checkPassword, validateRole
+  userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
+  userNotExist, checkPassword,
 } = userValidation;
 const { checkComments } = commentValidator;
 
@@ -30,9 +32,11 @@ export {
   isSigninFieldEmpty,
   idValidator,
   validateRole,
+  validateProfile,
   userNotExist,
   checkPassword,
   mailTemplate,
+  imageUpload,
   createArticle,
   articleEmpty,
   checkComments

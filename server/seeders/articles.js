@@ -6,7 +6,8 @@ module.exports = {
       title: 'Gildard is working on it',
       slug: 'Gildard is working on it-12345678',
       body: 'Dickson is a boy',
-      description: 'gildard@dickson.com'
+      description: 'gildard@dickson.com',
+      userId: '7139d3af-b8b4-44f6-a49f-9305791700f4'
     },
     {
       id: 'ed74b7e0-a5f3-40af-9a77-7f9842ecac34',

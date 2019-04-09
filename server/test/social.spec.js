@@ -1,9 +1,7 @@
 import chai from 'chai';
 import nock from 'nock';
-import controllers from '../controllers';
+import { UserController } from '../controllers';
 import app from '../../index';
-
-const { UserController } = controllers;
 
 const { expect } = chai;
 

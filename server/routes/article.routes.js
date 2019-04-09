@@ -1,9 +1,8 @@
 import express, { Router } from 'express';
-import controllers from '../controllers';
+import { ArticleController, CommentController } from '../controllers';
 import { tryCatch, createArticle, checkComments } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 
-const { ArticleController, CommentController } = controllers;
 const { createComments, threadedComment } = CommentController;
 
 const router = new Router();
