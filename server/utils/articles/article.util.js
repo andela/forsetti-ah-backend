@@ -1,6 +1,9 @@
+import db from '../../models';
 import Response from '../response.util';
 import isRequired from '../isRequired.util';
 import baseUtils from './base.util';
+
+const { Article } = db;
 
 const {
   isString, isLength, isStringArray, isEmptyObject, isBoolean
@@ -57,13 +60,27 @@ class articleValidation {
       error.published.type = 'Publised must be a boolean';
     }
     if (!isEmptyObject(error.title)
-        || !isEmptyObject(error.body)
-        || !isEmptyObject(error.description)
-        || !isEmptyObject(error.tags)
-        || !isEmptyObject(error.published)) {
+      || !isEmptyObject(error.body)
+      || !isEmptyObject(error.description)
+      || !isEmptyObject(error.tags)
+      || !isEmptyObject(error.published)) {
       return Response(res, 422, error);
     }
     next();
+  }
+
+  /**
+   * Checks if article exists
+   * @param {object} req
+   * @param {object} res
+   * @param {object} next
+   * @return {any} next/error
+   */
+  static async articleExist(req, res, next) {
+    const { articleId } = req.body;
+    const article = await Article.findByPk(articleId);
+    if (article === null) return Response(res, 400, 'Article does not exist');
+    return next();
   }
 }
 
