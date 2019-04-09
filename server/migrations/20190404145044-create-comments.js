@@ -24,6 +24,14 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: true,
       },
+      highlightedText: {
+          allowNull: true,
+          type: Sequelize.TEXT
+      },
+      spanId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
