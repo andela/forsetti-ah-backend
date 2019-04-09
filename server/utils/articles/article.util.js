@@ -1,7 +1,8 @@
-import db from '../../models';
+import validator from 'validator';
 import Response from '../response.util';
 import isRequired from '../isRequired.util';
 import baseUtils from './base.util';
+import db from '../../models';
 
 const { Article } = db;
 
@@ -21,17 +22,17 @@ class articleValidation {
      * @memberof createArticleValidation
     */
     const {
-      title, body, tags, description, published
+      title, body, tagList, description, published
     } = req.body;
     const error = {
       title: {}, body: {}, description: {}, tags: {}, published: {}
     };
 
-    if (!title && !body && !description && !tags && !published) {
-      const errorMessage = 'title, body, description, tags and published fields are required';
+    if (!title && !body && !description) {
+      const errorMessage = 'title, body, description and tagList are required';
       return Response(res, 422, errorMessage);
     }
-    const requiredFields = isRequired(req.body, ['title', 'body', 'description', 'tags', 'published']);
+    const requiredFields = isRequired(req.body, ['title', 'body', 'description', 'published']);
     if ((typeof requiredFields === 'object') && requiredFields.length > 0) {
       return Response(res, 422, requiredFields.map(err => err));
     }
@@ -53,8 +54,8 @@ class articleValidation {
     if (!isLength(description, 8)) {
       error.description.lengthy = 'Description length should be more than 8 characters';
     }
-    if (!isStringArray(tags)) {
-      error.tags.type = 'Tags must be an array and all items in the tags array must be all strings';
+    if (!isStringArray(tagList)) {
+      error.tags.type = 'TagList must be an array and all items in the tags array must be all strings';
     }
     if (!isBoolean(published)) {
       error.published.type = 'Publised must be a boolean';
@@ -80,6 +81,77 @@ class articleValidation {
     const { articleId } = req.body;
     const article = await Article.findByPk(articleId);
     if (article === null) return Response(res, 400, 'Article does not exist');
+    return next();
+  }
+
+  /**
+   *  edit article
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async updateArticle(req, res, next) {
+    const {
+      body: {
+        description, title, body
+      }
+    } = req;
+    const errObj = {};
+    if (title) {
+      const trimmedTitle = validator.trim(title);
+      if (validator.isEmpty(trimmedTitle)) errObj.title = 'Title should not be empty';
+    }
+    if (body) {
+      const trimmedTitle = validator.trim(body);
+      if (validator.isEmpty(trimmedTitle)) errObj.body = 'body should not be empty';
+    }
+    if (description) {
+      const trimmedTitle = validator.trim(description);
+      if (validator.isEmpty(trimmedTitle)) errObj.description = 'description should not be empty';
+    }
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
+    }
+    return next();
+  }
+
+  /**
+   * Check if article exist
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} Response
+   */
+  static async checkArticleExist(req, res, next) {
+    const { slug } = req.params;
+    const checkArticle = await Article.findOne({ where: { slug } });
+    if (!checkArticle) return Response(res, 404, 'Article not found');
+    return next();
+  }
+
+  /**
+   * Check Author of article
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async checkAuthor(req, res, next) {
+    const {
+      params: { slug }, user: { id }
+    } = req;
+
+    const checkauthor = await Article.findOne({
+      where: {
+        userId: id,
+        slug
+      }
+    });
+
+    if (!checkauthor) {
+      return Response(res, 400, 'Action restricted to author of article');
+    }
     return next();
   }
 }

@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    tags: {
+    tagList: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: []
     },
@@ -56,6 +56,13 @@ module.exports = (sequelize, DataTypes) => {
     Article.hasMany(models.DraftComment, {
       foreignKey: 'articleId',
       as: 'draftcomments'
+    });
+    
+    Article.belongsToMany(models.Tag, { 
+      foreignKey: 'articleId',
+      as: 'tags',
+      through: 'ArticleTags',
+      otherKey: 'tagId',
     });
   };
   return Article;

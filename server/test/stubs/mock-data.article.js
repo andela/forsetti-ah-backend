@@ -6,76 +6,76 @@ export default {
     description: 'he should be fined like seriously',
     published: true,
     image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg',
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   },
   invalidObject: [{
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 1234,
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'the boy drankpalm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His',
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 1234,
     description: 'he should be fined',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   },
   {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he is',
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy drank palm wine',
     slug: 'The-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 1234,
     published: true,
-    tags: ['tray', 'catch']
+    tagList: ['tray', 'catch']
   }, {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: [1, 'catch']
+    tagList: [1, 'catch']
   },
   {
     title: 'The boy drank palm wine',
@@ -83,7 +83,7 @@ export default {
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: 1111,
-    tags: ['hello', 'catch']
+    tagList: ['hello', 'catch']
   },
   {},
   {
@@ -92,7 +92,7 @@ export default {
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: 'hello'
+    tagList: 'hello'
   },
   {
     title: 'The boy drank palm wine',
@@ -100,7 +100,7 @@ export default {
     body: 'His name is Joshua',
     description: 'he should be fined',
     published: true,
-    tags: ['']
+    tagList: ['']
   }
   ]
 };
