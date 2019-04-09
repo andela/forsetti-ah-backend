@@ -12,6 +12,7 @@ import logger from './server/utils/logger.util';
 import router from './server/routes';
 import { facebookStrategy, twitterStrategy, googleStrategy } from './server/services/passport-strategies.service';
 
+
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;

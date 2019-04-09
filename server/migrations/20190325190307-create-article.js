@@ -7,7 +7,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         unique: true,
         allowNull: false
-      }, 
+      },
       slug: {
         type: Sequelize.STRING,
         allowNull: false
@@ -41,7 +41,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
-    },
+      },
       userId: {
         type: Sequelize.UUID,
       },
