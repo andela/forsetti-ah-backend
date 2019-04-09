@@ -60,7 +60,6 @@
     "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
-    "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.3",
@@ -68,7 +67,7 @@
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.2",
     "nock": "^10.0.6",
     "nodemon": "^1.18.10",
     "nyc": "^13.3.0"

@@ -9,7 +9,8 @@ const {
   Comment,
   User,
   DraftComment,
-  Article
+  Article,
+  CommentLike
 } = db;
 
 /**
@@ -40,6 +41,7 @@ class CommentController {
       articleId,
       comment
     });
+
     const getUser = await User.findByPk(id);
     if (newcomment) {
       const { createdAt, updatedAt } = newcomment;
@@ -89,6 +91,36 @@ class CommentController {
       const response = { comment: newThreadComment };
       return Response(res, 201, 'thread comment added', response);
     }
+  }
+
+  /**
+   * Like comment controller
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} response
+   */
+  static async likeComment(req, res) {
+    const { id } = req.user;
+    const { commentId } = req.params;
+
+    const commentResponse = await Comment.findOne({
+      attributes: ['comment'],
+      where: { id: commentId },
+    });
+    if (!commentResponse) return Response(res, 404, 'Comment not found');
+    const { comment } = commentResponse.dataValues;
+
+    const likeComment = await CommentLike.create({
+      userid: id,
+      commentid: commentId,
+    });
+    const { id: likeid, userid } = likeComment.dataValues;
+    const likeObject = {
+      id: likeid,
+      comment,
+      userid,
+    };
+    return Response(res, 201, 'Comment liked successfully', likeObject);
   }
 }
 

@@ -15,6 +15,7 @@ import newFollowerMail from './notifications/follows-mail.util';
 import newCommentMail from './notifications/comment-mail.util';
 import Rating from './rating.util';
 import { reportCheck, reportTypeCheck } from './reports/report.util';
+import likeValidation from './comments/check-comment-like.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -23,6 +24,7 @@ const {
 const { checkComments } = commentValidator;
 
 const { createArticle, articleEmpty, articleExist } = articleValidation;
+const { doesLikeExistInCommentForUser } = likeValidation;
 export {
   tryCatch,
   generateToken,
@@ -52,4 +54,5 @@ export {
   reportCheck,
   articleExist,
   reportTypeCheck,
+  doesLikeExistInCommentForUser
 };
