@@ -37,9 +37,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
-      foreignkey: 'userId',
+      foreignKey: 'userId',
       as: 'user',
       onDelete: 'CASCADE'
+    });
+    Article.hasMany(models.Comment, {
+      foreignKey: 'articleId',
+      as: 'comments'
+    });
+    Article.hasMany(models.DraftComment, {
+      foreignKey: 'articleId',
+      as: 'draftcomments'
     });
   };
   return Article;

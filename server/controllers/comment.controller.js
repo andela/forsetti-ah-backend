@@ -5,7 +5,12 @@ import { Response } from '../utils';
 dotenv.config();
 
 
-const { comments, User } = db;
+const {
+  Comment,
+  User,
+  DraftComment,
+  Article
+} = db;
 
 /**
  * Comments Controller
@@ -22,9 +27,16 @@ class CommentController {
     const { id } = req.user;
     const { slug } = req.params;
     const { comment } = req.body;
-    const newcomment = await comments.create({
-      userid: id,
-      articleid: slug,
+
+    const articleExists = await Article.findOne({
+      where: { slug },
+    });
+    if (!articleExists) return Response(res, 404, 'Article not found.');
+
+    const table = articleExists.dataValues.published ? Comment : DraftComment;
+    const newcomment = await table.create({
+      userId: id,
+      articleId: slug,
       comment
     });
     const getUser = await User.findByPk(id);
@@ -59,9 +71,14 @@ class CommentController {
     const {
       comment
     } = req.body;
-    const newThreadComment = await comments.create({
-      userid: id,
-      articleid: slug,
+
+    const articleExists = await Article.findOne({
+      where: { slug },
+    });
+    const table = articleExists.dataValues.published ? Comment : DraftComment;
+    const newThreadComment = await table.create({
+      userId: id,
+      articleId: slug,
       comment,
       parentId: commentid,
     });

@@ -5,6 +5,7 @@ import app from '../../index';
 chai.use(chaiHttp);
 
 let token;
+let id;
 before(async () => {
   const userResponse = await chai
     .request(app)
@@ -19,15 +20,16 @@ before(async () => {
 describe('User post comment route', () => {
   it('should post a comment to an article', async () => {
     const res = await chai.request(app)
-      .post('/api/v1/article/a11f440b-eae3-4d28-990d-700c7b965709/comment')
+      .post('/api/v1/article/the-boy-drank-palm-wine-3456677788/comment')
       .set({ Authorization: `Bearer ${token}` })
       .send({ comment: 'This is a valid comment' });
+    ({ id } = res.body.data.comment);
     expect(res).to.have.status(201);
     expect(res).to.be.a('object');
     expect(res.body.message).to.equal('comment made successfully');
   });
 
-  it('should return 422 when comment on sent', async () => {
+  it('should return 422 when comment not sent', async () => {
     const res = await chai.request(app)
       .post('/api/v1/article/a11f440b-eae3-4d28-990d-700c7b965709/comment')
       .set({ Authorization: `Bearer ${token}` })
@@ -74,7 +76,7 @@ describe('User post comment route', () => {
 describe('User Threaded comments', () => {
   it('should post a comment to an article', async () => {
     const res = await chai.request(app)
-      .post('/api/v1/article/833c0925-3dc5-424e-a575-a065eb71d5b3/comment/96de3cbe-9544-41a8-8f53-73d7e917c7b2/thread')
+      .post(`/api/v1/article/the-boy-drank-palm-wine-3456677788/comment/${id}/thread`)
       .set({ Authorization: `Bearer ${token}` })
       .send({ comment: 'This is a valid sub comment' });
     expect(res).to.have.status(201);
