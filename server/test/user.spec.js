@@ -106,7 +106,7 @@ describe('Users Routes', () => {
   describe('Profile', () => {
     it('should return 404 if user does not exist', async () => {
       const res = await chai.request(app)
-        .get('/api/v1/users/profile/d002d107-bb04-4846-9313-01a45f263068')
+        .get('/api/v1/profiles/d002d107-bb04-4846-9313-01a45f263068')
         .set({ Authorization: `Bearer ${userToken}` });
 
       expect(res).to.have.status(404);
@@ -116,7 +116,7 @@ describe('Users Routes', () => {
 
     it('should return a users profile', async () => {
       const res = await chai.request(app)
-        .get('/api/v1/users/profile/fcc7773a-cff8-4ee2-9f8e-1d506b4e27c8')
+        .get('/api/v1/profiles/fcc7773a-cff8-4ee2-9f8e-1d506b4e27c8')
         .set({ Authorization: `Bearer ${userToken}` });
 
       expect(res).to.have.status(200);
@@ -127,7 +127,7 @@ describe('Users Routes', () => {
 
     it('should update the users profile successfully', async () => {
       const res = await chai.request(app)
-        .patch('/api/v1/users/profile')
+        .patch('/api/v1/profiles')
         .set({ Authorization: `Bearer ${userToken}` })
         .send({
           username: 'mofe002',
@@ -142,7 +142,7 @@ describe('Users Routes', () => {
 
     it('should return 400 if the input details are invalid', async () => {
       const res = await chai.request(app)
-        .patch('/api/v1/users/profile')
+        .patch('/api/v1/profiles')
         .set({ Authorization: `Bearer ${userToken}` })
         .send({
           firstname: '1',
