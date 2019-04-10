@@ -35,7 +35,7 @@ class baseUtils {
   }
 
   static isBoolean(value) {
-    if (typeof value !== 'boolean') return false;
+    if (typeof value !== 'boolean' && value !== true && value !== false && value !== 'true' && value !== 'false') return false;
     return true;
   }
 

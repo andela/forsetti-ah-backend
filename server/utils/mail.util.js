@@ -35,6 +35,7 @@ const sendMail = async (emailPayload) => {
     subject,
     html: message,
   };
+
   let response = {};
   try {
     response = await transporter.sendMail(mailOptions);

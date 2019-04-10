@@ -5,6 +5,7 @@ export default {
     body: 'His name is Joshua',
     description: 'he should be fined like seriously',
     published: true,
+    image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg',
     tags: ['tray', 'catch']
   },
   invalidObject: [{

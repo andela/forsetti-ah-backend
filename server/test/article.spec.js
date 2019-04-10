@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import app from '../../index';
 import articleMockData from './stubs/mock-data.article';
 
+
 chai.use(chaiHttp);
 let userToken;
 describe('Articles routes', () => {
@@ -30,6 +31,7 @@ describe('Articles routes', () => {
       } = articleMockData.validArticleObject;
       expect(article).to.have.property('title').eql(title);
       expect(article).to.have.property('body').eql(body);
+      expect(article).to.have.property('image');
       expect(article).to.have.property('description').eql(description);
       expect(article).to.have.property('tags').eql(tags);
       expect(article).to.have.property('slug');
