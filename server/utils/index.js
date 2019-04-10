@@ -13,6 +13,7 @@ import commentValidator from './comments/comments.util';
 import newArticleMail from './notifications/article-mail.util';
 import newFollowerMail from './notifications/follows-mail.util';
 import newCommentMail from './notifications/comment-mail.util';
+import Rating from './rating.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -46,4 +47,5 @@ export {
   newArticleMail,
   newFollowerMail,
   newCommentMail,
+  Rating
 };
