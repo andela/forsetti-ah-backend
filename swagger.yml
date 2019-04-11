@@ -306,9 +306,12 @@ paths:
               username: melanie
               bio: I am an Author
               image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/forsetti/tbucxtfvdrexspiw0mby.jpg
-              following: 2
-              followers: 0
-              Articles: 1
+              articlesWritten: 1 article written.
+              articlesWrittenList:
+                - slug: The-boy-drank-palm-wine-12345678
+                  title: The boy drank palm wine
+              articlesRead: You have read 0 articleSlug
+              articlesReadList: []
         401:
           description: User could not be authenticated
           example:
@@ -399,31 +402,27 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/Articles"
-      description: "A new article to be created"
-      required: true
-      schema:
-        $ref: "#/definitions/Articles"
       responses:
-         201:
+        201:
           description: "Article successfully created"
           example:
             status: 201
             message: "Article successfully created"
             data:
               - article:
-                  title: 'What is love'
-                  body: 'God is love'
-                  tags: ['art', 'love']
-                  description: 'It is real'
-                  published: true
-                  slug: 'what-is-love'
-         400:
+                title: 'What is love'
+                body: 'God is love'
+                tags: ['art', 'love']
+                description: 'It is real'
+                published: true
+                slug: 'what-is-love'
+        400:
           description: "Article was not created successfully"
           example:
             status: 400
             message: "Article was not created successfully"
-         503:
-          description: "Some error occurred. Please try again"
+        503:
+           description: "Some error occurred. Please try again"
   /article/:slug:
     post:
       tags:
@@ -434,8 +433,8 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
+      - in: "path"
+        name: "slug"
         description: "An article can be editable"
         required: true
       schema:
@@ -655,11 +654,10 @@ paths:
           example:
             status: 409
             message: "You cannot like a comment twice"
-          
 
   /profiles/:username/follow:
     post:
-      tags: 
+      tags:
       - Profiles
       summary: "User can follow another user"
       description: "This endpoint enables another user to be added to a user followership list"
@@ -689,7 +687,7 @@ paths:
             status: 409
             message: "You cannot follow yourself"
     delete:
-      tags: 
+      tags:
       - Profiles
       summary: "User can unfollow another user"
       description: "This endpoint enables another user to be removed from a user followership list"
@@ -718,7 +716,8 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
-    
+
+
 definitions:
   User:
     type: "object"

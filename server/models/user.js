@@ -85,17 +85,22 @@ module.exports = (sequelize, DataTypes) => {
       as: 'following',
       timestamps: false,
     });
+    User.hasMany(models.Readstat, {
+      foreignKey: 'userId'
+    });
     User.hasMany(models.Report, {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
     });
     User.hasMany(models.CommentLike);
-
     User.hasMany(models.Bookmark, {
       foreignKey: 'userId',
       otherKey: 'articleId',
       onDelete: 'CASCADE',
     })
+    User.hasMany(models.Notification, {
+      foreignKey: 'userId'
+    });
   };
 
   User.prototype.isPasswordValid = function (password) {

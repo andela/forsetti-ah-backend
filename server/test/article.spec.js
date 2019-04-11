@@ -35,7 +35,6 @@ describe('Articles routes', () => {
       ({ slug } = res.body.data.article);
       expect(article).to.have.property('title').eql(title);
       expect(article).to.have.property('body').eql(body);
-      expect(article).to.have.property('image');
       expect(article).to.have.property('description').eql(description);
       expect(article).to.have.property('tagList').eql(tagList);
       expect(article).to.have.property('slug');
@@ -181,6 +180,36 @@ describe('Articles routes', () => {
       expect(res).to.have.status(200);
       expect(message).to.be.equal('Articles successfully retrieved');
       expect(res.body.data).to.have.property('articles');
+    });
+  });
+
+  describe('GET /api/v1/article/:slug', () => {
+    it('should return 404 if article is not found', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article/wrong-slug');
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.be.a('object');
+      expect(res.body.message).to.be.equal('Article not found.');
+    });
+
+    it('should get the article if user is not logged in', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article/Gildard is working on it-12345678');
+
+      expect(res).to.have.status(200);
+      expect(res.body.message).to.be.equal('Article found.');
+      expect(res.body.data[0]).to.have.property('body');
+    });
+
+    it('should get the article if the user is logged in', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article/Gildard is working on it-12345678')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body.message).to.be.equal('Article found.');
+      expect(res.body.data[0]).to.have.property('body');
     });
   });
 });

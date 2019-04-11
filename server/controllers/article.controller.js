@@ -1,9 +1,15 @@
 import db from '../models';
 import slugify from '../utils/slugify.utils';
-import { Response, mailTemplate, sendMail } from '../utils';
+import {
+  verifyToken,
+  Response,
+  mailTemplate,
+  sendMail,
+  Rating
+} from '../utils';
 
 const {
-  Article, Tag, ArticleTag, User, Comment,
+  Article, User, Comment, Readstat, Tag, ArticleTag, Clap, DraftComment
 } = db;
 /**
  * Article Controller
@@ -158,7 +164,7 @@ class ArticleController {
       },
       {
         model: Comment,
-        as: 'comments'
+        as: 'articlecomments',
       }]
     });
     if (articles.count === 0) {
@@ -190,7 +196,7 @@ class ArticleController {
         title
       }
     } = await Article.findOne({ where: { slug } });
-    const message = `<p>  
+    const message = `<p>
                     ${firstname} ${lastname} shared this article <b>${title}</b> on Author's Haven,
                   </p>
                   <p>
@@ -203,6 +209,96 @@ class ArticleController {
     };
     await sendMail(mailOption);
     return Response(res, 200, 'Article shared successfully');
+  }
+
+  /**
+    * @description gets a single article
+    * @param {object} req
+    * @param {object} res
+    * @returns {object} An article and it's associated comments
+    */
+  static async getOneArticle(req, res) {
+    const { slug: articleSlug } = req.params;
+    const existingArticle = await Article.findOne({
+      where: { slug: articleSlug },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username', 'bio', 'image']
+        }
+      ],
+    });
+
+    if (!existingArticle) return Response(res, 404, 'Article not found.');
+
+    const {
+      dataValues: {
+        id, slug, title, description, body, tags, author, published
+      }
+    } = existingArticle;
+
+    const articleRating = await Rating.getArticleRating(id);
+    const commentsTable = published ? Comment : DraftComment;
+
+    const articleProperties = await Promise.all([
+      Clap.count({ where: { articleId: id } }),
+      commentsTable.findAndCountAll({
+        where: {
+          articleId: id,
+          parentId: null
+        }
+      }),
+      commentsTable.count({ where: { articleId: id } }),
+    ]);
+
+    const articleObject = {
+      id,
+      slug,
+      title,
+      description,
+      body,
+      tags,
+      author,
+      claps: `${articleProperties[0]} claps`,
+      rating: articleRating
+    };
+
+    const { authorization } = req.headers;
+    if (authorization) {
+      const token = authorization.split(' ')[1];
+      const decoded = await verifyToken(token);
+      await Readstat.findOrCreate({
+        where: { userId: decoded.id },
+        defaults: {
+          userId: decoded.id,
+          articleId: id,
+          slug,
+        },
+      });
+    }
+
+    const mainComments = articleProperties[1].rows;
+    if (mainComments.length) {
+      const commentCount = articleProperties[2];
+      let counter = 0;
+      mainComments.forEach(async (comment) => {
+        const threadComment = await commentsTable.findAll({
+          where: { parentId: comment.dataValues.id }
+        });
+        comment.dataValues.threadcomments = threadComment;
+        counter += 1;
+
+        if (counter === mainComments.length) {
+          articleObject.comments = mainComments;
+          articleObject.commentCount = commentCount;
+          return Response(res, 200, 'Article found.', [articleObject]);
+        }
+      });
+    } else {
+      articleObject.comments = '0 comments';
+      return Response(res, 200, 'Article found.', [articleObject]);
+    }
   }
 }
 export default ArticleController;

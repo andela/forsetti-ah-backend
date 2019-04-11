@@ -1,7 +1,7 @@
 import db from '../models';
 import { Response } from '../utils';
 
-const { User, Article } = db;
+const { User, Article, Readstat } = db;
 
 /**
  * Profile Controller
@@ -20,9 +20,15 @@ class ProfileController {
     if (!userProfile) return Response(res, 404, 'No profile found for this user.');
 
     const userActivity = await Promise.all([
-      Article.count({ where: { userId: id } }),
-      // Follower.count({ where: { follower: id } }),
-      // Follower.count({ where: { followee: id } }),
+      Article.findAndCountAll({
+        where: { userId: id },
+        attributes: ['slug', 'title', 'createdAt']
+      }),
+      Readstat.findAndCountAll({
+        where: { userId: id },
+        attributes: ['articleId', 'slug', 'createdAt']
+      }),
+      userProfile.getFollowers(),
     ]);
 
     const {
@@ -41,9 +47,11 @@ class ProfileController {
       username,
       bio,
       image,
-      articles: `${userActivity[0]} articles written.`,
-      // following: `You are following ${userActivity[1]} authors.`,
-      // followers: `You have ${userActivity[2]} followers.`
+      articlesWritten: `${userActivity[0].count} articles written.`,
+      articlesWrittenList: userActivity[0].rows,
+      articlesRead: `You have read ${userActivity[1].count} article(s).`,
+      articlesReadList: userActivity[1].rows,
+      followers: `You have ${userActivity[2].length} followers.`,
     };
     return Response(res, 200, 'User profile found.', [profileObject]);
   }

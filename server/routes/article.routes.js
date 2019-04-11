@@ -9,6 +9,7 @@ import {
 import {
   tryCatch,
   createArticle as createarticle,
+  imageUpload,
   checkComments,
   doesLikeExistInCommentForUser,
   updateArticle,
@@ -18,13 +19,20 @@ import {
   verifyText,
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
-import imageUpload from '../config/cloudinaryconfig';
 
 const { createComments, threadedComment } = CommentController;
 const { createOrRemoveBookmark } = BookmarkController;
-const { createArticle, editArticle, shareArticle } = ArticleController;
+const {
+  createArticle,
+  editArticle,
+  getOneArticle,
+  shareArticle
+} = ArticleController;
 
 const router = new Router();
+
+router.post('/', [signInAuth, createarticle], tryCatch(ArticleController.createArticle));
+router.get('/:slug', tryCatch(getOneArticle));
 
 router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
 
