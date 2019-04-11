@@ -8,8 +8,5 @@ module.exports = {
       id: 'b2b67e1e-d40c-47ef-8abf-62e1a330d4ef',
       name: 'Rules violation'
     }], {}),
-
-
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('ReportTypes', null, {})
-  ,
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('ReportTypes', null, {}),
 };

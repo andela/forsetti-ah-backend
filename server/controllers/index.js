@@ -5,13 +5,15 @@ import ArticleController from './article.controller';
 import ClapController from './clap.controller';
 import ReportController from './report.controller';
 import BookmarkController from './bookmark.contoller';
+import ReportCategoryController from './report-category.controller';
 
 export {
   UserController,
   ProfileController,
   ArticleController,
   CommentController,
-  ClapController,
   ReportController,
-  BookmarkController
+  BookmarkController,
+  ReportCategoryController,
+  ClapController,
 };

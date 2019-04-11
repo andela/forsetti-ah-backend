@@ -77,4 +77,16 @@ describe('Article Report routes', () => {
       expect(res.body.data[0]).to.have.property('comment').eql(report.validReport.comment);
     });
   });
+
+  describe('GET /api/v1/reports/categories', () => {
+    it('should return all report categories created', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/reports/categories')
+        .set({ Authorization: `Bearer ${token}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body.data.rows[0]).to.have.property('name').eql('Plagiarism');
+      expect(res.body.data.rows[1]).to.have.property('name').eql('Rules violation');
+    });
+  });
 });
