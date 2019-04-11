@@ -85,6 +85,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'following',
       timestamps: false,
     });
+    User.hasMany(models.Report, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+    });
   };
 
   User.prototype.isPasswordValid = function (password) {

@@ -443,6 +443,33 @@ paths:
                   email: "o.yes@gmail.com"
         503:
           description: "Some error occurred"
+  /reports:
+    post:
+      tags:
+      - Reports
+      summary: "User can report an article"
+      description: "A new report to be created"
+      required: true
+      schema:
+        $ref: "#/definitions/Report"
+      responses:
+        201:
+          description: "Report submitted successfully"
+          example:
+            status: 201
+            message: "Report submitted successfully"
+            data:
+                comment: 'This article plagiarises another article that can be found here https://example.com/original-article'
+                typeId: "fc73ad52-1b04-4cba-a54f-e88b74555472"
+                articleId: "fc73ad52-1b04-4cba-a54f-e88b74555472"
+        400:
+          description: "Article does not exist"
+          example:
+            status: 400
+            message: "Article does not exist"
+        503:
+          description: "Some error occurred. Please try again"
+
 definitions:
   User:
     type: "object"
@@ -533,3 +560,17 @@ definitions:
     properties:
       articleId:
          type: "string"
+  Report:
+    type: 'object'
+    properties:
+      comment:
+        description: 'Comment associated with the report'
+        type: 'string'
+      typeId:
+        description: 'id of the corresponding Report type i.e. plagiarism, assualt, rules violation e.t.c'
+        type: 'string'
+      articleId:
+        description: 'id of the article being reported'
+        type: 'string'
+    xml:
+      name: 'Report'

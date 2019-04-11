@@ -14,6 +14,7 @@ import newArticleMail from './notifications/article-mail.util';
 import newFollowerMail from './notifications/follows-mail.util';
 import newCommentMail from './notifications/comment-mail.util';
 import Rating from './rating.util';
+import { reportCheck, reportTypeCheck } from './reports/report.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -21,7 +22,7 @@ const {
 } = userValidation;
 const { checkComments } = commentValidator;
 
-const { createArticle, articleEmpty } = articleValidation;
+const { createArticle, articleEmpty, articleExist } = articleValidation;
 export {
   tryCatch,
   generateToken,
@@ -47,5 +48,8 @@ export {
   newArticleMail,
   newFollowerMail,
   newCommentMail,
-  Rating
+  Rating,
+  reportCheck,
+  articleExist,
+  reportTypeCheck,
 };
