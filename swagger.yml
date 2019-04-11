@@ -323,8 +323,6 @@ paths:
           example:
             status: 500
             error: Internal server error
-
-  /article:
   /:slug/comment:
     post:
       tags:
@@ -387,7 +385,14 @@ paths:
     post:
       tags:
       - Articles
-        summary: "User can create an article"
+      summary: "User can create an article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
         description: "A new article to be created"
         required: true
         schema:
@@ -411,6 +416,42 @@ paths:
           example:
             status: 400
             message: "Article was not created successfully"
+        503:
+          description: "Some error occurred. Please try again"
+  /article/:articleid/bookmark:
+    post:
+      tags:
+      - Articles
+      summary: "User can bookmark an article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A new bookmark to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Articles"
+      responses:
+        201:
+          description: "Bookmark successfully created"
+          example:
+            status: 201
+            message: "Article has been successfully bookmarked"
+            data:
+              - bookmark:
+                  id: 'c3c3f9c9-1c86-4ead-8fde-e365cdc19df6'
+                  articleId: 'ddbc0491-f25b-44c1-a5df-25795fc7fada'
+                  userId: '7139d3af-b8b4-44f6-a49f-9305791700f4'
+                  updatedAt: '2019-04-11T08:58:42.684Z'
+                  createdAt: '2019-04-11T08:58:42.684Z'
+        200:
+          description: "Bookmark successfully removed"
+          example:
+            status: 200
+            message: "Bookmark successfully removed"
         503:
           description: "Some error occurred. Please try again"
   /clap:
@@ -560,17 +601,3 @@ definitions:
     properties:
       articleId:
          type: "string"
-  Report:
-    type: 'object'
-    properties:
-      comment:
-        description: 'Comment associated with the report'
-        type: 'string'
-      typeId:
-        description: 'id of the corresponding Report type i.e. plagiarism, assualt, rules violation e.t.c'
-        type: 'string'
-      articleId:
-        description: 'id of the article being reported'
-        type: 'string'
-    xml:
-      name: 'Report'
