@@ -6,10 +6,10 @@ class Rating {
   /**
    * Get the claps for an article
    * @param {string} articleId
-   * @returns {number} claps
+   * @returns {object} claps
    */
   static async getArticleClaps(articleId) {
-    const claps = await Clap.findAll({
+    const claps = await Clap.findAndCountAll({
       where: { articleId }
     });
     return claps;
@@ -20,8 +20,8 @@ class Rating {
    * @param {string} articleId
    * @returns {number} rating
    */
-  static getArticleRating(articleId) {
-    const claps = this.getArticleClaps(articleId);
+  static async getArticleRating(articleId) {
+    const claps = await Rating.getArticleClaps(articleId).count;
     let rating;
     switch (true) {
       case claps >= 0 && claps < 10:
