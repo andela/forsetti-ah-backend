@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.define('Comment', {
+  const DraftComment = sequelize.define('DraftComment', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -25,21 +25,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     }
   }, {});
-  Comment.associate = function(models) {
-    Comment.belongsTo(models.User, {
+  DraftComment.associate = (models) => {
+    DraftComment.belongsTo(models.User, {
       foreignKey: 'userId',
       otherKey: 'articleId',
-      as: 'usercomments',
+      as: 'userdraftcomments',
       onDelete: 'CASCADE',
       timestamps: false
     });
-    Comment.belongsTo(models.Article, {
+    DraftComment.belongsTo(models.Article, {
       foreignKey: 'articleId',
       otherKey: 'userId',
-      as: 'articlecomments',
+      as: 'articledraftcomments',
       onDelete: 'CASCADE',
       timestamps: false
     });
   };
-  return Comment;
+  return DraftComment;
 };

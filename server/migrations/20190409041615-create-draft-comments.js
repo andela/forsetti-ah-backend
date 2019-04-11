@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Comments', {
+    return queryInterface.createTable('DraftComments', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Comment');
+    return queryInterface.dropTable('DraftComments');
   }
 };

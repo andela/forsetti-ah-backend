@@ -40,8 +40,16 @@ module.exports = {
       body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim ac nulla ut pulvinar',
       description: 'gildard@dickson.com',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
+    },
+    {
+      id: '8ab8f8c6-1be8-44df-8f4f-0d80e30a3522',
+      title: 'The boy drank palm wine',
+      slug: 'the-boy-drank-palm-wine-3456677788',
+      body: 'His name is Joshua',
+      description: 'he should be fined',
+      published: true,
+      tags: ['hello', 'catch']
     }], {}),
-
 
   down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Articles', null, {})
   ,
