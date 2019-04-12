@@ -155,22 +155,32 @@ class ArticleController {
      * @returns {object}
      * @memberof getAllArticles
     */
+    const { page } = req.query;
+    const limit = 10;
+    const offset = limit * (page - 1);
+    const order = [['createdAt', 'DESC']];
     const articles = await Article.findAndCountAll({
+      limit,
+      offset,
+      order,
       where: { published: true },
       include: [{
         model: User,
         as: 'author',
-        attributes: ['firstname', 'lastname', 'bio', 'image']
-      },
-      {
-        model: Comment,
-        as: 'articlecomments',
-      }]
+        attributes: ['firstname', 'lastname', 'username', 'bio', 'image']
+      }],
     });
+
     if (articles.count === 0) {
       return Response(res, 400, 'There is no article in database');
     }
-    return Response(res, 200, 'Articles successfully retrieved', { articles });
+    const pages = Math.ceil(articles.count / limit);
+
+    if (page > pages) {
+      return Response(res, 404, 'There are no articles here');
+    }
+    articles.nextpage = page < pages ? 'true' : 'false';
+    return Response(res, 200, 'Articles successfully retrieved', { articles, pages });
   }
 
   /**

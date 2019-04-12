@@ -172,14 +172,32 @@ describe('Articles routes', () => {
       expect(res).to.have.status(422);
       expect(message).to.be.equal('title, body, description and tagList are required');
     });
+  });
+
+  describe('GET /api/v1/article', () => {
     it('it should get all articles', async () => {
       const res = await chai.request(app)
-        .get('/api/v1/article')
-        .set({ Authorization: `Bearer ${userToken}` });
+        .get('/api/v1/article/?page=1');
       const { message } = res.body;
       expect(res).to.have.status(200);
       expect(message).to.be.equal('Articles successfully retrieved');
       expect(res.body.data).to.have.property('articles');
+      expect(res.body.data.articles.rows.length).to.be.equal(2);
+      expect(res.body.data.articles.rows[0].title).to.be.equal('The boy drank palm wine');
+    });
+    it('it should return error if no more articles on page', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article/?page=5');
+      const { status, message } = res.body;
+      expect(message).to.be.equal('There are no articles here');
+      expect(status).to.be.equal(404);
+    });
+    it('it should return error if wrong params is passed', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/article/?page=g');
+      const { status, message } = res.body;
+      expect(message).to.be.equal('Invalid id');
+      expect(status).to.be.equal(422);
     });
   });
 
@@ -213,6 +231,7 @@ describe('Articles routes', () => {
     });
   });
 });
+
 describe('User can edit article', () => {
   before(async () => {
     const userResponse = await chai
@@ -384,7 +403,6 @@ describe('Article email share', () => {
       .post(`/api/v1/article/${fakeSlug}/share`)
       .set({ Authorization: `Bearer ${userToken}` })
       .send(mockDataShare.validShareObject);
-
     expect(res).to.have.status(404);
     expect(res.body).to.have.property('message').eql('Article not found');
   });
@@ -394,7 +412,6 @@ describe('Article email share', () => {
       .post(`/api/v1/article/${validSlug}/share`)
       .set({ Authorization: `Bearer ${userToken}` })
       .send(mockDataShare.validShareObject);
-
     expect(res).to.have.status(200);
     expect(res.body).to.have.property('message').eql('Article shared successfully');
   });

@@ -760,7 +760,64 @@ paths:
             status: 409
             message: "You cannot unfollow yourself"
 
-
+    /article/:page:
+      get:
+        tags:
+        - Articles
+        summary: "User can get all articles"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "path"
+          name: "page"
+          description: "All articles were retrieved"
+          required: true
+          schema:
+            $ref: "#/definitions/Articles"
+        responses:
+          200:
+            description: "Article would be successfully retrieved"
+            example:    
+          description: "All articles were retrieved"
+          required: true
+          schema:
+            $ref: "#/definitions/Articles"
+        responses:
+          200:
+            description: "Article would be successfully retrieved"
+            example:
+              status: 200
+              message: "Article successfully retrieved"
+              data:
+                - articles:
+                    count: 1
+                    rows:
+                      - id: "37dc1d9d-5530-4d48-b5d1-e7e98319da14"
+                        slug: "The-boy-drank-palm-wine-1555094326701"
+                        title: "The boy drank palm wine"
+                        description: "he should be fined like seriously"
+                        body: "His name is Joshua"
+                        image: "https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg"
+                        published: true
+                      - tags: ["tray", "catch"]
+                        userId: "7139d3af-b8b4-44f6-a49f-9305791700f4"
+                        createdAt: "2019-04-12T18:38:46.701Z"
+                        updatedAt: "2019-04-12T18:38:46.701Z"
+                        author:
+                          firstname: "Mofe"
+                          lastname: "Okoro"
+                          bio: "This is my bio."
+                          image: null
+              pages: 1
+            400:
+              description: "Should return an error when there is no article in database"
+              example:
+                status: 400
+                message: "There is no article in database'"
+            503:
+              description: "Some error occurred. Please try again"
 definitions:
   User:
     type: "object"
