@@ -3,7 +3,8 @@ import {
   ArticleController,
   CommentController,
   ClapController,
-  BookmarkController
+  BookmarkController,
+  SearchControllers
 } from '../controllers';
 
 import {
@@ -17,8 +18,10 @@ import {
   checkAuthor,
   shareArticleCheck,
   verifyText,
-  paramsValidate
+  paramsValidate,
+  SearchValidators
 } from '../utils';
+
 import { signInAuth } from '../utils/users/permissions.util';
 
 const { createComments, threadedComment } = CommentController;
@@ -29,10 +32,15 @@ const {
   getOneArticle,
   shareArticle
 } = ArticleController;
+const { getArticles } = SearchControllers;
+const { checkQueryParams, checkSpecialChars } = SearchValidators;
 
 const router = new Router();
 
 router.post('/', [signInAuth, createarticle], tryCatch(ArticleController.createArticle));
+
+router.get('/search', [checkQueryParams, checkSpecialChars], tryCatch(getArticles));
+
 router.get('/:slug', tryCatch(getOneArticle));
 
 router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
@@ -45,6 +53,8 @@ router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap)
 
 router.get('/', [paramsValidate], tryCatch(ArticleController.getAllArticles));
 
+router.get('/', tryCatch(ArticleController.getAllArticles));
+
 router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark));
 
 router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
@@ -52,5 +62,6 @@ router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle]
 router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
 
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
+
 
 export default router;

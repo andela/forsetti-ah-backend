@@ -18,6 +18,7 @@ import Rating from './rating.util';
 import { reportCheck, reportTypeCheck } from './reports/report.util';
 import likeValidation from './comments/check-comment-like.util';
 import verifyHighlightedText from './articles/highlightvalidate.util';
+import SearchValidators from './articles/article-search.utils';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -73,5 +74,6 @@ export {
   checkArticleExist,
   shareArticleCheck,
   verifyText,
-  paramsValidate
+  paramsValidate,
+  SearchValidators
 };

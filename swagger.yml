@@ -759,8 +759,7 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
-
-    /article/:page:
+  /article/:page:
       get:
         tags:
         - Articles
@@ -818,6 +817,48 @@ paths:
                 message: "There is no article in database'"
             503:
               description: "Some error occurred. Please try again"
+  /article/search:
+    post:
+      tags:
+      - Articles
+      summary: "Should search and filter articles"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "tag, author and title"
+        description: "Should search and filter articles by tag, author or title"
+        required: true
+      responses:
+        200:
+          description: "Articles found"
+          example:
+            status: 200
+            message: "Articles found"
+            data:
+              count: "integer"
+              rows:
+              - slug: "Gildard is working on it-12345678"
+                title: "Gildard is working on it"
+                description: "gildard@dickson.com"
+                body: "Dickson is a boy"
+                image: null
+                published: false
+                tagList: null
+              
+        422:
+          description: "No search parameters inputted"
+          example:
+            status: 422
+            message: "No search parameters inputted"
+        404:
+          description: "Search result not found"
+          example:
+            status: 404
+            message: "Search result not found"
+    
 definitions:
   User:
     type: "object"
