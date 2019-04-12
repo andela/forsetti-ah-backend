@@ -6,6 +6,7 @@ import dummyText from './stubs/mock-data.profile';
 chai.use(chaiHttp);
 let superAdminToken;
 let userToken;
+const invalidToken = 'dssdssqQwwe';
 
 describe('Users Routes', () => {
   before(async () => {
@@ -100,6 +101,32 @@ describe('Users Routes', () => {
       expect(res).to.have.status(200);
       expect(res).to.be.a('object');
       expect(res.body).to.have.property('data');
+    });
+
+    it('should not retrieve users functionality if authorization token is not valid', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/')
+        .set({ Authorization: `Bearer ${invalidToken}` });
+      expect(res).to.have.status(401);
+      expect(res).to.be.a('object');
+      expect(res.body).to.have.property('message').eql('Error in verification. Please try again');
+    });
+    it('should retrieve users functionality', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res).to.be.a('object');
+      expect(res.body).to.have.property('message').eql('Successfully retrieved users');
+      expect(res.body.data).to.have.property('rows');
+    });
+    it('should contain a user id from seeded data', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res).to.be.a('object');
+      expect(res.body.data.rows[0]).to.have.property('id').eql('b2b67e1e-d40c-47ef-8abf-62e1a330d4ef');
     });
   });
 

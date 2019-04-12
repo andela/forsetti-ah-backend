@@ -174,6 +174,49 @@ paths:
         200:
           description: 'Auto generated using Swagger Inspector'
 
+  /users:
+    get:
+      summary: List users functionality
+      description: This endpoint enables user to see list of other users profiles
+      tags:
+        - Users
+      produces:
+        - application/json
+      schema:
+        $ref: "#/definitions/'#/definitions/User"
+      responses:
+        200:
+          description: "Successfully retrieved users profiles"
+          example:
+            status: 200
+            message: "Successfully retrieved users"
+            data:
+              - count: 2
+                rows:
+                  - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
+                    firstname: "Melanie"
+                    username: "Melanie"
+                    lastname: "Dara"
+                    email: "melanie@dara.com"
+                    roleId: "a11f440b-eae3-4d28-990d-700c7b965709"
+                    social: null
+                    image: null
+                    bio: null
+                    createdAt: "2019-04-11T14:36:19.347Z"
+                    updatedAt: "2019-04-11T14:36:19.347Z"
+                    
+                  - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
+                    firstname: "Dimkpa"
+                    username: "Melanie"
+                    lastname: "Dara"
+                    email: "melanie@dara.com"
+                    roleId: "a11f440b-eae3-4d28-990d-700c7b965709"
+                    social: null
+                    image: null
+                    bio: null
+                    createdAt: "2019-04-11T14:36:19.347Z"
+                    updatedAt: "2019-04-11T14:36:19.347Z"
+  
   /users/role:
     patch:
       summary: Handles updating the role of a user
