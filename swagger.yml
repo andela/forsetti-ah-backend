@@ -510,7 +510,36 @@ paths:
             message: "Article does not exist"
         503:
           description: "Some error occurred. Please try again"
-
+  /comment/:commentid/like:
+    post:
+      tags:
+      - Comments
+      summary: "Like a comment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A  signed in user can like a comment"
+        required: true
+      responses:
+        201:
+          description: "Comment liked successfully"
+          example:
+            status: 201
+            message: "Comment liked successfully"
+            data:
+              - like:
+                  commentid: "string"
+                  userid: "string"
+        409:
+          description: "You cannot like a comment twice"
+          example:
+            status: 409
+            message: "You cannot like a comment twice"
+          
 definitions:
   User:
     type: "object"

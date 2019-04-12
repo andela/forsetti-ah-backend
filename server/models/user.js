@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     firstname: {
       type: DataTypes.STRING,
@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
     });
+    User.hasMany(models.CommentLike);
   };
 
   User.prototype.isPasswordValid = function (password) {

@@ -9,6 +9,7 @@ import {
   tryCatch,
   createArticle,
   checkComments,
+  doesLikeExistInCommentForUser,
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 import imageUpload from '../config/cloudinaryconfig';
@@ -28,5 +29,7 @@ router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap)
 router.get('/', tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark));
+
+router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
 
 export default router;

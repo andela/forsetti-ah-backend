@@ -40,6 +40,9 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       timestamps: false
     });
+    Comment.associate = (models) => {
+      User.hasMany(models.CommentLike)
+    };
   };
   return Comment;
 };
