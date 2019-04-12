@@ -14,7 +14,9 @@
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "node_modules/.bin/sequelize db:seed:all",
     "migrate:undo": "node_modules/.bin/sequelize db:migrate:undo:all",
-    "mail": "babel-node ./server/utils/emailer.helper.js"
+    "mail": "babel-node ./server/utils/emailer.helper.js",
+    "heroku:migrate": "npm run migrate:undo && npm run migrate && npm run seed",
+    "heroku-postbuild": "npm run build && npm run heroku:migrate" 
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
