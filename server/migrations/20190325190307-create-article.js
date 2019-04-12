@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      tags: {
+      tagList: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []
       },

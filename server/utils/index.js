@@ -23,7 +23,9 @@ const {
 } = userValidation;
 const { checkComments } = commentValidator;
 
-const { createArticle, articleEmpty, articleExist } = articleValidation;
+const {
+  createArticle, articleEmpty, updateArticle, checkAuthor, articleExist, checkArticleExist
+} = articleValidation;
 const { doesLikeExistInCommentForUser } = likeValidation;
 export {
   tryCatch,
@@ -54,5 +56,8 @@ export {
   reportCheck,
   articleExist,
   reportTypeCheck,
-  doesLikeExistInCommentForUser
+  doesLikeExistInCommentForUser,
+  updateArticle,
+  checkAuthor,
+  checkArticleExist
 };

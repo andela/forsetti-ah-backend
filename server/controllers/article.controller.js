@@ -1,8 +1,10 @@
 import db from '../models';
-import slug from '../utils/slugify.utils';
+import slugify from '../utils/slugify.utils';
 import Response from '../utils/response.util';
 
-const { Article, User, Comment } = db;
+const {
+  Article, Tag, ArticleTag, User, Comment,
+} = db;
 /**
  * Article Controller
  * @package Article
@@ -20,25 +22,121 @@ class ArticleController {
     */
     if (req.file) req.body.image = req.file.secure_url;
     const {
-      title, body, tags, description, image, published
+      title, body, tagList, image, description, published,
     } = req.body;
     const { id } = req.user;
-    const successMessage = 'Article successfully created';
-    const errorMessage = 'Article was not created successfully';
+    const tags = [...new Set(tagList)];
     const article = await Article.create({
       title,
       body,
-      tags,
+      tagList: tags,
       description,
       image,
       published,
-      slug: slug(`${title} ${Date.now()}`),
+      slug: slugify(`${title} ${Date.now()}`),
       userId: id
     });
-    if (!article) {
-      return Response(res, 400, errorMessage);
+    if (tags) {
+      let insertTags = tags.map(async (newTags) => {
+        const newtag = await Tag.findOrCreate({ where: { name: newTags } });
+        return newtag[0];
+      });
+
+      insertTags = await Promise.all(insertTags);
+
+      await article.addTags(insertTags);
     }
-    return Response(res, 201, successMessage, { article });
+    const {
+      dataValues: {
+        firstname,
+        email,
+        bio,
+        image: userimage
+      }
+    } = await article.getAuthor();
+    const author = {
+      firstname,
+      email,
+      bio,
+      image: userimage
+    };
+    if (!article) {
+      return Response(res, 400, 'Article was not created successfully');
+    }
+    return Response(res, 201, 'Article successfully created', { article, author });
+  }
+
+  /**
+   * Edit article controller
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} response
+   */
+  static async editArticle(req, res) {
+    const {
+      params: { slug },
+      body: {
+        description, title, body, tagList
+      }, user: { id }
+    } = req;
+    const tags = [...new Set(tagList)];
+    const updatedArticle = await Article.update({
+      description,
+      title,
+      body,
+      tagList
+    }, {
+      where: {
+        slug, userId: id,
+      },
+      returning: true,
+    });
+    let insertTags;
+    const articleId = updatedArticle[1][0].dataValues.id;
+    const editInstance = updatedArticle[1][0];
+    if (tags) {
+      await ArticleTag.destroy({ where: { articleId } });
+      insertTags = tags.map(async (newTags) => {
+        const newtag = await Tag.findOrCreate({ where: { name: newTags } });
+        return newtag[0];
+      });
+
+      insertTags = await Promise.all(insertTags);
+      await editInstance.addTags(insertTags);
+    }
+    const {
+      dataValues: {
+        firstname,
+        email,
+        bio,
+        image
+      }
+    } = await editInstance.getAuthor();
+    const {
+      dataValues: {
+        updatedAt
+      }
+    } = updatedArticle[1][0];
+    const response = {
+      article: {
+        slug,
+        title,
+        description,
+        body,
+        tagList,
+        updatedAt,
+      },
+      author: {
+        firstname,
+        email,
+        bio,
+        image
+      }
+    };
+    if (!updatedArticle) {
+      return Response(res, 400, 'Error editing article');
+    }
+    return Response(res, 200, 'Article edited successfully', response);
   }
 
   static async getAllArticles(req, res) {

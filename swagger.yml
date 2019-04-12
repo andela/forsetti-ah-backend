@@ -384,7 +384,7 @@ paths:
   /article:
     post:
       tags:
-      - Articles
+      - "Articles"
       summary: "User can create an article"
       consumes:
       - "application/json"
@@ -395,10 +395,10 @@ paths:
         name: "body"
         description: "A new article to be created"
         required: true
-        schema:
-          $ref: "#/definitions/Articles"
+      schema:
+        $ref: "#/definitions/Articles"
       responses:
-        201:
+         201:
           description: "Article successfully created"
           example:
             status: 201
@@ -411,12 +411,49 @@ paths:
                   description: 'It is real'
                   published: true
                   slug: 'what-is-love'
-        400:
+         400:
           description: "Article was not created successfully"
           example:
             status: 400
             message: "Article was not created successfully"
-        503:
+         503:
+          description: "Some error occurred. Please try again"
+  /article/:slug:
+    post:
+      tags:
+      - "Articles"
+      summary: "User can edit an article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "An article can be editable"
+        required: true
+      schema:
+        $ref: "#/definitions/Articles"
+      responses:
+         200:
+          description: "Article edited successfully"
+          example:
+            status: 200
+            message: "Article edited successfully"
+            data:
+              - article:
+                  title: 'This is an example of articles'
+                  body: 'this is an example of a body of an article'
+                  tags: ['art', 'love']
+                  description: 'It is real'
+                  published: true
+                  slug: 'This is an example of articles-1234565'
+         400:
+          description: "Article was not edited successfully"
+          example:
+            status: 400
+            message: "Article was not edited successfully"
+         503:
           description: "Some error occurred. Please try again"
   /article/:articleid/bookmark:
     post:
@@ -579,7 +616,7 @@ definitions:
     xml:
       name: "User"
 
-  Article:
+  Articles:
     type: "object"
     properties:
       title:

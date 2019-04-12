@@ -48,7 +48,7 @@ module.exports = {
       body: 'His name is Joshua',
       description: 'he should be fined',
       published: true,
-      tags: ['hello', 'catch']
+      tagList: ['hello', 'catch']
     }], {}),
 
   down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Articles', null, {})

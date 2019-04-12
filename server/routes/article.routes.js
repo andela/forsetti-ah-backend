@@ -5,21 +5,26 @@ import {
   ClapController,
   BookmarkController
 } from '../controllers';
+
 import {
   tryCatch,
-  createArticle,
+  createArticle as createarticle,
   checkComments,
   doesLikeExistInCommentForUser,
+  updateArticle,
+  checkArticleExist,
+  checkAuthor
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 import imageUpload from '../config/cloudinaryconfig';
 
 const { createComments, threadedComment } = CommentController;
 const { createOrRemoveBookmark } = BookmarkController;
+const { createArticle, editArticle } = ArticleController;
 
 const router = new Router();
 
-router.post('/', [signInAuth, imageUpload, createArticle], tryCatch(ArticleController.createArticle));
+router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
 
 router.post('/:slug/comment', [checkComments, signInAuth], tryCatch(createComments));
 
@@ -29,6 +34,7 @@ router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap)
 router.get('/', tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark));
+router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
 
 router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
 
