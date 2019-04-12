@@ -16,10 +16,10 @@ const newCommentMail = async (articleId, userId) => {
     where: { id: articleId },
     include: {
       model: User,
-      as: 'user'
+      as: 'author'
     }
   });
-  const author = article.user;
+  const { author } = article;
   const user = await User.findByPk(userId);
 
   if (!user || !author) {

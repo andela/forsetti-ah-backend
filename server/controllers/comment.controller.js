@@ -32,11 +32,12 @@ class CommentController {
       where: { slug },
     });
     if (!articleExists) return Response(res, 404, 'Article not found.');
+    const articleId = articleExists.dataValues.id;
 
     const table = articleExists.dataValues.published ? Comment : DraftComment;
     const newcomment = await table.create({
       userId: id,
-      articleId: slug,
+      articleId,
       comment
     });
     const getUser = await User.findByPk(id);
@@ -76,9 +77,11 @@ class CommentController {
       where: { slug },
     });
     const table = articleExists.dataValues.published ? Comment : DraftComment;
+    const articleId = articleExists.dataValues.id;
+
     const newThreadComment = await table.create({
       userId: id,
-      articleId: slug,
+      articleId,
       comment,
       parentId: commentid,
     });

@@ -14,7 +14,7 @@ module.exports = {
       },
       articleId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.UUID
       },
       comment: {
         allowNull: false,
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Comment');
+    return queryInterface.dropTable('Comments');
   }
 };
