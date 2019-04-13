@@ -13,14 +13,15 @@ import {
   doesLikeExistInCommentForUser,
   updateArticle,
   checkArticleExist,
-  checkAuthor
+  checkAuthor,
+  shareArticleCheck
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 import imageUpload from '../config/cloudinaryconfig';
 
 const { createComments, threadedComment } = CommentController;
 const { createOrRemoveBookmark } = BookmarkController;
-const { createArticle, editArticle } = ArticleController;
+const { createArticle, editArticle, shareArticle } = ArticleController;
 
 const router = new Router();
 
@@ -37,5 +38,7 @@ router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark)
 router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
 
 router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
+
+router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
 
 export default router;
