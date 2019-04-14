@@ -17,6 +17,7 @@ tags:
   - name: 'Users'
   - name: 'Articles'
   - name: 'Comments'
+  - name: 'Profiles'
 
 paths:
   /auth/signup:
@@ -323,6 +324,7 @@ paths:
           example:
             status: 500
             error: Internal server error
+
   /:slug/comment:
     post:
       tags:
@@ -395,6 +397,10 @@ paths:
         name: "body"
         description: "A new article to be created"
         required: true
+        schema:
+          $ref: "#/definitions/Articles"
+      description: "A new article to be created"
+      required: true
       schema:
         $ref: "#/definitions/Articles"
       responses:
@@ -577,6 +583,69 @@ paths:
             status: 409
             message: "You cannot like a comment twice"
           
+
+  /profiles/:username/follow:
+    post:
+      tags: 
+      - Profiles
+      summary: "User can follow another user"
+      description: "This endpoint enables another user to be added to a user followership list"
+      responses:
+        200:
+          description: "A new follower has been added to the a users followership list"
+          example:
+            status: 200
+            message: "Successfully followed user"
+            data:
+              - personToBeFollowed: 'Dimkpa'
+                followers:
+                - follower: 'mofe002'
+        400:
+          description: "A user makes request to follow another user more than once"
+          example:
+            status: 400
+            message: "You cannot follow a user more than once"
+        404:
+          description: "A user makes request to follow another user that does not exist"
+          example:
+            status: 404
+            message: "You cannot follow a user that does not exist"
+        409:
+          description: "A user makes request to follow self"
+          example:
+            status: 409
+            message: "You cannot follow yourself"
+    delete:
+      tags: 
+      - Profiles
+      summary: "User can unfollow another user"
+      description: "This endpoint enables another user to be removed from a user followership list"
+      responses:
+        200:
+          description: "A new follower has been removed from the a users followership list"
+          example:
+            status: 200
+            message: "Successfully unfollowed user"
+            data:
+              - personToBeUnFollowed: 'Dimkpa'
+                followers:
+                - follower: []
+        400:
+          description: "A user makes request to unfollow another user more than once"
+          example:
+            status: 400
+            message: "You cannot unfollow a user more than once"
+        404:
+          description: "A user makes request to unfollow another user that does not exist"
+          example:
+            status: 404
+            message: "You cannot follow a user that doesnt exist"
+        409:
+          description: "A user makes request to unfollow self"
+          example:
+            status: 409
+            message: "You cannot unfollow yourself"
+    
 definitions:
   User:
     type: "object"
