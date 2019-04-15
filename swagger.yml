@@ -497,6 +497,39 @@ paths:
             message: "Bookmark successfully removed"
         503:
           description: "Some error occurred. Please try again"
+  /article/share/:slug:
+    post:
+      tags:
+      - Articles
+      summary: "User can share an article via email"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: "email"
+        description: "Recipient Email "
+        required: true
+      - in: path
+        name: "slug"
+        description: "Article slug"
+        required: true
+        schema:
+          $ref: "#/definitions/Share"
+      responses:
+        200:
+          description: "user can share an article via email"
+          example:
+            status: 200
+            message: "Article shared successfully"
+        404:
+          description: "article not found"
+          example:
+            status: 404
+            message: "Article not found"
+        503:
+          description: "Some error occurred. Please try again"
   /clap:
     post:
       tags:
@@ -704,6 +737,12 @@ definitions:
         type: "string"
     xml:
       name: "Article"
+  Share:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "john.doe@gmail.com"
   UpdateProfile:
     title: 'Update user profile.'
     type: object

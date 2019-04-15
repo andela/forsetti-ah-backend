@@ -1,6 +1,6 @@
 import db from '../models';
 import slugify from '../utils/slugify.utils';
-import Response from '../utils/response.util';
+import { Response, mailTemplate, sendMail } from '../utils';
 
 const {
   Article, Tag, ArticleTag, User, Comment,
@@ -165,6 +165,44 @@ class ArticleController {
       return Response(res, 400, 'There is no article in database');
     }
     return Response(res, 200, 'Articles successfully retrieved', { articles });
+  }
+
+  /**
+   * Share article controller
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} response
+   */
+  static async shareArticle(req, res) {
+    const {
+      body: { email },
+      params: { slug },
+      user: { id }
+    } = req;
+    const {
+      dataValues: {
+        firstname,
+        lastname
+      }
+    } = await User.findOne({ where: { id } });
+    const {
+      dataValues: {
+        title
+      }
+    } = await Article.findOne({ where: { slug } });
+    const message = `<p>  
+                    ${firstname} ${lastname} shared this article <b>${title}</b> on Author's Haven,
+                  </p>
+                  <p>
+                  click <a href= ${process.env.FRONTEND_URL}${encodeURI(slug)}> ${title}</a> to view
+                  </p>`;
+    const mailOption = {
+      email,
+      subject: 'Author\'s Haven',
+      message: mailTemplate('Hello there', message)
+    };
+    await sendMail(mailOption);
+    return Response(res, 200, 'Article shared successfully');
   }
 }
 export default ArticleController;

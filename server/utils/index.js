@@ -24,7 +24,13 @@ const {
 const { checkComments } = commentValidator;
 
 const {
-  createArticle, articleEmpty, updateArticle, checkAuthor, articleExist, checkArticleExist
+  createArticle,
+  articleEmpty,
+  updateArticle,
+  checkAuthor,
+  articleExist,
+  checkArticleExist,
+  shareArticleCheck
 } = articleValidation;
 const { doesLikeExistInCommentForUser } = likeValidation;
 export {
@@ -59,5 +65,6 @@ export {
   doesLikeExistInCommentForUser,
   updateArticle,
   checkAuthor,
-  checkArticleExist
+  checkArticleExist,
+  shareArticleCheck
 };

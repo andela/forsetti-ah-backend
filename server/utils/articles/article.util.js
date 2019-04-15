@@ -154,6 +154,30 @@ class articleValidation {
     }
     return next();
   }
+
+  /**
+   * share article validation
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async shareArticleCheck(req, res, next) {
+    const {
+      body: { email },
+    } = req;
+    const errObj = {};
+    const trimmedEmail = validator.trim(email);
+    if (validator.isEmpty(trimmedEmail)) errObj.email = 'email is required';
+    const validEmail = validator.isEmail(email);
+    if (!validEmail) {
+      return Response(res, 422, 'Email is invalid');
+    }
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
+    }
+    return next();
+  }
 }
 
 export default articleValidation;

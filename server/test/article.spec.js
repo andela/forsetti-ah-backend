@@ -2,6 +2,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import articleMockData from './stubs/mock-data.article';
+import mockDataShare from './stubs/mock-data.share';
 
 
 chai.use(chaiHttp);
@@ -322,5 +323,50 @@ describe('User can edit article', () => {
     const { message } = res.body;
     expect(res).to.have.status(400);
     expect(message).to.be.equal('Action restricted to author of article');
+  });
+});
+
+describe('Article email share', () => {
+  const validSlug = 'Gildard is working on it-12345678';
+  const fakeSlug = 'David is so annoying it-12345678';
+
+  it('should return 422 if email is not present', async () => {
+    const res = await chai.request(app)
+      .post(`/api/v1/article/${validSlug}/share`)
+      .set({ Authorization: `Bearer ${userToken}` })
+      .send(mockDataShare.invalidShareObject[0]);
+
+    expect(res).to.have.status(422);
+    expect(res.body).to.have.property('message').eql('Email is invalid');
+  });
+
+  it('should return 422 if email is invalid', async () => {
+    const res = await chai.request(app)
+      .post(`/api/v1/article/${validSlug}/share`)
+      .set({ Authorization: `Bearer ${userToken}` })
+      .send(mockDataShare.invalidShareObject[1]);
+
+    expect(res).to.have.status(422);
+    expect(res.body).to.have.property('message').eql('Email is invalid');
+  });
+
+  it('should return 404 if the article does not exist', async () => {
+    const res = await chai.request(app)
+      .post(`/api/v1/article/${fakeSlug}/share`)
+      .set({ Authorization: `Bearer ${userToken}` })
+      .send(mockDataShare.validShareObject);
+
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.property('message').eql('Article not found');
+  });
+
+  it('should return 200 if mail was shared successfully', async () => {
+    const res = await chai.request(app)
+      .post(`/api/v1/article/${validSlug}/share`)
+      .set({ Authorization: `Bearer ${userToken}` })
+      .send(mockDataShare.validShareObject);
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property('message').eql('Article shared successfully');
   });
 });
