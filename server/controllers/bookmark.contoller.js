@@ -1,7 +1,7 @@
 import db from '../models';
 import Response from '../utils/response.util';
 
-const { Bookmark, Article } = db;
+const { Bookmark, Article, User } = db;
 /**
  * Bookmark Controller
  * @package bookmark
@@ -28,6 +28,29 @@ class BookmarkController {
       bookmark.destroy();
       return Response(res, 200, 'Bookmark removed successfully');
     });
+  }
+
+  /**
+   * Get users bookmark
+   * @param {object} req
+   * @param {Object} res
+   * @returns {Object} response
+   */
+  static async getUserBookmark(req, res) {
+    const { user: { id } } = req;
+
+    const response = await Bookmark.findAndCountAll({
+      where: { userId: id },
+      include: [{
+        model: Article,
+        attributes: ['id', 'slug', 'title', 'description',
+          'body', 'image', 'tagList', 'createdAt', 'updatedAt']
+      }, {
+        model: User,
+        attributes: ['username', 'email', 'image']
+      }]
+    });
+    return Response(res, 200, 'user bookmarks successfully retrieved', response);
   }
 }
 export default BookmarkController;

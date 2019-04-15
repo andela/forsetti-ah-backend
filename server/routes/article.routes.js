@@ -35,6 +35,7 @@ router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap)
 router.get('/', tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark));
+
 router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
 
 router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
