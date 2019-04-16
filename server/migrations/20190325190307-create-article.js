@@ -36,6 +36,10 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []
       },
+      readingTime: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       userId: {
         type: Sequelize.UUID,
         references: {

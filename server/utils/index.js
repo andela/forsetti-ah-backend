@@ -22,6 +22,7 @@ import SearchValidators from './articles/article-search.utils';
 import deleteImage from './articles/deleteImage.util';
 import saveCommentHistory from './comments/comment-history.util';
 import commentIdValidator from './commentidvalidator.util';
+import readTime from './readTime.util';
 
 const {
   userSignup, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -83,5 +84,6 @@ export {
   checkUsername,
   saveCommentHistory,
   commentIdValidator,
-  checkUser
+  checkUser,
+  readTime,
 };
