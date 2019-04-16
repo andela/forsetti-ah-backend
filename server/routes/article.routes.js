@@ -19,7 +19,8 @@ import {
   shareArticleCheck,
   verifyText,
   paramsValidate,
-  SearchValidators
+  SearchValidators,
+  deleteImage
 } from '../utils';
 
 import { signInAuth } from '../utils/users/permissions.util';
@@ -30,7 +31,8 @@ const {
   createArticle,
   editArticle,
   getOneArticle,
-  shareArticle
+  shareArticle,
+  deleteArticle
 } = ArticleController;
 const { getArticles } = SearchControllers;
 const { checkQueryParams, checkSpecialChars } = SearchValidators;
@@ -63,5 +65,6 @@ router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUs
 
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
 
+router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
 
 export default router;

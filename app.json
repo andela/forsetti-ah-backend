@@ -19,6 +19,7 @@
   },
   "name": "forsetti-ah-backend",
   "scripts": {
+    "heroku-postbuild": "npm run build && npm run heroku:migrate" 
   },
   "stack": "heroku-18"
 }

@@ -54,13 +54,21 @@ module.exports = (sequelize, DataTypes) => {
       as: 'articledraftcomments'
     });
     Article.hasMany(models.Readstat, {
-      foreignKey: 'articleId'
+      foreignKey: 'articleId',
+      as: 'comments',
+      onDelete: 'CASCADE'
+    });
+    Article.hasMany(models.DraftComment, {
+      foreignKey: 'articleId',
+      as: 'draftcomments',
+      onDelete: 'CASCADE'
     });
     Article.belongsToMany(models.Tag, {
       foreignKey: 'articleId',
       as: 'tags',
       through: 'ArticleTags',
       otherKey: 'tagId',
+      onDelete: 'CASCADE'
     });
 
     Article.hasMany(models.Bookmark, {

@@ -310,5 +310,26 @@ class ArticleController {
       return Response(res, 200, 'Article found.', [articleObject]);
     }
   }
+
+  /*
+   * Delete article
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response
+   */
+  static async deleteArticle(req, res) {
+    const {
+      params: { slug }, user: { id }
+    } = req;
+
+    const article = await Article.destroy({
+      where: {
+        slug,
+        userId: id,
+      }
+    });
+    if (article) return Response(res, 200, `Successfully deleted ${article} article`);
+    return Response(res, 400, 'Article was not deleted');
+  }
 }
 export default ArticleController;

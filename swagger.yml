@@ -503,6 +503,37 @@ paths:
             message: "Article was not edited successfully"
          503:
           description: "Some error occurred. Please try again"
+    delete:
+      tags:
+      - "Articles"
+      summary: "User can delete his article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "slug"
+        description: "An article can be deleted"
+        required: true
+      responses:
+        200:
+          description: "Successfully deleted 1 article"
+          example:
+            status: 200
+            message: "Successfully deleted 1 article"
+        404:
+          description: "Article not found"
+          example:
+            status: 404
+            message: "Article not found"
+        401:
+          description: "Action restricted to author of article"
+          example:
+            status: 401
+            message: "Action restricted to author of article"
+        503:
+          description: "Some error occurred. Please try again"
   /article/:articleid/bookmark:
     post:
       tags:
