@@ -64,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
       through: 'ArticleTags',
       otherKey: 'tagId',
     });
+
+    Article.hasMany(models.Bookmark, {
+      foreignKey: 'articleId',
+      otherKey: 'userId'
+    })
   };
   return Article;
 };

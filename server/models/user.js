@@ -90,6 +90,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
     });
     User.hasMany(models.CommentLike);
+
+    User.hasMany(models.Bookmark, {
+      foreignKey: 'userId',
+      otherKey: 'articleId',
+      onDelete: 'CASCADE',
+    })
   };
 
   User.prototype.isPasswordValid = function (password) {

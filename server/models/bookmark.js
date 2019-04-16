@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Bookmark.associate = function(models) {
     Bookmark.belongsTo(models.User, {
       foreignKey: 'userId',
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
     });
     Bookmark.belongsTo(models.Article, {
       foreignKey: 'articleId',

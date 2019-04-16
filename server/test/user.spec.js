@@ -154,4 +154,14 @@ describe('Users Routes', () => {
       expect(res.body).to.be.a('object');
     });
   });
+
+  describe('Get Bookmark routes GET /api/v1/users/bookmark', () => {
+    it('should return bookmarks for a user', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/bookmark')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.property('status').eql(200);
+      expect(res.body).to.have.property('message').eql('user bookmarks successfully retrieved');
+    });
+  });
 });

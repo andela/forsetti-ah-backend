@@ -497,6 +497,46 @@ paths:
             message: "Bookmark successfully removed"
         503:
           description: "Some error occurred. Please try again"
+  /article/bookmark:
+    get:
+      tags:
+      - Articles
+      summary: "Get all bookmarks for a user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      responses:
+        200:
+          description: "user bookmarks successfully retrieved"
+          example:
+            status: 200
+            message: "user bookmarks successfully retrieved"
+            data:
+                count: 1
+                rows:
+                  - id: '676af7e4-1dab-41b3-bcaa-9175d962f547'
+                    articleId: 'efbd2ccd-4e06-4ecb-bfe0-baf303cd5587'
+                    userId: '3d1c5f17-7580-4cea-8647-99e7440c5d103'
+                    createdAt: '2019-04-15T18:38:03.745Z'
+                    updatedAt: '2019-04-15T18:38:03.745Z'
+                    Article: 
+                       id: 'efbd2ccd-4e06-4ecb-bfe0-b44f303cd5567'
+                       slug: 'Gildard is working on it-12345678'
+                       title: 'Gildard is working on it'
+                       description: 'gildard@dickson.com'
+                       body: 'Dickson is a boy'
+                       image: null,
+                       tagList: null,
+                       createdAt: '2019-04-15T18:38:03.730Z'
+                       updatedAt: '2019-04-15T18:38:03.730Z'
+                    User:
+                       username: 'Samorano'
+                       email: 's.david@example.com'
+        503:
+          description: "Some error occurred. Please try again"
   /article/share/:slug:
     post:
       tags:
