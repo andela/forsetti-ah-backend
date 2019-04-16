@@ -180,6 +180,16 @@ describe('Users Routes', () => {
       expect(res).to.have.status(400);
       expect(res.body).to.be.a('object');
     });
+
+    it('should return user notifications if any', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/profiles/notifications')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+      expect(res.body.data).to.be.a('array');
+    });
   });
 
   describe('Get Bookmark routes GET /api/v1/users/bookmark', () => {
