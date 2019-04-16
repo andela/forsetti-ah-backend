@@ -27,7 +27,7 @@ class CommentController {
   static async createComments(req, res) {
     const { id } = req.user;
     const { slug } = req.params;
-    const { comment } = req.body;
+    const { comment, highlightedText, spanId } = req.body;
 
     const articleExists = await Article.findOne({
       where: { slug },
@@ -39,7 +39,9 @@ class CommentController {
     const newcomment = await table.create({
       userId: id,
       articleId,
-      comment
+      comment,
+      highlightedText,
+      spanId
     });
 
     const getUser = await User.findByPk(id);
@@ -52,6 +54,8 @@ class CommentController {
           createdAt,
           updatedAt,
           body: comment,
+          highlightedText,
+          spanId,
           author: {
             username: firstname,
             email

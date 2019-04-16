@@ -127,3 +127,36 @@ describe('User Threaded comments', () => {
     expect(res.body.message).to.equal('Error in verification. Please try again');
   });
 });
+
+describe('User post highlighted text', () => {
+  it('should return an error if highlighted text cannot be found in the article', async () => {
+    const res = await chai.request(app)
+      .post('/api/v1/article/Gildard is working on it-12345678/comment')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({ comment: 'This is a valid comment', highlightedText: 'hhhhh', spanId: 'span1' });
+    expect(res).to.have.status(404);
+    expect(res).to.be.a('object');
+    expect(res.body.message).to.equal('Highlighted text cannot be found in article');
+  });
+
+  it('should post a comment on highlighted text of an article', async () => {
+    const res = await chai.request(app)
+      .post('/api/v1/article/Gildard is working on it-12345678/comment')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({ comment: 'This is a an ancient name', highlightedText: 'boy', spanId: 'span2' });
+    expect(res).to.have.status(201);
+    expect(res).to.be.a('object');
+    expect(res.body.data.comment).to.have.property('highlightedText');
+    expect(res.body.message).to.equal('comment made successfully');
+  });
+
+  it('should return 400 error if spanid is not specified', async () => {
+    const res = await chai.request(app)
+      .post('/api/v1/article/Gildard is working on it-12345678/comment')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({ comment: 'This is a an ancient name', highlightedText: 'boy', spanId: '' });
+    expect(res).to.have.status(400);
+    expect(res).to.be.a('object');
+    expect(res.body.message).to.equal('Span Id is required for this text highlight');
+  });
+});

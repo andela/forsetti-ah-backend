@@ -16,6 +16,7 @@ import newCommentMail from './notifications/comment-mail.util';
 import Rating from './rating.util';
 import { reportCheck, reportTypeCheck } from './reports/report.util';
 import likeValidation from './comments/check-comment-like.util';
+import verifyHighlightedText from './articles/highlightvalidate.util';
 
 const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -33,6 +34,8 @@ const {
   shareArticleCheck
 } = articleValidation;
 const { doesLikeExistInCommentForUser } = likeValidation;
+const { verifyText } = verifyHighlightedText;
+
 export {
   tryCatch,
   generateToken,
@@ -66,5 +69,6 @@ export {
   updateArticle,
   checkAuthor,
   checkArticleExist,
-  shareArticleCheck
+  shareArticleCheck,
+  verifyText
 };

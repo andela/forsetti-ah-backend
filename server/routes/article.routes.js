@@ -14,7 +14,8 @@ import {
   updateArticle,
   checkArticleExist,
   checkAuthor,
-  shareArticleCheck
+  shareArticleCheck,
+  verifyText,
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 import imageUpload from '../config/cloudinaryconfig';
@@ -27,7 +28,7 @@ const router = new Router();
 
 router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
 
-router.post('/:slug/comment', [checkComments, signInAuth], tryCatch(createComments));
+router.post('/:slug/comment', [signInAuth, checkComments, verifyText], tryCatch(createComments));
 
 router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
 

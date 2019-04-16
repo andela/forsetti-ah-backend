@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
     parentId: {
       type: DataTypes.UUID,
       allowNull: true,
+    },
+    highlightedText: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    spanId: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   }, {});
   Comment.associate = function(models) {
