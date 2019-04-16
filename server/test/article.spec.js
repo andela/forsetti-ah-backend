@@ -446,3 +446,14 @@ describe('Delete Article', () => {
     expect(res.body.message).to.eql('Article not found');
   });
 });
+
+describe('Get All Tags', () => {
+  it('it should successfully get all tags', async () => {
+    const res = await chai.request(app)
+      .get('/api/v1/article/tags');
+    expect(res).to.have.status(200);
+    expect(res.body.data).to.have.property('tags');
+    expect(res.body.data.tags).to.be.an('object');
+    expect(res.body.message).to.eql('Tags successfully retrieved');
+  });
+});
