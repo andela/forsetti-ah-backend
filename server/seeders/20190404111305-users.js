@@ -7,7 +7,7 @@ module.exports = {
       lastname: 'Dickson',
       email: 'gildard@dickson.com',
       username: 'Gildard',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeKdickson',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -16,7 +16,7 @@ module.exports = {
       lastname: 'Dara',
       email: 'melanie@dara.com',
       username: 'Melanie',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'a11f440b-eae3-4d28-990d-700c7b965709'
     },
     {
@@ -25,7 +25,7 @@ module.exports = {
       lastname: 'Okoro',
       email: 'mofe@okoro.com',
       username: 'Mofe',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -34,7 +34,7 @@ module.exports = {
       lastname: 'David',
       email: 's.david@example.com',
       username: 'Samorano',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -43,7 +43,7 @@ module.exports = {
       lastname: 'Mark',
       email: 'd.mark@example.com',
       username: 'Dimkpa',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -52,7 +52,7 @@ module.exports = {
       lastname: 'Adam',
       email: 'j.adam@example.com',
       username: 'Joy',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -61,7 +61,7 @@ module.exports = {
       lastname: 'Chidinma',
       email: 's.chidinma@example.com',
       username: 'Somto',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -70,7 +70,7 @@ module.exports = {
       lastname: 'Ola',
       email: 'd.ola@example.com',
       username: 'Dele',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -79,7 +79,7 @@ module.exports = {
       lastname: 'Saheed',
       email: 'b.saheed@example.com',
       username: 'Biola',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     },
     {
@@ -88,7 +88,7 @@ module.exports = {
       lastname: 'Kazeem',
       email: 'r.kazeem@example.com',
       username: 'Rasheed',
-      password: '$2b$10$FoT6VpWTxgqUuyVs76KoSu9.NshF62b.wPEQnOp5uLJQU/8vFzyeK',
+      password: '$2b$10$C3aNsfGAfHEmE6HfON1sq.v57Oqj09fhrPdF4QwvrCGFoXq1j.VWa',
       roleId: 'd002d107-bb04-4846-9313-01a45f26306a'
     }], {}),
 

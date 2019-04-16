@@ -27,6 +27,7 @@ class UserController {
       firstname,
       lastname,
       email,
+      username,
       password
     } = req.body;
 
@@ -35,6 +36,7 @@ class UserController {
       firstname,
       lastname,
       email,
+      username,
       password: hashedPassword,
     });
 
@@ -46,7 +48,8 @@ class UserController {
       user: {
         firstname,
         lastname,
-        email
+        email,
+        username
       }
     };
 

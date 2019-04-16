@@ -6,6 +6,8 @@ import Response from '../response.util';
 
 import isEmpty from '../isEmpty.util';
 
+import isRequired from '../isRequired.util';
+
 const {
   User
 } = db;
@@ -21,24 +23,7 @@ class userValidation {
    * @returns {Object} response
    */
   static async userSignup(req, res, next) {
-    const {
-      email,
-      password,
-    } = req.body;
-    const checkobj = {};
-    const checkemail = await validator.isEmail(email);
-    if (!checkemail) checkobj.email = `Email value ${email} is invalid!`;
-    const checkpassword = await validator.isLength(password, {
-      min: 8,
-    });
-    if (!checkpassword) checkobj.passwordLength = 'Password should be a minimum of 8 characters';
-    const condition = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
-    const alphanumericpassword = await condition.test(password);
-    if (!alphanumericpassword) checkobj.passwordType = 'Password should be alphanumeric';
-    if (Object.keys(checkobj).length !== 0) {
-      return Response(res, 422, checkobj);
-    }
-    return next();
+    return userValidation.emailPasswordVerification(req.body, res, next);
   }
 
   /**
@@ -64,36 +49,46 @@ class userValidation {
   }
 
   /**
-   * User object empty check
-   * @param {Object} req
-   * @param {Object} res
-   * @param {Object} next
-   * @returns {Object} response
-   */
-  static userEmpty(req, res, next) {
-    const {
-      email,
-      password,
-      firstname,
-      lastname
-    } = req.body;
-    return isEmpty({
-      email,
-      password,
-      firstname,
-      lastname
-    }, res, next);
-  }
-
-  /**
    * User sign in object empty check
    * @param {Object} req
    * @param {Object} res
    * @param {Object} next
    * @returns {Object} response
    */
-  static isSigninFieldEmpty(req, res, next) {
-    return isEmpty(req.body, res, next);
+  static async isSigninFieldEmpty(req, res, next) {
+    const requiredFields = isRequired(req.body, ['email', 'password']);
+    if ((typeof requiredFields === 'object') && requiredFields.length > 0) {
+      return Response(res, 422, requiredFields.map(err => err));
+    }
+    return userValidation.emailPasswordVerification(req.body, res, next);
+  }
+
+  /**
+   * email and password helper
+   * @param {Object} body
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async emailPasswordVerification(body, res, next) {
+    const { email, password } = body;
+    const errObj = {};
+    const checkemail = await validator.isEmail(email);
+    if (!checkemail) errObj.email = `Email value ${email} is invalid`;
+    const checkpassword = await validator.isLength(password, {
+      min: 8,
+    });
+    if (!checkpassword) errObj.passwordLength = 'Password should be a minimum of 8 characters';
+    const condition = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
+    const alphanumericpassword = await condition.test(password);
+    if (!alphanumericpassword) errObj.passwordType = 'Password should be alphanumeric';
+    if (Object.keys(errObj).length === 0) {
+      return isEmpty(body, res, next);
+    }
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
+    }
+    return next();
   }
 
   static validateRole(req, res, next) {
@@ -209,6 +204,34 @@ class userValidation {
       }
     } catch (error) {
       return Response(res, 500, error.mesage);
+    }
+    return next();
+  }
+
+  /**
+   * check username validation
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async checkUsername(req, res, next) {
+    const {
+      username
+    } = req.body;
+    const errObj = {};
+    const requiredFields = isRequired(req.body, ['firstname', 'lastname', 'email', 'password', 'username']);
+    if ((typeof requiredFields === 'object') && requiredFields.length > 0) {
+      return Response(res, 422, requiredFields.map(err => err));
+    }
+    const validUsername = validator.isAlphanumeric(username);
+    if (!validUsername) errObj.username = 'user name should only be alphanumeric';
+    if (username) {
+      const findUserName = await User.findOne({ where: { username } });
+      if (findUserName) errObj.UsernameExist = 'username is already taken.';
+    }
+    if (Object.keys(errObj).length !== 0) {
+      return Response(res, 422, errObj);
     }
     return next();
   }
