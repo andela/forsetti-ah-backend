@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     spanId: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    commentType: {
+      type: DataTypes.ENUM('normal', 'criticism'),
+      allowNull: true,
+      defaultValue: 'normal'
     }
   }, {});
   Comment.associate = function(models) {

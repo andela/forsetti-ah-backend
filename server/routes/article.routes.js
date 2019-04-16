@@ -10,6 +10,7 @@ import {
   tryCatch,
   createArticle as createarticle,
   checkComments,
+  validateCommentType,
   doesLikeExistInCommentForUser,
   updateArticle,
   checkArticleExist,
@@ -28,9 +29,9 @@ const router = new Router();
 
 router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
 
-router.post('/:slug/comment', [signInAuth, checkComments, verifyText], tryCatch(createComments));
+router.post('/:slug/comment', [signInAuth, checkComments, verifyText, validateCommentType], tryCatch(createComments));
 
-router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
+router.post('/:slug/comment/:commentid/thread', [signInAuth, checkComments, validateCommentType], tryCatch(threadedComment));
 
 router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap));
 router.get('/', tryCatch(ArticleController.getAllArticles));
