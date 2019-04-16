@@ -158,6 +158,66 @@ class ProfileController {
     const { count, rows } = notifications;
     return Response(res, 200, `You have ${count} new notifications.`, rows);
   }
+  /**
+   * get followers
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response
+   */
+
+  static async getFollowers(req, res) {
+    const {
+      user: { id: userId }
+    } = req;
+
+    const user = await User.findByPk(userId);
+
+    const followers = await user.getFollowers({
+      attributes: ['id', 'email', 'firstname', 'lastname', 'username'],
+    });
+
+    if (followers.length === 0) {
+      return Response(res, 200, 'User currently does not have followers');
+    }
+
+    const follower = {
+      count: followers.length,
+      followee: user.username,
+      followers
+    };
+
+    return Response(res, 200, 'Followers returned successfully', follower);
+  }
+
+  /**
+   * get followee
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response
+   */
+
+  static async getFollowee(req, res) {
+    const {
+      id
+    } = req.user;
+
+    const user = await User.findByPk(id);
+    const following = await user.getFollowings({
+      attributes: ['id', 'email', 'firstname', 'lastname', 'username']
+    });
+
+    if (following.length === 0) {
+      return Response(res, 200, 'User does not follow anyone currently');
+    }
+
+    const followings = {
+      count: following.length,
+      followee: user.username,
+      following,
+    };
+
+    return Response(res, 200, 'List of followees returned successfully', followings);
+  }
 }
 
 export default ProfileController;

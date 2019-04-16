@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'follower',
       otherKey: 'followee',
       through: 'Followers',
-      as: 'following',
+      as: 'followings',
       timestamps: false,
     });
     User.hasMany(models.Readstat, {
