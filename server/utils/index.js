@@ -20,6 +20,8 @@ import likeValidation from './comments/check-comment-like.util';
 import verifyHighlightedText from './articles/highlightvalidate.util';
 import SearchValidators from './articles/article-search.utils';
 import deleteImage from './articles/deleteImage.util';
+import saveCommentHistory from './comments/comment-history.util';
+import commentIdValidator from './commentidvalidator.util';
 
 const {
   userSignup, userExist, isSigninFieldEmpty, validateRole, validateProfile,
@@ -78,5 +80,7 @@ export {
   paramsValidate,
   SearchValidators,
   deleteImage,
-  checkUsername
+  checkUsername,
+  saveCommentHistory,
+  commentIdValidator,
 };

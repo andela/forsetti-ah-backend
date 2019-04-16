@@ -21,12 +21,13 @@ import {
   verifyText,
   paramsValidate,
   SearchValidators,
-  deleteImage
+  deleteImage,
+  commentIdValidator,
 } from '../utils';
 
 import { signInAuth } from '../utils/users/permissions.util';
 
-const { createComments, threadedComment } = CommentController;
+const { createComments, threadedComment, getCommentHistory } = CommentController;
 const { createOrRemoveBookmark } = BookmarkController;
 const {
   createArticle,
@@ -63,6 +64,8 @@ router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark)
 router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
 
 router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
+
+router.get('/comment/:commentId/history', [commentIdValidator, signInAuth], tryCatch(getCommentHistory));
 
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
 

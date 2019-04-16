@@ -702,6 +702,41 @@ paths:
                   email: "o.yes@gmail.com"
         503:
           description: "Some error occurred"
+  
+  /article/comment/:commentid/history:
+    get:
+      summary: Handles getting comment edit history
+      description: Get all comments history by a commentId
+      tags:
+        - Comments
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: commentid
+          required: true
+          type: uuid
+          description: Id of the comment.
+      responses:
+        200:
+          description: Comment history was received successfully
+          example:
+            status: 200
+            message: Comment history retrieved successfully
+            data:
+              count: 2
+              rows:
+                - comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum | updated first"
+                  commentId: "c22c38cf-894c-417c-acf8-68eb0712bdaa"
+                  createdAt: "2019-04-16T15:02:34.602Z"
+                  updatedAt: "2019-04-16T15:02:34.602Z"
+        404:
+          description: Comment with the given id was not found in the database
+          example:
+            status: 404
+            error: Comment does not exist.
   /reports:
     post:
       tags:
