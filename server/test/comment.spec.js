@@ -12,7 +12,7 @@ before(async () => {
     .post('/api/v1/auth/login')
     .send({
       email: 'mofe@okoro.com',
-      password: 'soldier'
+      password: 'soldier123'
     });
   const response = userResponse.body.data;
   ({ token } = response);

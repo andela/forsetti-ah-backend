@@ -3,65 +3,82 @@ export default {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimy@andela.com',
+    username: 'David123',
     password: 'h-forsetti-2019'
   },
   resetPasswordObject: {
     firstname: 'Moe',
     lastname: 'Donny',
     email: 'moe.donny@andela.com',
+    username: 'moe123',
     password: 'donny4535e5e'
   },
   invalidDataForgotPassword: {
     firstname: 'Moe',
     lastname: 'Donny',
     email: 'moe.donnyandela.com',
+    username: 'moe1234',
     password: 'don555'
   },
   invalidDataResetPassword: {
     firstname: 'Moe',
     lastname: 'Donny',
     email: 'moe.donnyandela.com',
+    username: 'moe134',
     password: 'donnyboydame'
   },
   invalidData: [{
     firstname: '',
     lastname: 'Ogundimu',
     email: 'd.ogundimy1@andela.com',
+    username: 'Ogundimu1234',
     password: 'h-forsetti-2019'
   }, {
     firstname: 'David',
     lastname: '',
     email: 'd.ogundimy2@andela.com',
+    username: 'david1234',
     password: 'h-forsetti-2019'
   }, {
     firstname: 'David',
     lastname: 'Ogundimu',
     email: '',
+    username: 'Ogundiu1234',
     password: 'h-forsetti-2019'
   }, {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimy3@andela.com',
+    username: 'Ogundu1234',
     password: ''
   }, {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimy@andela.com',
+    username: 'Ogunimu1234',
     password: 'h-forsetti-2019'
   }, {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimyandela.com',
+    username: 'Ogndimu1234',
     password: 'h-forsetti-2019'
   }, {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimy12@andela.com',
+    username: 'Ogunimu134',
     password: 'pass12'
   }, {
     firstname: 'David"',
     lastname: 'Ogundimu',
     email: 'd.ogundimy123@andela.com',
+    username: 'Oundimu1234',
     password: 'password'
+  }, {
+    firstname: 'david',
+    lastname: 'Ogundimu',
+    email: 'd.ogundimy1@andela.com',
+    password: 'h-forsetti-2019'
   }],
 };

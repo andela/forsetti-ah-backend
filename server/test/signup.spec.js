@@ -41,7 +41,7 @@ describe('Signup routes', () => {
         .send(userMockData.invalidData[2]);
 
       expect(res).to.have.status(422);
-      expect(res.body).to.have.property('message').eql({ email: 'email is required.' });
+      expect(res.body).to.have.property('message').eql({ email: 'Email value  is invalid' });
     });
 
     it('should return 422 if password not sent', async () => {
@@ -50,7 +50,10 @@ describe('Signup routes', () => {
         .send(userMockData.invalidData[3]);
 
       expect(res).to.have.status(422);
-      expect(res.body).to.have.property('message').eql({ password: 'password is required.' });
+      expect(res.body).to.have.property('message').eql({
+        passwordLength: 'Password should be a minimum of 8 characters',
+        passwordType: 'Password should be alphanumeric'
+      });
     });
 
     it('should return 422 if user already exist', async () => {
@@ -68,7 +71,7 @@ describe('Signup routes', () => {
         .send(userMockData.invalidData[5]);
 
       expect(res).to.have.status(422);
-      expect(res.body).to.have.property('message').eql({ email: 'Email value d.ogundimyandela.com is invalid!' });
+      expect(res.body).to.have.property('message').eql({ email: 'Email value d.ogundimyandela.com is invalid' });
     });
 
     it('should return 422 if password length does not meet requirements', async () => {
@@ -87,6 +90,15 @@ describe('Signup routes', () => {
 
       expect(res).to.have.status(422);
       expect(res.body).to.have.property('message').eql({ passwordType: 'Password should be alphanumeric' });
+    });
+
+    it('should return 422 if required values not sent', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send(userMockData.invalidData[8]);
+
+      expect(res).to.have.status(422);
+      expect(res.body).to.have.property('message').eql([{ username: 'username field is required' }]);
     });
   });
 });

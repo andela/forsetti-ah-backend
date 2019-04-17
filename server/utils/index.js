@@ -22,8 +22,8 @@ import SearchValidators from './articles/article-search.utils';
 import deleteImage from './articles/deleteImage.util';
 
 const {
-  userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
-  userNotExist, checkPassword,
+  userSignup, userExist, isSigninFieldEmpty, validateRole, validateProfile,
+  userNotExist, checkPassword, checkUsername
 } = userValidation;
 const { checkComments, validateCommentType } = commentValidator;
 
@@ -46,7 +46,6 @@ export {
   verifyToken,
   passwordHash,
   userSignup,
-  userEmpty,
   userExist,
   logger,
   sendMail,
@@ -78,5 +77,6 @@ export {
   verifyText,
   paramsValidate,
   SearchValidators,
-  deleteImage
+  deleteImage,
+  checkUsername
 };

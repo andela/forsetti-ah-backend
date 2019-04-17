@@ -4,18 +4,18 @@ import { UserController } from '../controllers';
 import {
   tryCatch,
   userSignup,
-  userEmpty,
   userExist,
   isSigninFieldEmpty,
   checkPassword,
-  userNotExist
+  userNotExist,
+  checkUsername
 } from '../utils';
 
 const { socialRedirect } = UserController;
 
 const router = new Router();
 
-router.post('/signup', [userEmpty, userExist, userSignup], tryCatch(UserController.create));
+router.post('/signup', [checkUsername, userSignup, userExist], tryCatch(UserController.create));
 
 router.post('/login', isSigninFieldEmpty, tryCatch(UserController.signinUser));
 router.post('/forgotpassword', userNotExist, tryCatch(UserController.forgotPassword));

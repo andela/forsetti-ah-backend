@@ -15,7 +15,7 @@ describe('Users Routes', () => {
       .post('/api/v1/auth/login')
       .send({
         email: 'melanie@dara.com',
-        password: 'soldier'
+        password: 'soldier123'
       });
 
     superAdminToken = response.body.data.token;
@@ -25,7 +25,7 @@ describe('Users Routes', () => {
       .post('/api/v1/auth/login')
       .send({
         email: 'mofe@okoro.com',
-        password: 'soldier'
+        password: 'soldier123'
       });
 
     userToken = userResponse.body.data.token;

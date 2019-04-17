@@ -12,7 +12,7 @@ describe('Article Report routes', () => {
       .post('/api/v1/auth/login')
       .send({
         email: 'mofe@okoro.com',
-        password: 'soldier'
+        password: 'soldier123'
       });
     const response = loginReponse.body.data;
     ({ token } = response);

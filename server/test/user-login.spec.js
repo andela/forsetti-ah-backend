@@ -10,7 +10,7 @@ describe('POST /users/login', () => {
       .post('/api/v1/auth/login')
       .send({
         email: 'melanie@dara.com',
-        password: 'soldier',
+        password: 'soldier123',
       });
     expect(res).to.have.status(200);
     expect(res).to.be.a('object');
@@ -22,7 +22,7 @@ describe('POST /users/login', () => {
       .post('/api/v1/auth/login')
       .send({
         email: 'gbegbero@gbe.com',
-        password: 'soldier',
+        password: 'soldier123',
       });
     expect(res).to.have.status(400);
     expect(res).to.be.a('object');
@@ -39,5 +39,16 @@ describe('POST /users/login', () => {
     expect(res).to.have.status(400);
     expect(res).to.be.a('object');
     expect(res.body.message).to.equal('Invalid Credentials');
+  });
+
+  it('should return 422 if required values not sent', async () => {
+    const res = await chai.request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'melanie@dara.com'
+      });
+
+    expect(res).to.have.status(422);
+    expect(res.body).to.have.property('message').eql([{ password: 'password field is required' }]);
   });
 });
