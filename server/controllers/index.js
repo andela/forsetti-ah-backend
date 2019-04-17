@@ -6,6 +6,7 @@ import ClapController from './clap.controller';
 import ReportController from './report.controller';
 import BookmarkController from './bookmark.contoller';
 import ReportCategoryController from './report-category.controller';
+import SearchControllers from './article-search-controller';
 
 export {
   UserController,
@@ -16,4 +17,5 @@ export {
   BookmarkController,
   ReportCategoryController,
   ClapController,
+  SearchControllers
 };
