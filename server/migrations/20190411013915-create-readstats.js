@@ -1,6 +1,7 @@
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('DraftComments', {
+    return queryInterface.createTable('Readstats', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -9,21 +10,26 @@ module.exports = {
         allowNull: false
       },
       userId: {
+        type: Sequelize.UUID,
         allowNull: false,
-        type: Sequelize.UUID
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       articleId: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      comment: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      parentId: {
         type: Sequelize.UUID,
-        allowNull: true,
-        defaultValue: null
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Articles',
+          key: 'id'
+        }
+      },
+      slug: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +44,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('DraftComments');
+    return queryInterface.dropTable('Readstats');
   }
 };

@@ -120,8 +120,8 @@ describe('Users Routes', () => {
         .set({ Authorization: `Bearer ${userToken}` });
 
       expect(res).to.have.status(200);
-      expect(res).to.be.a('object');
-      expect(res.body.data[0]).to.have.property('articles');
+      expect(res.body.data[0]).to.have.property('articlesWritten');
+      expect(res.body.data[0]).to.have.property('articlesRead');
       expect(res.body.message).to.equal('User profile found.');
     });
 

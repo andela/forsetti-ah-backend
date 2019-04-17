@@ -23,10 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     published: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
@@ -51,14 +47,16 @@ module.exports = (sequelize, DataTypes) => {
     });
     Article.hasMany(models.Comment, {
       foreignKey: 'articleId',
-      as: 'comments'
+      as: 'articlecomments'
     });
     Article.hasMany(models.DraftComment, {
       foreignKey: 'articleId',
-      as: 'draftcomments'
+      as: 'articledraftcomments'
     });
-    
-    Article.belongsToMany(models.Tag, { 
+    Article.hasMany(models.Readstat, {
+      foreignKey: 'articleId'
+    });
+    Article.belongsToMany(models.Tag, {
       foreignKey: 'articleId',
       as: 'tags',
       through: 'ArticleTags',

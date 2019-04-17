@@ -10,11 +10,23 @@ module.exports = {
       },
       userId: {
         allowNull: false,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'usercomments',
+          onDelete: 'CASCADE'
+        }
       },
       articleId: {
         allowNull: false,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Articles',
+          key: 'id',
+          as: 'articlecomments',
+          onDelete: 'CASCADE'
+        }
       },
       comment: {
         allowNull: false,
@@ -23,6 +35,7 @@ module.exports = {
       parentId: {
         type: Sequelize.UUID,
         allowNull: true,
+        defaultValue: null
       },
       highlightedText: {
           allowNull: true,

@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     parentId: {
       type: DataTypes.UUID,
       allowNull: true,
+      defaultValue: null
     }
   }, {});
   DraftComment.associate = (models) => {

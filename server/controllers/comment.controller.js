@@ -82,8 +82,8 @@ class CommentController {
     const articleExists = await Article.findOne({
       where: { slug },
     });
-    const table = articleExists.dataValues.published ? Comment : DraftComment;
     const articleId = articleExists.dataValues.id;
+    const table = articleExists.dataValues.published ? Comment : DraftComment;
 
     const newThreadComment = await table.create({
       userId: id,
