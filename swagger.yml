@@ -579,6 +579,42 @@ paths:
                        email: 's.david@example.com'
         503:
           description: "Some error occurred. Please try again"
+  /article/topfeed:
+    get:
+      tags:
+      - Articles
+      summary: "Get top rated articles"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Retrived all top rated articles feed"
+          example:
+            status: 200
+            message: "Retrived all top rated articles feed"
+            data:
+                articles:
+                  -  id: 'efbd2ccd-4e06-4ecb-bfe0-b44f303cd5567'
+                     slug: 'Gildard is working on it-12345678'
+                     title: 'Gildard is working on it'
+                     description: 'gildard@dickson.com'
+                     body: 'Dickson is a boy'
+                     image: null,
+                     tagList: null,
+                     createdAt: '2019-04-15T18:38:03.730Z'
+                     updatedAt: '2019-04-15T18:38:03.730Z'
+                     author:
+                       firstname: 'sam'
+                       lastname: 'doe'
+                       username: 'Samorano'
+                       email: 's.david@example.com'
+                     ratings: 1
+
+                      
+        503:
+          description: "Some error occurred. Please try again"
   /article/share/:slug:
     post:
       tags:

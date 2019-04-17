@@ -29,14 +29,14 @@ class articleValidation {
       title, body, tagList, description, published
     } = req.body;
     const error = {
-      title: {}, body: {}, description: {}, tags: {}, published: {}
+      title: {}, body: {}, description: {}, tagList: {}, published: {}
     };
 
     if (!title && !body && !description) {
       const errorMessage = 'title, body, description and tagList are required';
       return Response(res, 422, errorMessage);
     }
-    const requiredFields = isRequired(req.body, ['title', 'body', 'description', 'published']);
+    const requiredFields = isRequired(req.body, ['title', 'body', 'description', 'tagList']);
     if ((typeof requiredFields === 'object') && requiredFields.length > 0) {
       return Response(res, 422, requiredFields.map(err => err));
     }
@@ -59,16 +59,13 @@ class articleValidation {
       error.description.lengthy = 'Description length should be more than 8 characters';
     }
     if (!isStringArray(tagList)) {
-      error.tags.type = 'TagList must be an array and all items in the tags array must be all strings';
+      error.tagList.type = 'TagList must be an array and all items in the tags array must be all strings';
     }
-    if (!isBoolean(published)) {
-      error.published.type = 'Publised must be a boolean';
-    }
+
     if (!isEmptyObject(error.title)
       || !isEmptyObject(error.body)
       || !isEmptyObject(error.description)
-      || !isEmptyObject(error.tags)
-      || !isEmptyObject(error.published)) {
+      || !isEmptyObject(error.tagList)) {
       return Response(res, 422, error);
     }
     next();

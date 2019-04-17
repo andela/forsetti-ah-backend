@@ -82,7 +82,7 @@ export default {
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
-    published: 1111,
+    published: '1111',
     tagList: ['hello', 'catch']
   },
   {},

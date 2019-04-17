@@ -1,6 +1,6 @@
 import db from '../models';
 
-const { Article, Clap } = db;
+const { Clap } = db;
 
 class Rating {
   /**
@@ -21,7 +21,8 @@ class Rating {
    * @returns {number} rating
    */
   static async getArticleRating(articleId) {
-    const claps = await Rating.getArticleClaps(articleId).count;
+    const getClaps = await Rating.getArticleClaps(articleId);
+    const claps = getClaps.count;
     let rating;
     switch (true) {
       case claps >= 0 && claps < 10:

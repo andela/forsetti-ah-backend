@@ -33,11 +33,6 @@ class baseUtils {
     return true;
   }
 
-  static isBoolean(value) {
-    if (typeof value !== 'boolean' && value !== true && value !== false && value !== 'true' && value !== 'false') return false;
-    return true;
-  }
-
   static isEmptyObject(value) {
     if (Object.getOwnPropertyNames(value).length === 0) {
       return true;

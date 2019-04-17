@@ -10,6 +10,7 @@ import {
   readTime,
 } from '../utils';
 
+const { getArticleRating } = Rating;
 const {
   Article, User, Comment, Readstat, Tag, ArticleTag, Clap, DraftComment
 } = db;
@@ -351,6 +352,53 @@ class ArticleController {
       attributes: ['name']
     });
     return Response(res, 200, 'Tags successfully retrieved', { tags });
+  }
+
+  /*
+   * @description Get top rated articles controller
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} Response
+   */
+  static async getTopArticle(req, res) {
+    const allarticles = await Article.findAll({
+      where: {
+        published: true,
+      },
+      attributes: {
+        exclude: ['published', 'userId']
+      },
+      include: [{
+        model: User,
+        as: 'author',
+        attributes: {
+          exclude: ['istokenreset', 'password', 'social', 'roleId', 'subscribed', 'id']
+        }
+      }]
+    });
+    const rate = allarticles.map(async (article) => {
+      const ratings = await getArticleRating(article.dataValues.id);
+      const {
+        id, slug, title, description, body, image, tagList, createdAt, updatedAt, author
+      } = article;
+      const rateObj = {
+        id,
+        slug,
+        title,
+        description,
+        body,
+        image,
+        tagList,
+        createdAt,
+        updatedAt,
+        author,
+        ratings
+      };
+      return rateObj;
+    });
+    const rateResponse = await Promise.all(rate);
+    const response = rateResponse.sort((a, b) => b.ratings - a.ratings);
+    return Response(res, 200, 'Retrieved all top rated articles feed', { article: response });
   }
 }
 
