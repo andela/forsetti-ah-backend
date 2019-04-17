@@ -779,6 +779,7 @@ paths:
           example:
             status: 409
             message: "You cannot follow yourself"
+  /article/:slug:
     delete:
       tags:
       - Profiles
@@ -809,8 +810,6 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
-
-        /article/:slug:
     post:
       tags:
       - "Comments"
@@ -847,8 +846,37 @@ paths:
             message: "Only the user of this comment can edit comment"
          503:
           description: "Some error occurred. Please try again"
-  /article/:articleid/bookmark:
-
+  /article/tags:
+    get:
+      tags:
+      - "Articles"
+      summary: "User can get all tags"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Get all tags"
+        required: true
+      responses:
+        200:
+          description: "Tags successfully retrieved"
+          example:
+            status: 201
+            message: "Tags successfully retrieved"
+            data:
+              tags:
+                  name: 'politics'
+              name: 'beauty'
+        404:
+          description: "No tags currently"
+          example:
+            status: 404
+            message: "No tags currently"
+        503:
+          description: "Some error occurred. Please try again"
 
 definitions:
   User:

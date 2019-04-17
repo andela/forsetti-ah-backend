@@ -320,6 +320,7 @@ class ArticleController {
 
   /*
    * Delete article
+   * description Get all tags
    * @param {object} req
    * @param {object} res
    * @returns {object} response
@@ -338,5 +339,19 @@ class ArticleController {
     if (article) return Response(res, 200, `Successfully deleted ${article} article`);
     return Response(res, 400, 'Article was not deleted');
   }
+
+  /**
+   * description Get all tags
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response
+   */
+  static async getAllTags(req, res) {
+    const tags = await Tag.findAndCountAll({
+      attributes: ['name']
+    });
+    return Response(res, 200, 'Tags successfully retrieved', { tags });
+  }
 }
+
 export default ArticleController;

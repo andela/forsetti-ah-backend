@@ -41,7 +41,8 @@ const {
   editArticle,
   getOneArticle,
   shareArticle,
-  deleteArticle
+  deleteArticle,
+  getAllTags
 } = ArticleController;
 const { getArticles } = SearchControllers;
 const { checkQueryParams, checkSpecialChars } = SearchValidators;
@@ -53,6 +54,8 @@ router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage
 router.post('/', [signInAuth, createarticle], tryCatch(ArticleController.createArticle));
 
 router.get('/search', [checkQueryParams, checkSpecialChars], tryCatch(getArticles));
+
+router.get('/tags', tryCatch(getAllTags));
 
 router.get('/:slug', tryCatch(getOneArticle));
 
