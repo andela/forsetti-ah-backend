@@ -204,7 +204,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-                    
+
                   - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
                     firstname: "Dimkpa"
                     username: "Melanie"
@@ -216,7 +216,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-  
+
   /users/role:
     patch:
       summary: Handles updating the role of a user
@@ -266,7 +266,7 @@ paths:
             status: 500
             error: Internal server error
 
-  /users/profile:
+  /profile:
     patch:
       summary: 'Handles updating users profile.'
       description: 'This endpoint enables a user to edit his profile details and add a display image.'
@@ -321,7 +321,7 @@ paths:
             status: 500
             error: Internal server error
 
-  /users/profile/:id:
+  /profile/:id:
     get:
       summary: Handles getting a users profile
       description: Gets the profile details of a user from the database
@@ -370,6 +370,35 @@ paths:
           example:
             status: 500
             error: Internal server error
+
+  /profiles/notifications:
+    get:
+      tags:
+        - Profiles
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User notifications have been retrieved successfully
+          example:
+            status: 200
+            message: You have 2 new notifications.
+            data:
+              - id: 59968089-65d6-438a-b5d3-03ae275fa2de,
+                notification: Chukwudi has made a comment on your article.
+                type: comment
+                createdAt: 2019-04-08T09:12:32.126Z,
+              - id: 3bcbff41-7285-42f4-a934-e346382f3fbc,
+                notification: David has followed you.
+                type: follow
+                createdAt: 2019-04-08T09:12:32.126Z,
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
 
   /:slug/comment:
     post:
@@ -595,7 +624,7 @@ paths:
                     userId: '3d1c5f17-7580-4cea-8647-99e7440c5d103'
                     createdAt: '2019-04-15T18:38:03.745Z'
                     updatedAt: '2019-04-15T18:38:03.745Z'
-                    Article: 
+                    Article:
                        id: 'efbd2ccd-4e06-4ecb-bfe0-b44f303cd5567'
                        slug: 'Gildard is working on it-12345678'
                        title: 'Gildard is working on it'
@@ -809,7 +838,7 @@ paths:
         responses:
           200:
             description: "Article would be successfully retrieved"
-            example:    
+            example:
           description: "All articles were retrieved"
           required: true
           schema:

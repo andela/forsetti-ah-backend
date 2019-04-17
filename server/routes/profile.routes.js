@@ -9,13 +9,14 @@ import {
 } from '../utils';
 
 const {
-  followUser, unfollowUser, updateProfile, getProfileById
+  followUser, unfollowUser, updateProfile, getProfileById, getNotifications
 } = ProfileController;
 const router = new Router();
 
 router.post('/:username/follow', [signInAuth], tryCatch(followUser));
 router.delete('/:username/follow', [signInAuth], tryCatch(unfollowUser));
 router.patch('/', signInAuth, imageUpload, validateProfile, tryCatch(updateProfile));
+router.get('/notifications', signInAuth, tryCatch(getNotifications));
 router.get('/:id', signInAuth, idValidator, tryCatch(getProfileById));
 
 export default router;

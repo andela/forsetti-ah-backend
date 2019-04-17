@@ -1,7 +1,12 @@
 import db from '../models';
 import { Response } from '../utils';
 
-const { User, Article, Readstat } = db;
+const {
+  User,
+  Article,
+  Readstat,
+  Notification
+} = db;
 
 /**
  * Profile Controller
@@ -138,6 +143,20 @@ class ProfileController {
       followers: followers.map(follow => ({ follower: follow.username })),
     };
     return Response(res, 200, 'Successfully unfollowed user', user);
+  }
+
+  static async getNotifications(req, res) {
+    const { user: { id } } = req;
+
+    const notifications = await Notification.findAndCountAll({
+      where: {
+        userId: id,
+        isSeen: false
+      },
+      order: [['createdAt', 'DESC']]
+    });
+    const { count, rows } = notifications;
+    return Response(res, 200, `You have ${count} new notifications.`, rows);
   }
 }
 
