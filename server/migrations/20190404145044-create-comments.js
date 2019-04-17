@@ -45,6 +45,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      commentType: {
+        type: Sequelize.ENUM('normal', 'criticism'),
+        allowNull: true,
+        defaultValue: 'normal'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

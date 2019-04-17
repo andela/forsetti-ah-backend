@@ -28,6 +28,7 @@ class CommentController {
     const { id } = req.user;
     const { slug } = req.params;
     const { comment, highlightedText, spanId } = req.body;
+    const commentType = req.body.commentType || null;
 
     const articleExists = await Article.findOne({
       where: { slug },
@@ -41,7 +42,8 @@ class CommentController {
       articleId,
       comment,
       highlightedText,
-      spanId
+      spanId,
+      commentType
     });
 
     const getUser = await User.findByPk(id);
@@ -56,6 +58,7 @@ class CommentController {
           body: comment,
           highlightedText,
           spanId,
+          commentType,
           author: {
             username: firstname,
             email
@@ -78,6 +81,7 @@ class CommentController {
     const {
       comment
     } = req.body;
+    const commentType = req.body.commentType || null;
 
     const articleExists = await Article.findOne({
       where: { slug },
@@ -89,6 +93,7 @@ class CommentController {
       userId: id,
       articleId,
       comment,
+      commentType,
       parentId: commentid,
     });
     if (newThreadComment) {

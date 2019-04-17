@@ -25,7 +25,7 @@ const {
   userSignup, userEmpty, userExist, isSigninFieldEmpty, validateRole, validateProfile,
   userNotExist, checkPassword,
 } = userValidation;
-const { checkComments } = commentValidator;
+const { checkComments, validateCommentType } = commentValidator;
 
 const {
   createArticle,
@@ -62,6 +62,7 @@ export {
   createArticle,
   articleEmpty,
   checkComments,
+  validateCommentType,
   newArticleMail,
   newFollowerMail,
   newCommentMail,

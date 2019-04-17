@@ -16,6 +16,17 @@ class commentValidation {
     }
     return next();
   }
+
+  static validateCommentType(req, res, next) {
+    const { commentType } = req.body;
+    if (commentType) {
+      if (!validator.isIn(commentType.toLowerCase(), ['normal', 'criticism'])) {
+        return Response(res, 400, 'Please insert a valid comment type.');
+      }
+    } else {
+      next();
+    }
+  }
 }
 
 export default commentValidation;

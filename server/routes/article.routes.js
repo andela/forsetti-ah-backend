@@ -12,6 +12,7 @@ import {
   createArticle as createarticle,
   imageUpload,
   checkComments,
+  validateCommentType,
   doesLikeExistInCommentForUser,
   updateArticle,
   checkArticleExist,
@@ -47,9 +48,9 @@ router.get('/:slug', tryCatch(getOneArticle));
 
 router.post('/', [signInAuth, imageUpload, createarticle], tryCatch(createArticle));
 
-router.post('/:slug/comment', [signInAuth, checkComments, verifyText], tryCatch(createComments));
+router.post('/:slug/comment', [signInAuth, checkComments, verifyText, validateCommentType], tryCatch(createComments));
 
-router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
+router.post('/:slug/comment/:commentid/thread', [signInAuth, checkComments, validateCommentType], tryCatch(threadedComment));
 
 router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap));
 
