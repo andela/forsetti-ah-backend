@@ -27,7 +27,7 @@ const {
   userSignup, userExist, isSigninFieldEmpty, validateRole, validateProfile,
   userNotExist, checkPassword, checkUsername
 } = userValidation;
-const { checkComments, validateCommentType } = commentValidator;
+const { checkComments, validateCommentType, checkUser } = commentValidator;
 
 const {
   createArticle,
@@ -83,4 +83,5 @@ export {
   checkUsername,
   saveCommentHistory,
   commentIdValidator,
+  checkUser
 };

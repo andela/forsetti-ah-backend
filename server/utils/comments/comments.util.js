@@ -4,6 +4,7 @@ import db from '../../models';
 
 import Response from '../response.util';
 
+const { Comment } = db;
 
 class commentValidation {
   static checkComments(req, res, next) {
@@ -26,6 +27,29 @@ class commentValidation {
     } else {
       next();
     }
+  }
+
+  /**
+   * Check User of article
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} next
+   * @returns {Object} response
+   */
+  static async checkUser(req, res, next) {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const userComment = await Comment.findOne({
+      where: {
+        userId,
+        id
+      }
+    });
+    if (!userComment) {
+      return Response(res, 400, 'Only the user of this comment can edit comment');
+    }
+    return next();
   }
 }
 

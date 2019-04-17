@@ -7,6 +7,8 @@ import {
   SearchControllers
 } from '../controllers';
 
+import { signInAuth } from '../utils/users/permissions.util';
+
 import {
   tryCatch,
   createArticle as createarticle,
@@ -23,11 +25,16 @@ import {
   SearchValidators,
   deleteImage,
   commentIdValidator,
+  checkUser,
+  idValidator
 } from '../utils';
 
-import { signInAuth } from '../utils/users/permissions.util';
-
-const { createComments, threadedComment, getCommentHistory } = CommentController;
+const {
+  createComments,
+  threadedComment,
+  getCommentHistory,
+  editComment
+} = CommentController;
 const { createOrRemoveBookmark } = BookmarkController;
 const {
   createArticle,
@@ -70,5 +77,7 @@ router.get('/comment/:commentId/history', [commentIdValidator, signInAuth], tryC
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
 
 router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
+
+router.put('/:slug/comment/:id', [signInAuth, idValidator, checkComments, checkUser], tryCatch(editComment));
 
 export default router;

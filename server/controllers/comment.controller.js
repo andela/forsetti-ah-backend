@@ -151,6 +151,35 @@ class CommentController {
     });
     return Response(res, 200, 'Comment history retrieved successfully', commentHistory);
   }
-}
 
+
+  /**
+   * Edit comment controller
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} response
+   */
+  static async editComment(req, res) {
+    const { id, slug } = req.params;
+    const userId = req.user.id;
+    const { comment } = req.body;
+
+    const articleExists = await Article.findOne({
+      where: { slug },
+    });
+
+    const table = articleExists.dataValues.published ? Comment : DraftComment;
+
+    const editedComment = await table.update({
+      comment
+    }, {
+      returning: true,
+      where: {
+        userId,
+        id
+      }
+    });
+    return Response(res, 200, 'Comment successfully updated', editedComment);
+  }
+}
 export default CommentController;

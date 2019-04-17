@@ -7,7 +7,7 @@ import db from '../models';
 const { CommentHistory } = db;
 
 chai.use(chaiHttp);
-
+let alternateToken;
 let token;
 let id;
 before(async () => {
@@ -217,5 +217,55 @@ describe('Get comment history', () => {
       expect(res).to.have.status(200);
       expect(res.body.data.rows[0]).to.have.property('comment').eql('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum | updated first');
     });
+  });
+});
+describe('Edit comment', () => {
+  it('should return 200 if article is successfully edited', async () => {
+    const res = await chai.request(app)
+      .put('/api/v1/article/Gildard is working on it-12345678/comment/bfee5ce0-d1fd-4ef3-83ce-07a03041c5e8')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({
+        comment: 'Change this comment'
+      });
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.a('object');
+    expect(res.body).to.have.property('data');
+    expect(res.body.message).to.equal('Comment successfully updated');
+  });
+
+  it('should return error if incorrect id is passed', async () => {
+    const res = await chai.request(app)
+      .put('/api/v1/article/Gildard is working on it-12345678/comment/23')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({
+        comment: 'Change this comment'
+      });
+
+    expect(res).to.have.status(400);
+    expect(res.body.message).to.equal('Please enter a valid id.');
+  });
+
+  it('should return error if comment is empty', async () => {
+    const res = await chai.request(app)
+      .put('/api/v1/article/gildard-is-working-on-it-12345678/comment/bfee5ce0-d1fd-4ef3-83ce-07a03041c5e8')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({
+        comment: ''
+      });
+
+    expect(res).to.have.status(422);
+    expect(res.body.message).to.equal('comment is required');
+  });
+
+  it('should return error if user is not logged in', async () => {
+    const res = await chai.request(app)
+      .put('/api/v1/article/gildard-is-working-on-it-12345678/comment/bfee5ce0-d1fd-4ef3-83ce-07a03041c5e8')
+      .send({
+        comment: 'hello, change this comment'
+      });
+
+    expect(res).to.have.status(401);
+    expect(res.body.message).to.equal('Unauthorized - Header Not Set');
   });
 });

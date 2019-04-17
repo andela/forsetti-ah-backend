@@ -204,7 +204,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-
+                    
                   - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
                     firstname: "Dimkpa"
                     username: "Melanie"
@@ -216,7 +216,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-
+  
   /users/role:
     patch:
       summary: Handles updating the role of a user
@@ -266,7 +266,7 @@ paths:
             status: 500
             error: Internal server error
 
-  /profile:
+  /users/profile:
     patch:
       summary: 'Handles updating users profile.'
       description: 'This endpoint enables a user to edit his profile details and add a display image.'
@@ -321,7 +321,7 @@ paths:
             status: 500
             error: Internal server error
 
-  /profile/:id:
+  /users/profile/:id:
     get:
       summary: Handles getting a users profile
       description: Gets the profile details of a user from the database
@@ -370,35 +370,6 @@ paths:
           example:
             status: 500
             error: Internal server error
-
-  /profiles/notifications:
-    get:
-      tags:
-        - Profiles
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      responses:
-        200:
-          description: User notifications have been retrieved successfully
-          example:
-            status: 200
-            message: You have 2 new notifications.
-            data:
-              - id: 59968089-65d6-438a-b5d3-03ae275fa2de,
-                notification: Chukwudi has made a comment on your article.
-                type: comment
-                createdAt: 2019-04-08T09:12:32.126Z,
-              - id: 3bcbff41-7285-42f4-a934-e346382f3fbc,
-                notification: David has followed you.
-                type: follow
-                createdAt: 2019-04-08T09:12:32.126Z,
-        401:
-          description: User could not be authenticated
-          example:
-            status: 401
-            error: Access Denied. Please Log In.
 
   /:slug/comment:
     post:
@@ -532,37 +503,6 @@ paths:
             message: "Article was not edited successfully"
          503:
           description: "Some error occurred. Please try again"
-    delete:
-      tags:
-      - "Articles"
-      summary: "User can delete his article"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "path"
-        name: "slug"
-        description: "An article can be deleted"
-        required: true
-      responses:
-        200:
-          description: "Successfully deleted 1 article"
-          example:
-            status: 200
-            message: "Successfully deleted 1 article"
-        404:
-          description: "Article not found"
-          example:
-            status: 404
-            message: "Article not found"
-        401:
-          description: "Action restricted to author of article"
-          example:
-            status: 401
-            message: "Action restricted to author of article"
-        503:
-          description: "Some error occurred. Please try again"
   /article/:articleid/bookmark:
     post:
       tags:
@@ -624,7 +564,7 @@ paths:
                     userId: '3d1c5f17-7580-4cea-8647-99e7440c5d103'
                     createdAt: '2019-04-15T18:38:03.745Z'
                     updatedAt: '2019-04-15T18:38:03.745Z'
-                    Article:
+                    Article: 
                        id: 'efbd2ccd-4e06-4ecb-bfe0-b44f303cd5567'
                        slug: 'Gildard is working on it-12345678'
                        title: 'Gildard is working on it'
@@ -702,41 +642,6 @@ paths:
                   email: "o.yes@gmail.com"
         503:
           description: "Some error occurred"
-  
-  /article/comment/:commentid/history:
-    get:
-      summary: Handles getting comment edit history
-      description: Get all comments history by a commentId
-      tags:
-        - Comments
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - in: path
-          name: commentid
-          required: true
-          type: uuid
-          description: Id of the comment.
-      responses:
-        200:
-          description: Comment history was received successfully
-          example:
-            status: 200
-            message: Comment history retrieved successfully
-            data:
-              count: 2
-              rows:
-                - comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum | updated first"
-                  commentId: "c22c38cf-894c-417c-acf8-68eb0712bdaa"
-                  createdAt: "2019-04-16T15:02:34.602Z"
-                  updatedAt: "2019-04-16T15:02:34.602Z"
-        404:
-          description: Comment with the given id was not found in the database
-          example:
-            status: 404
-            error: Comment does not exist.
   /reports:
     post:
       tags:
@@ -854,106 +759,47 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
-  /article/:page:
-      get:
-        tags:
-        - Articles
-        summary: "User can get all articles"
-        consumes:
-        - "application/json"
-        produces:
-        - "application/json"
-        parameters:
-        - in: "path"
-          name: "page"
-          description: "All articles were retrieved"
-          required: true
-          schema:
-            $ref: "#/definitions/Articles"
-        responses:
-          200:
-            description: "Article would be successfully retrieved"
-            example:
-          description: "All articles were retrieved"
-          required: true
-          schema:
-            $ref: "#/definitions/Articles"
-        responses:
-          200:
-            description: "Article would be successfully retrieved"
-            example:
-              status: 200
-              message: "Article successfully retrieved"
-              data:
-                - articles:
-                    count: 1
-                    rows:
-                      - id: "37dc1d9d-5530-4d48-b5d1-e7e98319da14"
-                        slug: "The-boy-drank-palm-wine-1555094326701"
-                        title: "The boy drank palm wine"
-                        description: "he should be fined like seriously"
-                        body: "His name is Joshua"
-                        image: "https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg"
-                        published: true
-                      - tags: ["tray", "catch"]
-                        userId: "7139d3af-b8b4-44f6-a49f-9305791700f4"
-                        createdAt: "2019-04-12T18:38:46.701Z"
-                        updatedAt: "2019-04-12T18:38:46.701Z"
-                        author:
-                          firstname: "Mofe"
-                          lastname: "Okoro"
-                          bio: "This is my bio."
-                          image: null
-              pages: 1
-            400:
-              description: "Should return an error when there is no article in database"
-              example:
-                status: 400
-                message: "There is no article in database'"
-            503:
-              description: "Some error occurred. Please try again"
-  /article/search:
+
+        /article/:slug:
     post:
       tags:
-      - Articles
-      summary: "Should search and filter articles"
+      - "Comments"
+      summary: "User can edit a comment"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
       - in: "path"
-        name: "tag, author and title"
-        description: "Should search and filter articles by tag, author or title"
+        name: "slug"
+        description: "A comment can be edited"
         required: true
+      schema:
+        $ref: "#/definitions/Comments"
       responses:
-        200:
-          description: "Articles found"
+         200:
+          description: "Comment successfully updated"
           example:
             status: 200
-            message: "Articles found"
+            message: "Comment successfully updated"
             data:
-              count: "integer"
-              rows:
-              - slug: "Gildard is working on it-12345678"
-                title: "Gildard is working on it"
-                description: "gildard@dickson.com"
-                body: "Dickson is a boy"
-                image: null
-                published: false
-                tagList: null
-              
-        422:
-          description: "No search parameters inputted"
+              - comment:
+                  comment: "Team forsetti is the best"
+         400:
+          description: "Please enter a valid id."
           example:
-            status: 422
-            message: "No search parameters inputted"
-        404:
-          description: "Search result not found"
+            status: 400
+            message: "Please enter a valid id."
+         400:
+          description: "Only the user of this comment can edit comment"
           example:
-            status: 404
-            message: "Search result not found"
-    
+            status: 400
+            message: "Only the user of this comment can edit comment"
+         503:
+          description: "Some error occurred. Please try again"
+  /article/:articleid/bookmark:
+
+
 definitions:
   User:
     type: "object"
