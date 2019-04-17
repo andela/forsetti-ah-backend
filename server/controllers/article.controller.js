@@ -7,6 +7,7 @@ import {
   sendMail,
   Rating,
   newArticleMail,
+  readTime,
 } from '../utils';
 
 const {
@@ -32,6 +33,7 @@ class ArticleController {
       title, body, tagList, image, description, published,
     } = req.body;
     const { id } = req.user;
+    const readingTime = await readTime(body);
     const tags = [...new Set(tagList)];
     const article = await Article.create({
       title,
@@ -39,6 +41,7 @@ class ArticleController {
       tagList: tags,
       description,
       image,
+      readingTime,
       published,
       slug: slugify(`${title} ${Date.now()}`),
       userId: id
@@ -88,10 +91,12 @@ class ArticleController {
       }, user: { id }
     } = req;
     const tags = [...new Set(tagList)];
+    const readingTime = await readTime(body);
     const updatedArticle = await Article.update({
       description,
       title,
       body,
+      readingTime,
       tagList
     }, {
       where: {

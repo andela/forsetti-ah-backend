@@ -48,6 +48,8 @@ const { checkQueryParams, checkSpecialChars } = SearchValidators;
 
 const router = new Router();
 
+router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
+
 router.post('/', [signInAuth, createarticle], tryCatch(ArticleController.createArticle));
 
 router.get('/search', [checkQueryParams, checkSpecialChars], tryCatch(getArticles));
@@ -75,8 +77,6 @@ router.post('/comment/:commentId/like', [signInAuth, doesLikeExistInCommentForUs
 router.get('/comment/:commentId/history', [commentIdValidator, signInAuth], tryCatch(getCommentHistory));
 
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
-
-router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
 
 router.put('/:slug/comment/:id', [signInAuth, idValidator, checkComments, checkUser], tryCatch(editComment));
 

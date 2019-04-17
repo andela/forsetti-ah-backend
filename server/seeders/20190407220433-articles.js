@@ -7,6 +7,7 @@ module.exports = {
       slug: 'Gildard is working on it-12345678',
       body: 'Dickson is a boy',
       description: 'gildard@dickson.com',
+      readingTime: '1 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
     },
@@ -16,6 +17,7 @@ module.exports = {
       slug: 'Gildard is working on it-12345678',
       body: 'Dickson is a boy',
       description: 'gildard@dickson.com',
+      readingTime: '1 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
     },
@@ -25,6 +27,7 @@ module.exports = {
       slug: 'Gildard is working on it-12345678',
       body: 'Dickson is a boy',
       description: 'gildard@dickson.com',
+      readingTime: '3 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
     },
@@ -34,6 +37,7 @@ module.exports = {
       slug: 'Gildard is working on it-12345678',
       body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim ac nulla ut pulvinar.',
       description: 'gildard@dickson.com',
+      readingTime: '1 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
     },
@@ -43,6 +47,7 @@ module.exports = {
       slug: 'Gildard is working on it-12345678',
       body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim ac nulla ut pulvinar',
       description: 'gildard@dickson.com',
+      readingTime: '5 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
     },
@@ -52,6 +57,7 @@ module.exports = {
       slug: 'the-boy-drank-palm-wine-3456677788',
       body: 'His name is Joshua',
       description: 'he should be fined',
+      readingTime: '1 min read',
       published: true,
       tagList: ['hello', 'catch'],
       image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
@@ -62,6 +68,7 @@ module.exports = {
       slug: 'the-fattest-girl-3654677788',
       body: 'Unfortunately for me, I seem to be the fattest',
       description: 'my fat',
+      readingTime: '1 min read',
       published: true,
       tagList: ['fat'],
       userId: '7139d3af-b8b4-44f6-a49f-9305791700f4',

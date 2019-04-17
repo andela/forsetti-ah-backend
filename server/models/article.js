@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: []
     },
+    readingTime: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     userId: {
       type: DataTypes.UUID
     },
