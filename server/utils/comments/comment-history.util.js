@@ -20,7 +20,6 @@ const saveCommentHistory = async (commentId) => {
       success = true;
       return success;
     }
-    // if we get here, comment doesn't exist
     success = false;
     return success;
   } catch (error) {

@@ -1,4 +1,3 @@
-
 import tryCatch from './trycatch.util';
 import { generateToken, verifyToken } from './jwt-sign.util';
 import passwordHash from './password-hash.util';
@@ -6,7 +5,7 @@ import userValidation from './users/user.util';
 import logger from './logger.util';
 import sendMail from './mail.util';
 import Response from './response.util';
-import idValidator from './idvalidator.util';
+import UuidValidator from './idvalidator/uuidvalidator.util';
 import mailTemplate from './mail-template/mail-template.util';
 import imageUpload from './image-upload.util';
 import articleValidation from './articles/article.util';
@@ -54,7 +53,7 @@ export {
   sendMail,
   Response,
   isSigninFieldEmpty,
-  idValidator,
+  UuidValidator,
   validateRole,
   validateProfile,
   userNotExist,
