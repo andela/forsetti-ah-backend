@@ -10,7 +10,8 @@ const {
   User,
   DraftComment,
   Article,
-  CommentLike
+  CommentLike,
+  CommentHistory,
 } = db;
 
 /**
@@ -130,6 +131,25 @@ class CommentController {
       userid,
     };
     return Response(res, 201, 'Comment liked successfully', likeObject);
+  }
+
+  /**
+   * Get all comment history
+   * @param {*} req
+   * @param {*} res
+   * @returns {object} response
+   */
+  static async getCommentHistory(req, res) {
+    const { commentId } = req.params;
+    const comment = await Comment.findByPk(commentId);
+    if (!comment) return Response(res, 404, 'Comment does not exist');
+    const commentHistory = await CommentHistory.findAndCountAll({
+      where: { commentId },
+      attributes: {
+        exclude: ['id']
+      },
+    });
+    return Response(res, 200, 'Comment history retrieved successfully', commentHistory);
   }
 }
 
