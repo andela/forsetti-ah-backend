@@ -9,7 +9,8 @@ module.exports = {
       description: 'gildard@dickson.com',
       readingTime: '1 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
-      image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
+      image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg',
+      published: true,
     },
     {
       id: 'ed74b7e0-a5f3-40af-9a77-7f9842ecac34',
@@ -49,7 +50,8 @@ module.exports = {
       description: 'gildard@dickson.com',
       readingTime: '5 min read',
       userId: '3d1c5f17-7580-4cea-8647-99e7440c5d43',
-      image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
+      image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg',
+      published: true,
     },
     {
       id: '8ab8f8c6-1be8-44df-8f4f-0d80e30a3522',

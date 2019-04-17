@@ -131,9 +131,9 @@ describe('Articles routes', () => {
         .set({ Authorization: `Bearer ${userToken}` })
         .send(articleMockData.invalidObject[12]);
       const { message } = res.body;
-      const { tags } = message;
+      const { tagList } = message;
       expect(res).to.have.status(422);
-      expect(tags.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
+      expect(tagList.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
     });
     it('should return 422 if tags array contains a data that is not a string', async () => {
       const res = await chai.request(app)
@@ -141,9 +141,9 @@ describe('Articles routes', () => {
         .set({ Authorization: `Bearer ${userToken}` })
         .send(articleMockData.invalidObject[13]);
       const { message } = res.body;
-      const { tags } = message;
+      const { tagList } = message;
       expect(res).to.have.status(422);
-      expect(tags.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
+      expect(tagList.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
     });
     it('should return 422 if tags array contains a data that is empty', async () => {
       const res = await chai.request(app)
@@ -151,20 +151,11 @@ describe('Articles routes', () => {
         .set({ Authorization: `Bearer ${userToken}` })
         .send(articleMockData.invalidObject[9]);
       const { message } = res.body;
-      const { tags } = message;
+      const { tagList } = message;
       expect(res).to.have.status(422);
-      expect(tags.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
+      expect(tagList.type).to.be.equal('TagList must be an array and all items in the tags array must be all strings');
     });
-    it('should return 422 if published is not a boolean', async () => {
-      const res = await chai.request(app)
-        .post('/api/v1/article')
-        .set({ Authorization: `Bearer ${userToken}` })
-        .send(articleMockData.invalidObject[10]);
-      const { message } = res.body;
-      const { published } = message;
-      expect(res).to.have.status(422);
-      expect(published.type).to.be.equal('Publised must be a boolean');
-    });
+
     it('should return 422 if all required field is not set in the request data', async () => {
       const res = await chai.request(app)
         .post('/api/v1/article')
@@ -455,5 +446,15 @@ describe('Get All Tags', () => {
     expect(res.body.data).to.have.property('tags');
     expect(res.body.data.tags).to.be.an('object');
     expect(res.body.message).to.eql('Tags successfully retrieved');
+  });
+});
+
+describe('Get top rated articles feed', () => {
+  it('should return 200 for list of top rated articles', async () => {
+    const res = await chai.request(app)
+      .get('/api/v1/article/topfeed')
+      .set({ Authorization: `Bearer ${userToken}` });
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property('message').eql('Retrieved all top rated articles feed');
   });
 });

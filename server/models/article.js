@@ -78,6 +78,11 @@ module.exports = (sequelize, DataTypes) => {
     Article.hasMany(models.Bookmark, {
       foreignKey: 'articleId',
       otherKey: 'userId'
+    });
+
+    Article.hasMany(models.Clap, {
+      foreignKey: 'articleId',
+      otherKey: 'userId'
     })
   };
   return Article;

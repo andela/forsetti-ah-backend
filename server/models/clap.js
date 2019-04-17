@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     Clap.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
+    });
+
+    Clap.belongsTo(models.Article, {
+      foreignKey: 'articleId',
       onDelete: 'CASCADE'
     })
   };
