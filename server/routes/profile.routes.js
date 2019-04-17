@@ -3,7 +3,7 @@ import { ProfileController } from '../controllers';
 import { signInAuth } from '../utils/users/permissions.util';
 import {
   tryCatch,
-  idValidator,
+  UuidValidator,
   validateProfile,
   imageUpload,
 } from '../utils';
@@ -17,6 +17,7 @@ const {
   getNotifications,
   getFollowee
 } = ProfileController;
+const { validId } = UuidValidator;
 const router = new Router();
 
 router.post('/:username/follow', [signInAuth], tryCatch(followUser));
@@ -25,7 +26,7 @@ router.get('/followers', signInAuth, tryCatch(getFollowers));
 router.get('/followee', signInAuth, tryCatch(getFollowee));
 router.patch('/', signInAuth, imageUpload, validateProfile, tryCatch(updateProfile));
 router.get('/notifications', signInAuth, tryCatch(getNotifications));
-router.get('/:id', signInAuth, idValidator, tryCatch(getProfileById));
+router.get('/:id', signInAuth, validId, tryCatch(getProfileById));
 
 
 export default router;

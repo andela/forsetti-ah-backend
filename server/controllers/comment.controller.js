@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import db from '../models';
-import { Response, newCommentMail } from '../utils';
+import { Response, newCommentMail, saveCommentHistory } from '../utils';
 
 dotenv.config();
 
@@ -153,6 +153,40 @@ class CommentController {
     return Response(res, 200, 'Comment history retrieved successfully', commentHistory);
   }
 
+  /**
+    * @description Deletes a user's comment
+    * @param {object} req - The request object
+    * @param {object} res - The response object
+    * @returns {array} An empty array
+    */
+  static async deleteComment(req, res) {
+    const { commentId, slug } = req.params;
+    const { user: { id } } = req;
+    const articleExists = await Article.findOne({
+      where: { slug },
+    });
+    if (!articleExists) return Response(res, 404, 'Article not found.');
+
+    const articleId = articleExists.dataValues.id;
+    const table = articleExists.dataValues.published ? Comment : DraftComment;
+    const commentExists = await table.findOne({
+      where: {
+        id: commentId,
+        userId: id
+      }
+    });
+
+    if (!commentExists) return Response(res, 404, 'Comment not found.');
+
+    await table.destroy({
+      where: { id: commentId }
+    });
+    await table.destroy({
+      where: { parentId: commentId }
+    });
+
+    return Response(res, 200, 'Comment deleted.', []);
+  }
 
   /**
    * Edit comment controller
@@ -160,6 +194,7 @@ class CommentController {
    * @param {Object} res
    * @returns {Object} response
    */
+
   static async editComment(req, res) {
     const { id, slug } = req.params;
     const userId = req.user.id;
@@ -170,7 +205,7 @@ class CommentController {
     });
 
     const table = articleExists.dataValues.published ? Comment : DraftComment;
-
+    await saveCommentHistory(id);
     const editedComment = await table.update({
       comment
     }, {

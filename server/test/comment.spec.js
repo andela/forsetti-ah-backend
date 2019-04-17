@@ -219,6 +219,7 @@ describe('Get comment history', () => {
     });
   });
 });
+
 describe('Edit comment', () => {
   it('should return 200 if article is successfully edited', async () => {
     const res = await chai.request(app)
@@ -267,5 +268,37 @@ describe('Edit comment', () => {
 
     expect(res).to.have.status(401);
     expect(res.body.message).to.equal('Unauthorized - Header Not Set');
+  });
+});
+
+describe('Delete comments', () => {
+  it('should return 404 if the article does not exist', async () => {
+    const res = await chai.request(app)
+      .delete('/api/v1/article/wrong-slug/comment/1b030f7c-7387-4cdd-ae0a-913737c0f96e')
+      .set({ Authorization: `Bearer ${token}` });
+
+    expect(res).to.have.status(404);
+    expect(res.body).to.be.a('object');
+    expect(res.body.message).to.equal('Article not found.');
+  });
+
+  it('should return 404 if comment does not exist', async () => {
+    const res = await chai.request(app)
+      .delete('/api/v1/article/Gildard is working on it-12345678/comment/1b030f7c-7387-4cdd-ae0a-913737c0f9f4')
+      .set({ Authorization: `Bearer ${token}` });
+
+    expect(res).to.have.status(404);
+    expect(res.body).to.be.a('object');
+    expect(res.body.message).to.equal('Comment not found.');
+  });
+
+  it('should delete a comment and thread comments', async () => {
+    const res = await chai.request(app)
+      .delete('/api/v1/article/Gildard is working on it-12345678/comment/1b030f7c-7387-4cdd-ae0a-913737c0f96e')
+      .set({ Authorization: `Bearer ${token}` });
+
+    expect(res).to.have.status(200);
+    expect(res.body.message).to.equal('Comment deleted.');
+    expect(res.body).to.have.property('data');
   });
 });

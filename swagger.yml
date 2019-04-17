@@ -204,7 +204,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-                    
+
                   - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
                     firstname: "Dimkpa"
                     username: "Melanie"
@@ -216,7 +216,7 @@ paths:
                     bio: null
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
-  
+
   /users/role:
     patch:
       summary: Handles updating the role of a user
@@ -429,6 +429,46 @@ paths:
             message: "comment is required"
         503:
           description: "Some error occurred. Please try again"
+
+  /article/:slug/comment/:commentId:
+    delete:
+      summary: Handles deleting a comment
+      description: Deletes a comment and it's thread comments from the database
+      tags:
+        - Comments
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          type: string
+          description: slug of article containing the comment.
+        - in: path
+          name: comment Id
+          required: true
+          type: uuid
+          description: Id of the comment to be deleted.
+      responses:
+        200:
+          description: Comment has been deleted successfully
+          example:
+            status: 200
+            message: Comment deleted.
+            data: []
+        404:
+          description: Comment does not exist
+          example:
+            status: 404
+            message: Comment not found.
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+
   /article:
     post:
       tags:
@@ -564,7 +604,7 @@ paths:
                     userId: '3d1c5f17-7580-4cea-8647-99e7440c5d103'
                     createdAt: '2019-04-15T18:38:03.745Z'
                     updatedAt: '2019-04-15T18:38:03.745Z'
-                    Article: 
+                    Article:
                        id: 'efbd2ccd-4e06-4ecb-bfe0-b44f303cd5567'
                        slug: 'Gildard is working on it-12345678'
                        title: 'Gildard is working on it'
@@ -698,10 +738,10 @@ paths:
             status: 409
             message: "You cannot like a comment twice"
 
-          
+
   /profiles/followers:
     get:
-      tags: 
+      tags:
       - Profiles
       summary: "User can view the users following him"
       description: "This endpoint enables another user to be able to view the users following him or her"
@@ -725,7 +765,7 @@ paths:
             message: "Error in verification. Please try again"
   /profiles/followee:
     get:
-      tags: 
+      tags:
       - Profiles
       summary: "User can view the users he is following"
       description: "This endpoint enables a user to be able to view those he is following"
@@ -747,7 +787,7 @@ paths:
           example:
             status: 401
             message: "Error in verification. Please try again"
-            
+
   /profiles/:username/follow:
     post:
       tags:
@@ -810,6 +850,8 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
+
+  /article/:slug:
     post:
       tags:
       - "Comments"
@@ -834,11 +876,6 @@ paths:
             data:
               - comment:
                   comment: "Team forsetti is the best"
-         400:
-          description: "Please enter a valid id."
-          example:
-            status: 400
-            message: "Please enter a valid id."
          400:
           description: "Only the user of this comment can edit comment"
           example:
