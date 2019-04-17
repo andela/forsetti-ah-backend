@@ -30,7 +30,7 @@ const sendMail = async (emailPayload) => {
 
 
   const mailOptions = {
-    from: EMAIL_ADDRESS,
+    from: `Authors Haven <${EMAIL_ADDRESS}>`,
     to: email,
     subject,
     html: message,

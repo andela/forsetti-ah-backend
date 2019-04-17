@@ -50,12 +50,14 @@ class UserController {
       }
     };
 
+    const body = `<p>Thanks for joining and we hope you read stories that change your life forever!</p>
+    Warm regards.`;
+
     const mailOption = {
       email,
       subject: 'Welcome to Author\'s Haven',
-      message: `<h3>Hi ${firstname},
-      <p>Thanks for joining and we hope you read stories that change your life forever!</p>
-      Warm regards.`,
+      message: mailTemplate(`Hello ${firstname} ${lastname},`, body)
+      ,
     };
     sendMail(mailOption);
     return Response(res, 201, 'User registered successfully', [userInfo]);
@@ -151,10 +153,12 @@ class UserController {
           email: userResponse.email,
         }
       };
+
+      const body = '<p>Someone has just accessed your account at Author\'s Haven. If you are the one, please ignore this mail.</p>';
       const mailOption = {
         email,
         subject: `Hi ${firstname}`,
-        message: '<h1>Forsetti Backend</h1><h5>Someone has just accessed your account at Author\'s Haven. If you are the one, please ignore this mail.</h5>'
+        message: mailTemplate(`Hello ${firstname} ${lastname},`, body),
       };
       sendMail(mailOption);
       Response(res, 200, successMessage, data);
