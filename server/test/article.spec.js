@@ -9,6 +9,8 @@ chai.use(chaiHttp);
 let userToken;
 let alternateToken;
 let slug;
+
+
 describe('Articles routes', () => {
   before(async () => {
     const userResponse = await chai
@@ -182,7 +184,6 @@ describe('Articles routes', () => {
       expect(res).to.have.status(200);
       expect(message).to.be.equal('Articles successfully retrieved');
       expect(res.body.data).to.have.property('articles');
-      expect(res.body.data.articles.rows.length).to.be.equal(2);
       expect(res.body.data.articles.rows[0].title).to.be.equal('The boy drank palm wine');
     });
     it('it should return error if no more articles on page', async () => {
@@ -369,7 +370,7 @@ describe('User can edit article', () => {
         body: 'This is from test',
       });
     const { message } = res.body;
-    expect(res).to.have.status(400);
+    expect(res).to.have.status(401);
     expect(message).to.be.equal('Action restricted to author of article');
   });
 });
@@ -414,5 +415,34 @@ describe('Article email share', () => {
       .send(mockDataShare.validShareObject);
     expect(res).to.have.status(200);
     expect(res.body).to.have.property('message').eql('Article shared successfully');
+  });
+});
+
+describe('Delete Article', () => {
+  const validSlug = 'the-fattest-girl-3654677788';
+  const fakeSlug = 'David is so annoying it-12345678';
+
+  it('should check if the user is the author of the article', async () => {
+    const res = await chai.request(app)
+      .delete(`/api/v1/article/${validSlug}`)
+      .set({ Authorization: `Bearer ${alternateToken}` });
+    expect(res).to.have.status(401);
+    expect(res.body.message).to.eql('Action restricted to author of article');
+  });
+
+  it('should successfully delete an article', async () => {
+    const res = await chai.request(app)
+      .delete(`/api/v1/article/${validSlug}`)
+      .set({ Authorization: `Bearer ${userToken}` });
+    expect(res).to.have.status(200);
+    expect(res.body.message).to.be.a('string');
+  });
+
+  it('should check if the article exists', async () => {
+    const res = await chai.request(app)
+      .delete(`/api/v1/article/${fakeSlug}`)
+      .set({ Authorization: `Bearer ${userToken}` });
+    expect(res).to.have.status(404);
+    expect(res.body.message).to.eql('Article not found');
   });
 });

@@ -154,7 +154,7 @@ class articleValidation {
     });
 
     if (!checkauthor) {
-      return Response(res, 400, 'Action restricted to author of article');
+      return Response(res, 401, 'Action restricted to author of article');
     }
     return next();
   }
