@@ -5,7 +5,8 @@ import {
   Response,
   mailTemplate,
   sendMail,
-  Rating
+  Rating,
+  newArticleMail,
 } from '../utils';
 
 const {
@@ -69,6 +70,7 @@ class ArticleController {
     if (!article) {
       return Response(res, 400, 'Article was not created successfully');
     }
+    await newArticleMail(id, title, article.slug, article.id);
     return Response(res, 201, 'Article successfully created', { article, author });
   }
 

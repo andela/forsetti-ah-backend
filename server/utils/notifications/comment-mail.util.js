@@ -26,7 +26,8 @@ const newCommentMail = async (articleId, userId) => {
     return;
   }
 
-  const body = `${user.firstname} ${user.lastname} commented on ${article.title}.`;
+  const articleURL = `${process.env.FRONTEND_URL}${article.slug}`;
+  const body = `${user.firstname} ${user.lastname} commented on <i>${article.title}</i>. You can check it here <a href="${articleURL}">${article.title}</a>`;
 
   const mailOption = {
     email: author.email,

@@ -8,11 +8,12 @@ const { User, Notification } = db;
  * Process new article email notification to followers
  * @param {int} userId id of the author
  * @param {string} articleTitle
+ * @param {string} slug
  * @param {int} articleId
  * @returns null
  */
 
-const newArticleMail = async (userId, articleTitle, articleId) => {
+const newArticleMail = async (userId, articleTitle, slug, articleId) => {
   const user = await User.findByPk(userId);
 
   const followers = await user.getFollowers({
@@ -24,7 +25,9 @@ const newArticleMail = async (userId, articleTitle, articleId) => {
     return;
   }
 
-  const body = `${user.firstname} ${user.lastname} has published a new article: ${articleTitle}.`;
+  const articleURL = `${process.env.FRONTEND_URL}${slug}`;
+  const body = `${user.firstname} ${user.lastname} has published a new article: <i>${articleTitle}</i>. You can read it here 
+  <a href="${articleURL}">${articleTitle}</a>`;
 
   followers.forEach(async (follower) => {
     const mailOption = {

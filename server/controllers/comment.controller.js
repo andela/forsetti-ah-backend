@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import db from '../models';
-import { Response } from '../utils';
+import { Response, newCommentMail } from '../utils';
 
 dotenv.config();
 
@@ -66,6 +66,7 @@ class CommentController {
           }
         }
       };
+      await newCommentMail(articleId, id);
       return Response(res, 201, 'comment made successfully', response);
     }
   }
