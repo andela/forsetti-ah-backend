@@ -7,7 +7,11 @@ import db from '../../models';
 const { Article } = db;
 
 const {
-  isString, isLength, isStringArray, isEmptyObject, isBoolean
+  isString,
+  isLength,
+  isStringArray,
+  isEmptyObject,
+  isBoolean
 } = baseUtils;
 
 class articleValidation {
@@ -176,6 +180,24 @@ class articleValidation {
     if (Object.keys(errObj).length !== 0) {
       return Response(res, 422, errObj);
     }
+    return next();
+  }
+
+  /**
+    * Checks if get all articles id are numbers
+    * @param {object} req
+    * @param {object} res
+    * @param {object} next
+    * @return {any} next/error
+    */
+  static async paramsValidate(req, res, next) {
+    const { page } = req.query;
+    const paramId = parseInt(page, 10);
+
+    if (!paramId) {
+      return Response(res, 422, 'Invalid id');
+    }
+    req.params.page = paramId;
     return next();
   }
 }

@@ -24,7 +24,6 @@ class baseUtils {
         errorState.emptyString = true;
       }
     });
-
     if (errorState.notAString) {
       return false;
     }

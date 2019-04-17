@@ -17,6 +17,7 @@ import {
   checkAuthor,
   shareArticleCheck,
   verifyText,
+  paramsValidate
 } from '../utils';
 import { signInAuth } from '../utils/users/permissions.util';
 
@@ -41,7 +42,8 @@ router.post('/:slug/comment', [signInAuth, checkComments, verifyText], tryCatch(
 router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
 
 router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap));
-router.get('/', tryCatch(ArticleController.getAllArticles));
+
+router.get('/', [paramsValidate], tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, tryCatch(createOrRemoveBookmark));
 

@@ -1,3 +1,4 @@
+
 import tryCatch from './trycatch.util';
 import { generateToken, verifyToken } from './jwt-sign.util';
 import passwordHash from './password-hash.util';
@@ -31,7 +32,8 @@ const {
   checkAuthor,
   articleExist,
   checkArticleExist,
-  shareArticleCheck
+  shareArticleCheck,
+  paramsValidate
 } = articleValidation;
 const { doesLikeExistInCommentForUser } = likeValidation;
 const { verifyText } = verifyHighlightedText;
@@ -70,5 +72,6 @@ export {
   checkAuthor,
   checkArticleExist,
   shareArticleCheck,
-  verifyText
+  verifyText,
+  paramsValidate
 };
