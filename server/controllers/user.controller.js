@@ -293,6 +293,21 @@ class UserController {
       return Response(res, 201, message);
     }
   }
+
+  /**
+     * @description Get list of users functionality
+     * @param {object} req
+     * @param {object} res
+     * @returns {object} List users functionality
+     */
+  static async getUsers(req, res) {
+    const users = await User.findAndCountAll({
+      attributes: {
+        exclude: ['password', 'istokenreset', 'subscribed']
+      }
+    });
+    return Response(res, 200, 'Successfully retrieved users', users);
+  }
 }
 
 export default UserController;
