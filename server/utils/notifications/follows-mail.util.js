@@ -19,7 +19,7 @@ const newFollowerMail = async (followeeId, followerId) => {
     return;
   }
 
-  const body = `${follower.firstname} ${follower.lastname} is now following you.`;
+  const body = `<i>${follower.firstname} ${follower.lastname}</i> is now following you.`;
 
   const mailOption = {
     email: followee.email,

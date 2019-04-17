@@ -1,5 +1,5 @@
 import db from '../models';
-import { Response } from '../utils';
+import { Response, newFollowerMail } from '../utils';
 
 const { User, Article, Readstat } = db;
 
@@ -107,6 +107,7 @@ class ProfileController {
       followee: followee.username,
       followers: followers.map(follow => ({ follower: follow.username })),
     };
+    await newFollowerMail(followee.id, follower.id);
     return Response(res, 200, 'Successfully followed user', user);
   }
 

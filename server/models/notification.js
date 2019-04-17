@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     notification: {
       allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     type: {
       allowNull: false,
