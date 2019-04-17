@@ -9,7 +9,7 @@ import {
   mailTemplate
 } from '../utils';
 
-const { User, Role } = db;
+const { User, Role, Follower } = db;
 dotenv.config();
 /**
  * User Controller

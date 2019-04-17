@@ -698,6 +698,56 @@ paths:
             status: 409
             message: "You cannot like a comment twice"
 
+          
+  /profiles/followers:
+    get:
+      tags: 
+      - Profiles
+      summary: "User can view the users following him"
+      description: "This endpoint enables another user to be able to view the users following him or her"
+      responses:
+        200:
+          description: "Followers returned successfully"
+          example:
+            status: 200
+            message: "Followers returned successfully"
+            data:
+              - followee: 'Dimkpa'
+                followers:
+                 id: 'ab32abe7-8233-482e-a6fe-d4ffab90c9be'
+                 firstname: 'Joy'
+                 lastname: 'Adam'
+                 email: 'j.adam@example.com'
+        401:
+          description: "A user that is not authenticated makes request to view followers list"
+          example:
+            status: 401
+            message: "Error in verification. Please try again"
+  /profiles/followee:
+    get:
+      tags: 
+      - Profiles
+      summary: "User can view the users he is following"
+      description: "This endpoint enables a user to be able to view those he is following"
+      responses:
+        200:
+          description: "List of followees returned successfully"
+          example:
+            status: 200
+            message: "List of followees returned successfully"
+            data:
+              - followee: 'Dimkpa'
+                following:
+                 id: 'ab32abe7-8233-482e-a6fe-d4ffab90c9be'
+                 firstname: 'Joy'
+                 lastname: 'Adam'
+                 email: 'j.adam@example.com'
+        401:
+          description: "A user that is not authenticated makes request to view followers list"
+          example:
+            status: 401
+            message: "Error in verification. Please try again"
+            
   /profiles/:username/follow:
     post:
       tags:
