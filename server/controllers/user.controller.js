@@ -92,6 +92,7 @@ class UserController {
     const names = displayName.split(' ');
     const hashedPassword = await passwordHash(id);
     const profileImage = photos[0].value;
+    const username = `${names[0]}_${id}`;
 
     const [user] = await User.findOrCreate({
       where: { email: userEmail },
@@ -102,9 +103,9 @@ class UserController {
         email: userEmail,
         social: provider,
         image: profileImage,
+        username
       },
     });
-
     return done(null, user.dataValues);
   }
 
@@ -119,12 +120,14 @@ class UserController {
       return res.redirect(`${process.env.FRONTEND_URL}/auth/social?error=${400}`);
     }
 
-    const { id, email } = req.user;
+    const {
+      id, email, firstname, lastname, username
+    } = req.user;
     const token = await generateToken({
       id,
       email
     }, '30d');
-    return res.redirect(`${process.env.FRONTEND_URL}/auth/social?${token}`);
+    return res.redirect(`${process.env.FRONTEND_URL}/auth/social?token=${token}&userid=${id}&firstname=${firstname}&lastname=${lastname}&username=${username}&email=${email}`);
   }
 
   /**
@@ -144,7 +147,7 @@ class UserController {
     });
     if (userResponse && userResponse.isPasswordValid(password)) {
       const {
-        id, firstname, lastname, roleId
+        id, firstname, lastname, roleId, username
       } = userResponse;
       const token = await generateToken({ id, roleId }, '30d');
       const data = {
@@ -153,6 +156,7 @@ class UserController {
           id,
           firstname,
           lastname,
+          username,
           email: userResponse.email,
         }
       };

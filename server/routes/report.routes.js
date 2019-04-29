@@ -14,7 +14,7 @@ const { getAll } = ReportCategoryController;
 
 const router = new Router();
 
-router.post('/', [reportCheck, signInAuth, articleExist, reportTypeCheck], tryCatch(createReport));
 router.get('/categories', signInAuth, tryCatch(getAll));
+router.post('/', [reportCheck, signInAuth, articleExist, reportTypeCheck], tryCatch(createReport));
 
 export default router;

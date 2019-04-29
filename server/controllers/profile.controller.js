@@ -71,11 +71,11 @@ class ProfileController {
     const { id } = req.user;
     if (req.file) req.body.image = req.file.secure_url;
     const {
-      firstname, lastname, username, bio, image
+      firstname, lastname, username, bio, image, subscribed
     } = req.body;
 
     const updatedProfile = await User.update({
-      firstname, lastname, username, bio, image
+      firstname, lastname, username, bio, image, subscribed
     }, {
       returning: true,
       where: { id },

@@ -294,7 +294,7 @@ describe('Delete comments', () => {
 
   it('should delete a comment and thread comments', async () => {
     const res = await chai.request(app)
-      .delete('/api/v1/article/Gildard is working on it-12345678/comment/1b030f7c-7387-4cdd-ae0a-913737c0f96e')
+      .delete('/api/v1/article/the-boy-drank-palm-wine-3456677788/comment/f24afaca-a55f-44c3-9705-539f36fd8f45')
       .set({ Authorization: `Bearer ${token}` });
 
     expect(res).to.have.status(200);
