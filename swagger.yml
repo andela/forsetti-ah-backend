@@ -217,7 +217,7 @@ paths:
                     createdAt: "2019-04-11T14:36:19.347Z"
                     updatedAt: "2019-04-11T14:36:19.347Z"
 
-  /users/role:
+  /users/role/:id:
     patch:
       summary: Handles updating the role of a user
       description: This endpoint enables superadmins to pass admin rights to certain users
@@ -266,12 +266,12 @@ paths:
             status: 500
             error: Internal server error
 
-  /users/profile:
+  /profiles:
     patch:
       summary: 'Handles updating users profile.'
       description: 'This endpoint enables a user to edit his profile details and add a display image.'
       tags:
-        - Users
+        - Profiles
       consumes:
         - multipart/form-data
       produces:
@@ -321,12 +321,12 @@ paths:
             status: 500
             error: Internal server error
 
-  /users/profile/:id:
+  /profiles/:id:
     get:
       summary: Handles getting a users profile
       description: Gets the profile details of a user from the database
       tags:
-        - Users
+        - Profiles
       produces:
         - application/json
       security:
@@ -380,6 +380,8 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+        - Bearer: []      
       parameters:
       - in: "body"
         name: "body"
@@ -409,10 +411,18 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+        - Bearer: []
       parameters:
       - in: "body"
         name: "body"
         description: "comment made in a comment thread"
+        required: true
+      - in: "path"
+        name: "slug"
+        required: true
+      - in: "path"
+        name: "commentid"
         required: true
         schema:
           $ref: "#/definitions/Comment"
@@ -468,7 +478,42 @@ paths:
           example:
             status: 401
             error: Access Denied. Please Log In.
-
+  
+  /article/comment/:commentid/history:
+    get:
+      summary: Handles getting comment edit history
+      description: Get all comments history by a commentId
+      tags:
+        - Comments
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: commentid
+          required: true
+          type: uuid
+          description: Id of the comment.
+      responses:
+        200:
+          description: Comment history was received successfully
+          example:
+            status: 200
+            message: Comment history retrieved successfully
+            data:
+              count: 2
+              rows:
+                - comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum | updated first"
+                  commentId: "c22c38cf-894c-417c-acf8-68eb0712bdaa"
+                  createdAt: "2019-04-16T15:02:34.602Z"
+                  updatedAt: "2019-04-16T15:02:34.602Z"
+        404:
+          description: Comment with the given id was not found in the database
+          example:
+            status: 404
+            error: Comment does not exist.
+  
   /article:
     post:
       tags:
@@ -478,6 +523,8 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
       - in: "body"
         name: "body"
@@ -506,8 +553,138 @@ paths:
             message: "Article was not created successfully"
         503:
            description: "Some error occurred. Please try again"
-  /article/:slug:
+    get:
+      summary: Get all articles
+      description: This endpoint enables user to get all articles
+      tags:
+        - "Articles"
+      produces:
+        - application/json
+      schema:
+        $ref: "#/definitions/'#/definitions/Articles"
+      responses:
+        200:
+          description: "Articles successfully retrieved"
+          example:
+            status: 200
+            message: "Articles successfully retrieved"
+            data:
+              - count: 1
+                rows:
+                  - id: 2816f31c-363a-4729-aea3-6429775fb57e
+                    slug: The-boy-drank-palm-wine-1556539863647
+                    title: 'This is a title from test'
+                    description: 'This is a description from test'
+                    body: 'This is from test'
+                    published: true
+                    image: 'https://res.cloudinary.com/forsetti/image/upload/v1554746740/forsetti/b9leichyadygoqudemre.jpg'
+                    tagList:
+                        - test
+                        - app
+                    readingTime: 'Content must be a string'
+                    userId: 7139d3af-b8b4-44f6-a49f-9305791700f4
+                    createdAt: '2019-04-29T12:11:03.648Z'
+                    updatedAt: '2019-04-29T12:11:04.071Z'
+                    author:
+                        firstname: Mofe
+                        lastname: Okoro
+                        username: mofe002
+                        bio: 'This is my bio .'
+                        image: null
+  /article/search:
     post:
+      tags:
+      - Articles
+      summary: "Should search and filter articles"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "tag, author and title"
+        description: "Should search and filter articles by tag, author or title"
+        required: true
+      responses:
+        200:
+          description: "Articles found"
+          example:
+            status: 200
+            message: "Articles found"
+            data:
+              count: "integer"
+              rows:
+              - slug: "Gildard is working on it-12345678"
+                title: "Gildard is working on it"
+                description: "gildard@dickson.com"
+                body: "Dickson is a boy"
+                image: null
+                published: false
+                tagList: null
+              
+        422:
+          description: "No search parameters inputted"
+          example:
+            status: 422
+            message: "No search parameters inputted"
+        404:
+          description: "Search result not found"
+          example:
+            status: 404
+            message: "Search result not found"
+  /article/:slug:
+    get:
+      summary: Get one article
+      description: Gets one article from the database
+      tags:
+        - Articles
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          type: string
+          description: Slug of article.
+      responses:
+        200:
+          description: User profile has been retrieved successfully
+          example:
+            status: 200
+            message: Article found.
+            data:
+            - id: 2160638d-f133-4c8a-bc90-83ff6c30117a
+              slug: helllo-mee-lol-and-i-know-now-now-now-1556554286953
+              title: helllo mee lol and i know now now now
+              description: boy i dont kwewewe q jfjas
+              body: i like seriously i dont knpw
+              author:
+                id: 3d1c5f17-7580-4cea-8647-99e7440c5d43
+                username: Samorano
+                bio: 
+                image: 
+              claps: 0 claps
+              rating: 0
+              readingTime: '0.03'
+              comments: 0 comments
+
+               
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        404:
+          description: User with the given id was not found in the database
+          example:
+            status: 404
+            error: No profile found for this user.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+    put:
       tags:
       - "Articles"
       summary: "User can edit an article"
@@ -515,6 +692,8 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
       - in: "path"
         name: "slug"
@@ -543,7 +722,76 @@ paths:
             message: "Article was not edited successfully"
          503:
           description: "Some error occurred. Please try again"
-  /article/:articleid/bookmark:
+    delete:
+      tags:
+      - "Articles"
+      summary: "User can delete his article"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      parameters:
+      - in: "path"
+        name: "slug"
+        description: "An article can be deleted"
+        required: true
+      responses:
+        200:
+          description: "Successfully deleted 1 article"
+          example:
+            status: 200
+            message: "Successfully deleted 1 article"
+        404:
+          description: "Article not found"
+          example:
+            status: 404
+            message: "Article not found"
+        401:
+          description: "Action restricted to author of article"
+          example:
+            status: 401
+            message: "Action restricted to author of article"
+        503:
+          description: "Some error occurred. Please try again"
+  /:slug/comment/:id:
+    put:
+      tags:
+      - "Comments"
+      summary: "User can edit a comment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      parameters:
+      - in: "path"
+        name: "slug"
+        description: "A comment can be edited"
+      - in: "path"
+        name: "id"
+        description: "comment id"
+        required: true
+      schema:
+        $ref: "#/definitions/Comments"
+      responses:
+         200:
+          description: "Comment successfully updated"
+          example:
+            status: 200
+            message: "Comment successfully updated"
+            data:
+              - comment: "Team forsetti is the best"
+         400:
+          description: "Only the user of this comment can edit comment"
+          example:
+            status: 400
+            message: "Only the user of this comment can edit comment"
+         503:
+          description: "Some error occurred. Please try again"
+  /article/:articleId/bookmark:
     post:
       tags:
       - Articles
@@ -552,10 +800,16 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
       - in: "body"
         name: "body"
         description: "A new bookmark to be created"
+        required: true
+      - in: "path"
+        name: "articleid"
+        description: "A comment can be edited"
         required: true
         schema:
           $ref: "#/definitions/Articles"
@@ -664,6 +918,8 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
       - in: body
         name: "email"
@@ -688,15 +944,17 @@ paths:
             message: "Article not found"
         503:
           description: "Some error occurred. Please try again"
-  /clap:
+  /article/:articleId/claps:
     post:
       tags:
-      - Claps
+      - Articles
       summary: "Clap for an article"
       consumes:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
       - in: "body"
         name: "body"
@@ -718,15 +976,52 @@ paths:
                   email: "o.yes@gmail.com"
         503:
           description: "Some error occurred"
+  
+  /reports/categories:
+    get:
+      tags:
+      - Reports
+      summary: Get all report categories
+      description: This endpoint enables user to get all report categories
+      produces:
+        - application/json
+      security:
+       - Bearer: []
+      responses:
+        200:
+          description: "Successfully retrieved report categories"
+          example:
+            status: 200
+            message: "Report categories retrieved"
+            data:
+              count: 2
+              rows:
+                - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
+                  name: "Plagiarism"
+
+                - id: "b2b67e1e-d40c-47ef-8abf-62e1a330d4ef"
+                  name: "Plagiarism"
+                  
+              
   /reports:
     post:
       tags:
       - Reports
       summary: "User can report an article"
       description: "A new report to be created"
-      required: true
-      schema:
-        $ref: "#/definitions/Report"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User can report an article"
+        required: true
+        schema:
+          $ref: "#/definitions/Report"
       responses:
         201:
           description: "Report submitted successfully"
@@ -753,9 +1048,11 @@ paths:
       - "application/json"
       produces:
       - "application/json"
+      security:
+       - Bearer: []
       parameters:
-      - in: "body"
-        name: "body"
+      - in: "path"
+        name: "commentid"
         description: "A  signed in user can like a comment"
         required: true
       responses:
@@ -780,6 +1077,12 @@ paths:
       tags:
       - Profiles
       summary: "User can view the users following him"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
       description: "This endpoint enables another user to be able to view the users following him or her"
       responses:
         200:
@@ -804,6 +1107,12 @@ paths:
       tags:
       - Profiles
       summary: "User can view the users he is following"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
       description: "This endpoint enables a user to be able to view those he is following"
       responses:
         200:
@@ -829,6 +1138,16 @@ paths:
       tags:
       - Profiles
       summary: "User can follow another user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      parameters:
+        - in: 'path'
+          name: 'username'
+          required: true
       description: "This endpoint enables another user to be added to a user followership list"
       responses:
         200:
@@ -855,11 +1174,21 @@ paths:
           example:
             status: 409
             message: "You cannot follow yourself"
-  /article/:slug:
     delete:
       tags:
       - Profiles
       summary: "User can unfollow another user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      security:
+       - Bearer: []
+      parameters: 
+      - in: "path"
+        name: "slug"
+        description: "A user should be able to unfollow another user"
+        required: true
       description: "This endpoint enables another user to be removed from a user followership list"
       responses:
         200:
@@ -886,39 +1215,6 @@ paths:
           example:
             status: 409
             message: "You cannot unfollow yourself"
-
-  /article/:slug:
-    post:
-      tags:
-      - "Comments"
-      summary: "User can edit a comment"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "path"
-        name: "slug"
-        description: "A comment can be edited"
-        required: true
-      schema:
-        $ref: "#/definitions/Comments"
-      responses:
-         200:
-          description: "Comment successfully updated"
-          example:
-            status: 200
-            message: "Comment successfully updated"
-            data:
-              - comment:
-                  comment: "Team forsetti is the best"
-         400:
-          description: "Only the user of this comment can edit comment"
-          example:
-            status: 400
-            message: "Only the user of this comment can edit comment"
-         503:
-          description: "Some error occurred. Please try again"
   /article/tags:
     get:
       tags:
@@ -929,10 +1225,6 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Get all tags"
-        required: true
       responses:
         200:
           description: "Tags successfully retrieved"
@@ -1047,3 +1339,15 @@ definitions:
     properties:
       articleId:
          type: "string"
+  Report:
+    type: 'object'
+    properties:
+      comment:
+        description: 'Comment associated with the report'
+        type: 'string'
+      typeId:
+        description: 'id of the corresponding Report type i.e. plagiarism, assualt, rules violation e.t.c'
+        type: 'string'
+      articleId:
+        description: 'id of the article being reported'
+        type: 'string'

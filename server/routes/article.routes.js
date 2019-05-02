@@ -53,9 +53,6 @@ const { checkQueryParams, checkSpecialChars } = SearchValidators;
 const router = new Router();
 
 router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
-
-router.post('/', [signInAuth, createarticle], tryCatch(ArticleController.createArticle));
-
 router.get('/search', [checkQueryParams, checkSpecialChars], tryCatch(getArticles));
 router.get('/topfeed', tryCatch(getTopArticle));
 
@@ -69,14 +66,11 @@ router.post('/:slug/comment', [signInAuth, checkComments, verifyText, validateCo
 
 router.post('/:slug/comment/:commentid/thread', [signInAuth, checkComments, validateCommentType], tryCatch(threadedComment));
 
-router.post('/:articleId/claps', signInAuth, tryCatch(ClapController.createClap));
-
 router.get('/', [paramsValidate], tryCatch(ArticleController.getAllArticles));
 
-router.post('/:slug/comment/:commentid/thread', [checkComments, signInAuth], tryCatch(threadedComment));
 router.delete('/:slug/comment/:commentId', signInAuth, validCommentId, tryCatch(deleteComment));
 
-router.post('/:articleId/claps', signInAuth, validArticleId, tryCatch(ClapController.createClap));
+router.post('/:articleId/claps', [signInAuth, validArticleId], tryCatch(ClapController.createClap));
 router.get('/', tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, validArticleId, tryCatch(createOrRemoveBookmark));
@@ -88,8 +82,6 @@ router.post('/comment/:commentId/like', [signInAuth, validCommentId, doesLikeExi
 router.get('/comment/:commentId/history', [commentIdValidator, signInAuth], tryCatch(getCommentHistory));
 
 router.post('/:slug/share', [signInAuth, shareArticleCheck, checkArticleExist], tryCatch(shareArticle));
-
-router.delete('/:slug', [signInAuth, checkArticleExist, checkAuthor, deleteImage], tryCatch(deleteArticle));
 
 router.put('/:slug/comment/:id', [signInAuth, validId, checkComments, checkUser], tryCatch(editComment));
 

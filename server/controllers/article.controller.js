@@ -252,7 +252,7 @@ class ArticleController {
 
     const {
       dataValues: {
-        id, slug, title, description, body, tags, author, published
+        id, slug, title, description, body, tags, author, published, readingTime
       }
     } = existingArticle;
 
@@ -279,7 +279,8 @@ class ArticleController {
       tags,
       author,
       claps: `${articleProperties[0]} claps`,
-      rating: articleRating
+      rating: articleRating,
+      readingTime
     };
 
     const { authorization } = req.headers;

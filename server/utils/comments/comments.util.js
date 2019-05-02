@@ -42,12 +42,11 @@ class commentValidation {
 
     const userComment = await Comment.findOne({
       where: {
-        userId,
         id
       }
     });
-    if (!userComment) {
-      return Response(res, 400, 'Only the user of this comment can edit comment');
+    if (userId !== userComment.userId) {
+      return Response(res, 400, 'No right to edit this comment');
     }
     return next();
   }
