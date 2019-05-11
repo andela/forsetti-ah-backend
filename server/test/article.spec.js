@@ -57,7 +57,7 @@ describe('Articles routes', () => {
         .send(articleMockData.invalidObject[1]);
       const { message } = res.body;
       expect(res).to.have.status(422);
-      expect(message).to.have.property('title').eql({ lengthy: 'Title length should be more than 8 characters' });
+      expect(message).to.have.property('title').eql({ lengthy: 'Title length should be more than 0 characters' });
     });
     it('should return 422 if title is not a string', async () => {
       const res = await chai.request(app)
@@ -85,7 +85,7 @@ describe('Articles routes', () => {
         .send(articleMockData.invalidObject[4]);
       const { message } = res.body;
       expect(res).to.have.status(422);
-      expect(message).to.have.property('body').eql({ lengthy: 'Body length should be more than 8 characters' });
+      expect(message).to.have.property('body').eql({ lengthy: 'Body length should be more than 0 characters' });
     });
     it('should return 422 if body is not a string', async () => {
       const res = await chai.request(app)

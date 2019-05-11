@@ -43,14 +43,14 @@ class articleValidation {
     if (!isString(title)) {
       error.title.type = 'Title should be a string';
     }
-    if (!isLength(title, 8)) {
-      error.title.lengthy = 'Title length should be more than 8 characters';
+    if (!isLength(title, 1)) {
+      error.title.lengthy = 'Title length should be more than 0 characters';
     }
     if (!isString(body)) {
       error.body.type = 'Body should be string';
     }
-    if (!isLength(body, 8)) {
-      error.body.lengthy = 'Body length should be more than 8 characters';
+    if (!isLength(body, 1)) {
+      error.body.lengthy = 'Body length should be more than 0 characters';
     }
     if (!isString(description)) {
       error.description.type = 'Description should be string';

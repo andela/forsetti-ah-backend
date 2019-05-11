@@ -31,8 +31,10 @@ class ArticleController {
     */
     if (req.file) req.body.image = req.file.secure_url;
     const {
-      title, body, tagList, image, description, published,
+      title, body, tagList, image, description, published, slug
     } = req.body;
+    const publishedBoolean = !!published;
+
     const { id } = req.user;
     const readingTime = await readTime(body);
     const tags = [...new Set(tagList)];
@@ -43,7 +45,7 @@ class ArticleController {
       description,
       image,
       readingTime,
-      published,
+      published: publishedBoolean,
       slug: slugify(`${title} ${Date.now()}`),
       userId: id
     });
@@ -88,17 +90,22 @@ class ArticleController {
     const {
       params: { slug },
       body: {
-        description, title, body, tagList
+        description, title, body, tagList, published
       }, user: { id }
     } = req;
+    const publishedBoolean = !!published;
+    let editImage;
+    if (req.file) editImage = req.file.secure_url;
     const tags = [...new Set(tagList)];
     const readingTime = await readTime(body);
     const updatedArticle = await Article.update({
       description,
       title,
       body,
+      image: editImage,
       readingTime,
-      tagList
+      tagList,
+      published: publishedBoolean
     }, {
       where: {
         slug, userId: id,
@@ -128,17 +135,21 @@ class ArticleController {
     } = await editInstance.getAuthor();
     const {
       dataValues: {
+        createdAt,
         updatedAt
       }
     } = updatedArticle[1][0];
     const response = {
       article: {
         slug,
+        readingTime,
         title,
         description,
         body,
+        image,
         tagList,
-        updatedAt,
+        createdAt,
+        updatedAt
       },
       author: {
         firstname,
