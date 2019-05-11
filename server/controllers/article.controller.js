@@ -243,7 +243,7 @@ class ArticleController {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'bio', 'image']
+          attributes: ['id', 'username', 'bio', 'image', 'firstname', 'lastname']
         }
       ],
     });
@@ -252,7 +252,10 @@ class ArticleController {
 
     const {
       dataValues: {
-        id, slug, title, description, body, tags, author, published, readingTime
+        id,
+        slug,
+        title,
+        description, body, tags, author, published, readingTime, createdAt, updatedAt, image
       }
     } = existingArticle;
 
@@ -276,11 +279,14 @@ class ArticleController {
       title,
       description,
       body,
+      image,
       tags,
       author,
-      claps: `${articleProperties[0]} claps`,
+      claps: articleProperties[0],
       rating: articleRating,
-      readingTime
+      readingTime,
+      createdAt,
+      updatedAt
     };
 
     const { authorization } = req.headers;
