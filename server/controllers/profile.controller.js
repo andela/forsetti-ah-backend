@@ -27,13 +27,14 @@ class ProfileController {
     const userActivity = await Promise.all([
       Article.findAndCountAll({
         where: { userId: id },
-        attributes: ['slug', 'title', 'createdAt']
+        attributes: ['slug', 'title', 'createdAt', 'image', 'description', 'readingTime']
       }),
       Readstat.findAndCountAll({
         where: { userId: id },
         attributes: ['articleId', 'slug', 'createdAt']
       }),
       userProfile.getFollowers(),
+      userProfile.getFollowings()
     ]);
 
     const {
@@ -52,11 +53,12 @@ class ProfileController {
       username,
       bio,
       image,
-      articlesWritten: `${userActivity[0].count} articles written.`,
+      articlesWritten: userActivity[0].count,
       articlesWrittenList: userActivity[0].rows,
-      articlesRead: `You have read ${userActivity[1].count} article(s).`,
+      articlesRead: userActivity[1].count,
       articlesReadList: userActivity[1].rows,
-      followers: `You have ${userActivity[2].length} followers.`,
+      followers: userActivity[2].length,
+      following: userActivity[3].length
     };
     return Response(res, 200, 'User profile found.', [profileObject]);
   }

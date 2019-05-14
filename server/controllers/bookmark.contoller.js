@@ -44,7 +44,7 @@ class BookmarkController {
       include: [{
         model: Article,
         attributes: ['id', 'slug', 'title', 'description',
-          'body', 'image', 'tagList', 'createdAt', 'updatedAt']
+          'body', 'image', 'tagList', 'createdAt', 'updatedAt', 'readingTime']
       }, {
         model: User,
         attributes: ['username', 'email', 'image']
