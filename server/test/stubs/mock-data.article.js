@@ -15,7 +15,7 @@ export default {
     published: true,
     tagList: ['tray', 'catch']
   }, {
-    title: 'The boy',
+    title: '',
     slug: 'the-boy-drank-palm-wine-3456677788',
     body: 'His name is Joshua',
     description: 'he should be fined',
@@ -37,7 +37,7 @@ export default {
   }, {
     title: 'The boy drank palm wine',
     slug: 'the-boy-drank-palm-wine-3456677788',
-    body: 'His',
+    body: '',
     description: 'he should be fined',
     published: true,
     tagList: ['tray', 'catch']

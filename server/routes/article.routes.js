@@ -75,7 +75,7 @@ router.get('/', tryCatch(ArticleController.getAllArticles));
 
 router.post('/:articleId/bookmark', signInAuth, validArticleId, tryCatch(createOrRemoveBookmark));
 
-router.put('/:slug', [signInAuth, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
+router.put('/:slug', [signInAuth, imageUpload, checkArticleExist, checkAuthor, updateArticle], tryCatch(editArticle));
 
 router.post('/comment/:commentId/like', [signInAuth, validCommentId, doesLikeExistInCommentForUser], tryCatch(CommentController.likeComment));
 
