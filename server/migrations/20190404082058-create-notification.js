@@ -25,6 +25,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.UUID,
       },
+      articleSlug:{
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

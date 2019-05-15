@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     typeId: {
       allowNull: true,
       type: DataTypes.UUID,
+    },
+    articleSlug: {
+      allowNull: true,
+      type: DataTypes.TEXT,
     }
   }, {});
   Notification.associate = (models) => {

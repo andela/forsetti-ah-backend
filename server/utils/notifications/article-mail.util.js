@@ -25,9 +25,9 @@ const newArticleMail = async (userId, articleTitle, slug, articleId) => {
     return;
   }
 
-  const articleURL = `${process.env.FRONTEND_URL}${slug}`;
-  const body = `${user.firstname} ${user.lastname} has published a new article: <i>${articleTitle}</i>. You can read it here 
-  <a href="${articleURL}">${articleTitle}</a>`;
+  const articleURL = `${process.env.FRONTEND_URL}/article/${slug}`;
+  const body = `${user.firstname} ${user.lastname} whom you follow has published a new article: <i>${articleTitle}</i>. You can read it here 
+  <a href="${articleURL}" className='article-notification'>${articleTitle}</a>`;
 
   followers.forEach(async (follower) => {
     const mailOption = {
@@ -41,6 +41,7 @@ const newArticleMail = async (userId, articleTitle, slug, articleId) => {
       userId: follower.id,
       type: 'article',
       typeId: articleId,
+      articleSlug: slug
     });
     sendMail(mailOption);
   });
