@@ -70,7 +70,7 @@ const baseTemplate = (emailTitle, message) => `<!DOCTYPE html>
                               </tr>
                               <tr>
                                 <td valign="top" width="48%" align="center"> <span>
-                                    <a href="https://forsetti-ah-backend.herokuapp.com/" style="display:block; padding:15px 25px; background-color:#40617B; color:#ffffff; border-radius:3px; text-decoration:none;">Visit Authors Haven</a>
+                                    <a href=${process.env.FRONTEND_URL} style="display:block; padding:15px 25px; background-color:#40617B; color:#ffffff; border-radius:3px; text-decoration:none;">Visit Authors Haven</a>
                                   </span>
                                 </td>
                               </tr>

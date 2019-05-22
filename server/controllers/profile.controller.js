@@ -176,7 +176,7 @@ class ProfileController {
     const user = await User.findByPk(userId);
 
     const followers = await user.getFollowers({
-      attributes: ['id', 'email', 'firstname', 'lastname', 'username'],
+      attributes: ['id', 'email', 'firstname', 'lastname', 'username', 'image', 'bio'],
     });
 
     if (followers.length === 0) {
@@ -206,7 +206,7 @@ class ProfileController {
 
     const user = await User.findByPk(id);
     const following = await user.getFollowings({
-      attributes: ['id', 'email', 'firstname', 'lastname', 'username']
+      attributes: ['id', 'email', 'firstname', 'lastname', 'username', 'image', 'bio']
     });
 
     if (following.length === 0) {

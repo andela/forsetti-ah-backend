@@ -241,7 +241,7 @@ class UserController {
                   </p>
                   <p>
                     follow this link to reset your password
-                        <a href='${process.env.BACKEND_URL}api/v1/auth/resetpassword?token=${token}'>reset password</a>
+                        <a href='${process.env.FRONTEND_URL}/auth/resetpassword?token=${token}'>reset password</a>
                 </p>
                   <p>
                     <b style = 'color:black;'>Note</b> this link would expire in 15 minutes
