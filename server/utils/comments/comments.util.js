@@ -24,9 +24,8 @@ class commentValidation {
       if (!validator.isIn(commentType.toLowerCase(), ['normal', 'criticism'])) {
         return Response(res, 400, 'Please insert a valid comment type.');
       }
-    } else {
-      next();
     }
+    next();
   }
 
   /**
