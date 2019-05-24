@@ -50,19 +50,26 @@ class CommentController {
     const getUser = await User.findByPk(id);
     if (newcomment) {
       const { createdAt, updatedAt } = newcomment;
-      const { firstname, email } = getUser;
+      const {
+        firstname,
+        username,
+        email,
+        image
+      } = getUser;
       const response = {
         comment: {
           id: newcomment.id,
           createdAt,
           updatedAt,
-          body: comment,
+          comment,
           highlightedText,
           spanId,
           commentType,
-          author: {
-            username: firstname,
-            email
+          threadcomments: [],
+          usercomments: {
+            username,
+            firstname,
+            image
           }
         }
       };
@@ -90,6 +97,12 @@ class CommentController {
     });
     const articleId = articleExists.dataValues.id;
     const table = articleExists.dataValues.published ? Comment : DraftComment;
+    const getUser = await User.findByPk(id);
+    const {
+      firstname,
+      username,
+      image
+    } = getUser;
 
     const newThreadComment = await table.create({
       userId: id,
@@ -98,8 +111,16 @@ class CommentController {
       commentType,
       parentId: commentid,
     });
+
     if (newThreadComment) {
-      const response = { comment: newThreadComment };
+      const response = {
+        ...newThreadComment.dataValues,
+        usercomments: {
+          username,
+          firstname,
+          image
+        }
+      };
       return Response(res, 201, 'thread comment added', response);
     }
   }
