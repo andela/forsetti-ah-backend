@@ -229,7 +229,7 @@ class ArticleController {
                     ${firstname} ${lastname} shared this article <b>${title}</b> on Author's Haven,
                   </p>
                   <p>
-                  click <a href= ${process.env.FRONTEND_URL}${encodeURI(slug)}> ${title}</a> to view
+                  click <a href= ${process.env.FRONTEND_URL}/article/${encodeURI(slug)}> ${title}</a> to view
                   </p>`;
     const mailOption = {
       email,
@@ -407,7 +407,8 @@ class ArticleController {
     const rate = allarticles.map(async (article) => {
       const ratings = await getArticleRating(article.dataValues.id);
       const {
-        id, slug, title, description, body, image, tagList, createdAt, updatedAt, author
+        id, slug, title, description, body, image, readingTime,
+        tagList, createdAt, updatedAt, author
       } = article;
       const rateObj = {
         id,
@@ -416,6 +417,7 @@ class ArticleController {
         description,
         body,
         image,
+        readingTime,
         tagList,
         createdAt,
         updatedAt,

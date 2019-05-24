@@ -183,10 +183,19 @@ class ProfileController {
       return Response(res, 200, 'User currently does not have followers');
     }
 
+    const followings = await user.getFollowings({
+      attributes: ['id']
+    });
+
+    const followersWithFollowings = followers.map((follower) => {
+      follower.dataValues.followsBack = followings.find(following => follower.id === following.id);
+      return follower;
+    });
+
     const follower = {
       count: followers.length,
       followee: user.username,
-      followers
+      followers: followersWithFollowings
     };
 
     return Response(res, 200, 'Followers returned successfully', follower);
@@ -206,7 +215,7 @@ class ProfileController {
 
     const user = await User.findByPk(id);
     const following = await user.getFollowings({
-      attributes: ['id', 'email', 'firstname', 'lastname', 'username', 'image', 'bio']
+      attributes: ['id', 'email', 'firstname', 'lastname', 'username', 'image', 'bio'],
     });
 
     if (following.length === 0) {
