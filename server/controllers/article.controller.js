@@ -12,7 +12,7 @@ import {
 
 const { getArticleRating } = Rating;
 const {
-  Article, User, Comment, Readstat, Tag, ArticleTag, Clap, DraftComment
+  Article, User, Comment, Readstat, Tag, ArticleTag, Clap, DraftComment, Bookmark
 } = db;
 /**
  * Article Controller
@@ -284,6 +284,29 @@ class ArticleController {
       commentsTable.count({ where: { articleId: id } }),
     ]);
 
+    let userBookmarked = false;
+    let decoded;
+
+    const { authorization } = req.headers;
+    if (authorization) {
+      const token = authorization.split(' ')[1];
+      decoded = await verifyToken(token);
+      await Readstat.findOrCreate({
+        where: { userId: decoded.id },
+        defaults: {
+          userId: decoded.id,
+          articleId: id,
+          slug,
+        },
+      });
+      const userBookmark = await Bookmark.findOne({
+        where: { userId: decoded.id, articleId: id }
+      });
+
+      if (userBookmark) userBookmarked = true;
+    }
+
+
     const articleObject = {
       id,
       slug,
@@ -297,22 +320,9 @@ class ArticleController {
       rating: articleRating,
       readingTime,
       createdAt,
-      updatedAt
+      updatedAt,
+      Bookmarked: userBookmarked
     };
-
-    const { authorization } = req.headers;
-    if (authorization) {
-      const token = authorization.split(' ')[1];
-      const decoded = await verifyToken(token);
-      await Readstat.findOrCreate({
-        where: { userId: decoded.id },
-        defaults: {
-          userId: decoded.id,
-          articleId: id,
-          slug,
-        },
-      });
-    }
 
     const mainComments = articleProperties[1].rows;
     if (mainComments.length) {
