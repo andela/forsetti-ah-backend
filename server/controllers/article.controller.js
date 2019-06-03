@@ -276,10 +276,18 @@ class ArticleController {
     const articleProperties = await Promise.all([
       Clap.count({ where: { articleId: id } }),
       commentsTable.findAndCountAll({
+        order: [['createdAt', 'DESC']],
         where: {
           articleId: id,
           parentId: null
-        }
+        },
+        include: [
+          {
+            model: User,
+            as: 'usercomments',
+            attributes: ['id', 'firstname', 'username', 'image']
+          }
+        ],
       }),
       commentsTable.count({ where: { articleId: id } }),
     ]);
@@ -330,7 +338,14 @@ class ArticleController {
       let counter = 0;
       mainComments.forEach(async (comment) => {
         const threadComment = await commentsTable.findAll({
-          where: { parentId: comment.dataValues.id }
+          where: { parentId: comment.dataValues.id },
+          include: [
+            {
+              model: User,
+              as: 'usercomments',
+              attributes: ['id', 'firstname', 'username', 'image']
+            }
+          ],
         });
         comment.dataValues.threadcomments = threadComment;
         counter += 1;
